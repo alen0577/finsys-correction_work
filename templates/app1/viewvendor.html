@@ -110,8 +110,9 @@
             cursor: pointer;
             background-color: rgba(0, 0, 0, 0.2);
         }
+        
         .head:hover{
-            background-color: rgba(255, 255, 255,0.2);
+            background-color: rgba(131, 131, 131, 0.3);
         }
         .new{
             color: #fff;
@@ -119,6 +120,7 @@
         .new:hover{
             color: rgba(255, 255, 255,0.4);
         }
+        
     </style>
 
     <div class="page-content">
@@ -128,34 +130,52 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse tab" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link btn head" role="button" onclick="Details()"><i class="fa fa-info-circle">&nbsp;Details</i><span class="sr-only">(current)</span></a>
+                            <li class="nav-item">
+                                <a class="nav-link btn head" role="button" onclick="Details()" style="color: white;"><i class="fa fa-info-circle">&nbsp;Details</i><span class="sr-only">(current)</span></a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link btn head" role="button" onclick="transaction()" style="color: white;"><i class="fa fa-stack-exchange">&nbsp;Transactions</i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="Overview()"><i class="fa fa-list-alt">&nbsp;Overview</i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="transaction()"><i class="fa fa-stack-exchange">&nbsp;Transactions</i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="Statment()"><i class="fa fa-tasks">&nbsp;Statment</i></a>
+                                <a class="nav-link btn head" role="button" onclick="Statment()" style="color: white;"><i class="fa fa-tasks">&nbsp;Statment</i></a>
                             </li>
                         </ul>
                         <ul class="navbar-nav navbar-right">
+                            
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="{% url 'addvendor' %}">
-                                    <i class="fa fa-plus">&nbsp;New</i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="{% url 'goeditvendor' vndr.vendorid %}">
+                                <a class="nav-link btn head" role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-edit">&nbsp;Edit</i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn head delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}">
+                                <input type="file" id="file-input" name="files" style="display:none;"  multiple>
+                                <a class="nav-link btn head" id="attach-button" role="button" href="" style="color: white;">
+                                    <i class="fa fa-paperclip">&nbsp;Attach files</i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn head" role="button" href="" style="color: white;">
+                                    <i class="fa fa-print">&nbsp;Print</i>
+                                </a>
+                            </li>
+                            {% if vndr.is_active %}
+                            <li class="nav-item">
+                                <a class="nav-link btn head" role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-times-circle">&nbsp;Inactive</i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link btn head" role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-check-circle">&nbsp;Active</i>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link btn head delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-trash-o">&nbsp;Delete</i>
                                 </a>
                             </li>
@@ -325,30 +345,7 @@
                     </div>
                 </div>
 
-                <div id="overview" style="display: none;">
-                    <div class="container-fluid" >
-                        <!-- <div class="row"><div class="col-lg-3"><div class="text-muted">Payment due period</div> 
-                        <div>Due on Receipt</div></div>
-                         </div> -->
-                         <div class="row ml-0 mt-6"><p class="" style="margin-top: 50px; font-size: 20px;">Receivables</p></div>
-                        <table class="table table-responsive-md mt-4 table-hover">
-                            <thead>
-                            <tr>
-                                <th style="text-align: center;">CURRENCY</th>
-                                <th style="text-align: center;">OUTSTANDING RECEIVABLES</th>
-                                <th style="text-align: center;">UNUSED CREDITS</th>  
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="table-row " data-href="{% url 'goinvoices' %}">
-                                <td style="text-align: center;">INR- Indian Rupee</td>
-                                <td style="text-align: center;" id="t2"></td>
-                                <td style="text-align: center;" id="t3"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                
                 
                 <div id="statment" style="display: none;">
                     <div class="container-fluid" >
@@ -772,26 +769,21 @@
     </script>
     
     <script>
-        function Overview() {    
-            document.getElementById('overview').style.display = 'block';
-            document.getElementById('details').style.display = 'none';
-            document.getElementById('statment').style.display = 'none';
-            document.getElementById('transation').style.display = 'none';
-        }
+        
         function Details() {
-            document.getElementById('overview').style.display = 'none';
+            
             document.getElementById('details').style.display = 'block';
             document.getElementById('statment').style.display = 'none';
             document.getElementById('transation').style.display = 'none';
         }
         function Statment() {
-            document.getElementById('overview').style.display = 'none';
+            
             document.getElementById('details').style.display = 'none';
             document.getElementById('statment').style.display = 'block';
             document.getElementById('transation').style.display = 'none';              
         }
         function transaction() {
-            document.getElementById('overview').style.display = 'none';
+            
             document.getElementById('details').style.display = 'none';
             document.getElementById('statment').style.display = 'none';
             document.getElementById('transation').style.display = 'block';          
@@ -814,6 +806,19 @@
         function dissale(){
             document.getElementById('saletable').style.display = 'block';
         }
+    </script>
+    <script>
+        const attachButton = document.getElementById("attach-button");
+        const fileInput = document.getElementById("file-input");
+    
+        attachButton.addEventListener("click", () => {
+            fileInput.click();
+        });
+    
+        fileInput.addEventListener("change", () => {
+            fileInput.style.display = "none";
+        });
+    
     </script>
     
 

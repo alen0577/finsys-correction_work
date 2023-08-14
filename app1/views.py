@@ -32687,6 +32687,35 @@ def deletevendor(request, id):
     return redirect('govendor')
 
 @login_required(login_url='regcomp')
+def activate_vendor(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id)
+        vndr.is_active=True
+        vndr.save()
+        return redirect('viewvendor', vndr.vendorid)
+    return redirect('viewvendor', vndr.vendorid)    
+
+
+@login_required(login_url='regcomp')
+def inactivate_vendor(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id)
+        vndr.is_active=False
+        vndr.save()
+        return redirect('viewvendor', vndr.vendorid)
+    return redirect('viewvendor', vndr.vendorid)     
+
+@login_required(login_url='regcomp')
 def createvendor1(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
