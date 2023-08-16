@@ -1355,6 +1355,7 @@ class vendor(models.Model):
     shipstate = models.CharField(max_length=100, null=True)
     shippincode = models.CharField(max_length=100, null=True)
     shipcountry = models.CharField(max_length=100, null=True)
+    opening_balance_type = models.CharField(max_length=10,null=True,blank=True)
     
     is_active =models.BooleanField(default=True)
 

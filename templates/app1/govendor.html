@@ -4,7 +4,7 @@
     {% if user.is_authenticated %}
 
         <style>
-            tr:hover{
+            tr.row1:hover{
                 cursor: pointer;
                 background-color: #1827348e;
             }
@@ -66,7 +66,7 @@
                             </thead>
                             <tbody>
                             {% for v in vndr %}
-                            <tr onclick="window.location='viewvendor/{{ v.vendorid }} ';">
+                            <tr class="row1" onclick="window.location='viewvendor/{{ v.vendorid }} ';">
                                 <td>{{ v.firstname }} {{ v.lastname }}</td>
                                 <td>{{ v.companyname }}</td>
                                 <td>{{ v.email }}</td>

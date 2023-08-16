@@ -3,6 +3,7 @@
     {% load static %}
 
     <style>
+       
         .card-registration .select-input.form-control[readonly]:not([disabled]) {
             font-size: 1rem;
             line-height: 2.15;
@@ -126,57 +127,57 @@
     <div class="page-content">
         <div class="card radius-15">
             <div class="card-body">
-                <nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgba(0,0,0,.01);">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgba(0,0,0,.001);">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse tab" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="Details()" style="color: white;"><i class="fa fa-info-circle">&nbsp;Details</i><span class="sr-only">(current)</span></a>
+                                <a class="nav-link btn " role="button" onclick="Details()" style="color: white;"><i class="fa fa-info-circle" style="font-size: large;">&nbsp;Details</i><span class="sr-only">(current)</span></a>
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="transaction()" style="color: white;"><i class="fa fa-stack-exchange">&nbsp;Transactions</i></a>
+                                <a class="nav-link btn " role="button" onclick="transaction()" style="color: white;"><i class="fa fa-stack-exchange" style="font-size: large;">&nbsp;Transactions</i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" onclick="Statment()" style="color: white;"><i class="fa fa-tasks">&nbsp;Statment</i></a>
+                                <a class="nav-link btn " role="button" onclick="Statment()" style="color: white;"><i class="fa fa-tasks" style="font-size: large;">&nbsp;Statment</i></a>
                             </li>
                         </ul>
                         <ul class="navbar-nav navbar-right">
                             
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-edit">&nbsp;Edit</i>
+                                <a class="nav-link btn btn-outline-info btn-sm  " role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-edit" style="font-size: medium;">&nbsp;Edit</i>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <input type="file" id="file-input" name="files" style="display:none;"  multiple>
-                                <a class="nav-link btn head" id="attach-button" role="button" href="" style="color: white;">
-                                    <i class="fa fa-paperclip">&nbsp;Attach files</i>
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="" style="color: white;">
+                                    <i class="fa fa-paperclip" style="font-size: medium;">&nbsp;Attach files</i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="" style="color: white;">
-                                    <i class="fa fa-print">&nbsp;Print</i>
+                                <a class="nav-link btn btn-outline-info btn-sm  " role="button" href="" style="color: white;">
+                                    <i class="fa fa-print" style="font-size: medium;">&nbsp;Print</i>
                                 </a>
                             </li>
                             {% if vndr.is_active %}
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-times-circle">&nbsp;Inactive</i>
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-times-circle" style="font-size: medium;">&nbsp;Inactive</i>
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link btn head" role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-check-circle">&nbsp;Active</i>
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-check-circle" style="font-size: medium;">&nbsp;Active</i>
                                 </a>
                             </li>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="nav-link btn head delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-trash-o">&nbsp;Delete</i>
+                                <a class="nav-link btn btn-outline-info btn-sm  delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}" style="color: white;">
+                                    <i class="fa fa-trash-o" style="font-size: medium;">&nbsp;Delete</i>
                                 </a>
                             </li>
                         </ul>
@@ -190,37 +191,37 @@
                     <div class="row g-0">
                         <div class="col-lg-8">
                             <div class="p-5">
-                                <div class="d-flex justify-content-between align-items-center mb-5">
-                                    <h1 class="fw-bold mb-0 text-black">{{ vndr.firstname }} {{ vndr.lastname }}</h1>
-                                    <h6 class="mb-0 text-muted">{{ cmp1.cname }}</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-5 shadow p-3  bg-body-tertiary rounded">
+                                    <h2 class="fw-bold mb-0 text-black">{{ vndr.firstname }} {{ vndr.lastname }}</h2>
+                                    <h6 class="mb-0">{{ cmp1.cname }}</h6>
                                 </div>
                                 <hr class="my-4">
                                 <div class="row mb-4 d-flex justify-content-between align-items-center">
                                     <div class="col-md-2 mt-3">
-                                        <h6 class="mb-0">Company</h6>
+                                        <p class="mb-0">Company</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ vndr.companyname }}</p>
+                                        <h6 class="mb-0 bold">{{ vndr.companyname }}</h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
-                                        <h6 class="mb-0">Email</h6>
+                                        <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ vndr.email }}</p>
+                                        <h6 class="mb-0">{{ vndr.email }}</h6>
                                     </div>
                                 </div>
                                 <div class="row mb-4 d-flex justify-content-between align-items-center">
                                     <div class="col-md-2 mt-3">
-                                        <h6 class="mb-0">Mobile</h6>
+                                        <p class="mb-0">Mobile</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ vndr.mobile }}</p>
+                                        <h6 class="mb-0">{{ vndr.mobile }}</h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
-                                        <h6 class="mb-0">Website</h6>
+                                        <p class="mb-0">Website</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ vndr.website }}</p>
+                                        <h6 class="mb-0">{{ vndr.website }}</h6>
                                     </div>
                                 </div>
                                 <hr class="my-4">

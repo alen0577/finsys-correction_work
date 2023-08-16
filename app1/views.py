@@ -32473,6 +32473,7 @@ def createvendor(request):
             supply=request.POST['sourceofsupply']
             currency=request.POST['currency']
             balance=request.POST['openingbalance']
+            opb_type=request.POST['opb_type']
             due=request.POST['openingbalance']
             date=request.POST['date']
             payment=request.POST['paymentterms']
@@ -32489,7 +32490,7 @@ def createvendor(request):
             
             vndr = vendor(title=title, firstname=first_name, lastname=last_name, companyname= cmpnm, gsttype=gsttype, gstin=gstin, 
                         panno=panno, email=email,sourceofsupply=supply,currency=currency, website=website, mobile=mobile, date=date,
-                        openingbalance=balance,opblnc_due=due, street=street, city=city, state=state, paymentterms=payment,
+                        openingbalance=balance,opblnc_due=due,opening_balance_type=opb_type, street=street, city=city, state=state, paymentterms=payment,
                         pincode=pincode, country=country, shipstreet=shipstreet, shipcity=shipcity, shipstate=shipstate,
                         shippincode=shippincode, shipcountry=shipcountry,cid=cmp1)
             vndr.save()
@@ -32656,6 +32657,7 @@ def editvendor(request,id):
             vndr.sourceofsupply=request.POST['sourceofsupply']
             vndr.currency=request.POST['currency']
             vndr.openingbalance=request.POST['openingbalance']
+            vndr.opening_balance_type=request.POST['opb_type']
             vndr.paymentterms=request.POST['paymentterms']
             vndr.street=request.POST['street']
             vndr.city=request.POST['city']
