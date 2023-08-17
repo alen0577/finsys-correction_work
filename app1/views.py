@@ -32431,12 +32431,12 @@ def govendor(request):
 def vendor_active(request):
     cmp1 = company.objects.get(id=request.session["uid"])
     vndr = vendor.objects.filter(cid=cmp1,is_active=True).all()
-    return render(request,'app1/govendor.html',{'cmp1':cmp1,'vndr':vndr})
+    return render(request,'app1/govendor_active.html',{'cmp1':cmp1,'vndr':vndr})
 
 def vendor_inactive(request):
     cmp1 = company.objects.get(id=request.session["uid"])
     vndr = vendor.objects.filter(cid=cmp1,is_active=False).all()
-    return render(request,'app1/govendor.html',{'cmp1':cmp1,'vndr':vndr})
+    return render(request,'app1/govendor_inactive.html',{'cmp1':cmp1,'vndr':vndr})
 
 @login_required(login_url='regcomp')
 def addvendor(request):
