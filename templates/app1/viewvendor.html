@@ -151,15 +151,26 @@
                                     <i class="fa fa-edit" style="font-size: medium;">&nbsp;Edit</i>
                                 </a>
                             </li>
+                            {% if vndr.attachment %}
                             <li class="nav-item">
-                                <input type="file" id="file-input" name="files" style="display:none;"  multiple>
-                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="" style="color: white;">
-                                    <i class="fa fa-paperclip" style="font-size: medium;">&nbsp;Attach files</i>
+                               
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="{{vndr.attachment.url}}" style="color: white;">
+                                    <i class="fa fa-download" style="font-size: medium;">&nbsp;Download File</i>
                                 </a>
+                               
                             </li>
+                            {% else %}
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm  " role="button" href="" style="color: white;">
-                                    <i class="fa fa-print" style="font-size: medium;">&nbsp;Print</i>
+                               
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="" style="color: white;" data-toggle="modal" data-target="#attachModal">
+                                    <i class="fa fa-paperclip" style="font-size: medium;">&nbsp;Attach File</i>
+                                </a>
+                               
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-info btn-sm  "  role="button" onclick="printdata()"  style="color: white;">
+                                    <i class="fa fa-print" style="font-size: medium;" >&nbsp;Print</i>
                                 </a>
                             </li>
                             {% if vndr.is_active %}
@@ -201,13 +212,13 @@
                                         <p class="mb-0">Company</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0 bold"><b>{{ vndr.companyname }}</b></h6>
+                                        <h6 class="mb-0 bold" style="font-family: monospace;"><b>{{ vndr.companyname }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
                                         <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.email }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.email }}</b></h6>
                                     </div>
                                 </div>
                                 <div class="row mb-4  d-flex justify-content-between align-items-center">
@@ -215,13 +226,13 @@
                                         <p class="mb-0">Mobile</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.mobile }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.mobile }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
                                         <p class="mb-0">Website</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.website }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.website }}</b></h6>
                                     </div>
                                 </div>
                                 <div class="row mb-5  d-flex justify-content-between align-items-center">
@@ -230,9 +241,9 @@
                                     </div>
                                     <div class="col-md-4 mt-3">
                                         {% if vndr.is_active %}  
-                                        <h6 class="mb-0"><b>Active</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>Active</b></h6>
                                         {% else %}
-                                        <h6 class="mb-0"><b>Inactive</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>Inactive</b></h6>
                                         {% endif %}
 
                                     </div>
@@ -252,13 +263,13 @@
                                         <p class="mb-0">Street</p>
                                     </div>
                                     <div class="col-md-4 mt-5">
-                                        <h6 class="mb-0"><b>{{ vndr.street }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.street }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-5 vl">
                                         <p class="mb-0">City</p>
                                     </div>
                                     <div class="col-md-4 mt-5">
-                                        <h6 class="mb-0"><b>{{ vndr.city }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.city }}</b></h6>
                                     </div>
                                 </div>
                                 <div class="row mb-4 d-flex justify-content-between align-items-center">
@@ -266,13 +277,13 @@
                                         <p class="mb-0">State</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.state }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.state }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
                                         <p class="mb-0">Pincode</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.pincode }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.pincode }}</b></h6>
                                     </div>
                                     
                                 </div>
@@ -281,7 +292,7 @@
                                         <p class="mb-0">Country</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.country }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.country }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3">
                                         
@@ -303,27 +314,27 @@
                                         <p class="mb-0">Street</p>
                                     </div>
                                     <div class="col-md-4 mt-5">
-                                        <h6 class="mb-0"><b>{{ vndr.shipstreet }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.shipstreet }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-5 vl">
                                         <p class="mb-0">City</p>
                                     </div>
                                     <div class="col-md-4 mt-5">
-                                        <h6 class="mb-0"><b>{{ vndr.shipcity }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.shipcity }}</b></h6>
                                     </div>
                                 </div>
                                 <div class="row mb-4 d-flex justify-content-between align-items-center">
                                     <div class="col-md-2 mt-3">
-                                        <p class="mb-0">State</p>
+                                        <p class="mb-0" >State</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.shipstate }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.shipstate }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3 vl">
                                         <p class="mb-0">Pincode</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.shippincode }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.shippincode }}</b></h6>
                                     </div>
                                     
                                 </div>
@@ -332,7 +343,7 @@
                                         <p class="mb-0">Country</p>
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <h6 class="mb-0"><b>{{ vndr.shipcountry }}</b></h6>
+                                        <h6 class="mb-0" style="font-family: monospace;"><b>{{ vndr.shipcountry }}</b></h6>
                                     </div>
                                     <div class="col-md-2 mt-3">
                                         
@@ -788,6 +799,31 @@
         </div>
     </div>
 
+
+    <!-- attach file modal -->
+    <div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="commentModalLabel">Upload File</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form  id="comment-form" action="{% url 'upload_file_vendor' vndr.vendorid %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="file"  style="margin-top: 10px; width: 70%;">
+                <div class="text-center pt-4 pb-2">
+                    <button class="btn btn-info " type="submit">Submit</button>
+                </div>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    
     <script type="text/javascript">
         $('.delete').click(function(e){
             var result = confirm("Are you sure you want to delete this record ?");
@@ -893,6 +929,42 @@
         });
     
     </script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const printButton = document.getElementById('print-button');
+        const contentToPrint = document.getElementById('content-to-print');
+
+        printButton.addEventListener('click', function() {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print Div</title></head><body>');
+            printWindow.document.write(contentToPrint.innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+      });
+
+    </script> -->
+    <script>
+
+        function printdata() {
+          // select the retainer invoice section
+          const dataSection = document.querySelector('#details');
+          
+          // get the HTML content of the retainer invoice section
+          const DataHTML = dataSection.innerHTML;
+          
+          // create a new window and write the retainer invoice HTML to it
+          const newWindow = window.open();
+          newWindow.document.write(DataHTML);
+          
+          // print the new window
+          newWindow.print();
+        }
+    
+    </script> 
+    
+    
     
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"

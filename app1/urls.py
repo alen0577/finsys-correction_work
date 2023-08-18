@@ -946,5 +946,6 @@ urlpatterns = [
     # Alen Antony(vendor,bill,purchase order)-correction
     path('activate_Vendor/<int:id>',views.activate_vendor,name='activate_vendor'),
     path('inactivate_Vendor/<int:id>',views.inactivate_vendor,name='inactivate_vendor'),
+    path('fileupload_vendor/<int:id>',views.upload_file_vendor,name='upload_file_vendor'),
     
 ]

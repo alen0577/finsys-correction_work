@@ -32550,6 +32550,13 @@ def viewvendor(request, id):
         return render(request,'app1/viewvendor.html',context)
     return redirect('viewvendor') 
 
+def upload_file_vendor(request,id):
+     if request.method == 'POST':
+        vndr =vendor.objects.get(vendorid=id)
+        vndr.attachment = request.FILES.get('file')
+        vndr.save()
+        return redirect('viewvendor',id=vndr.vendorid)
+
 # @login_required(login_url='regcomp')
 # def viewvendor1(request,id):
 #     if 'uid' in request.session:
