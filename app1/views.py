@@ -32746,6 +32746,7 @@ def createvendor1(request):
             supply=request.POST['sourceofsupply']
             currency=request.POST['currency']
             balance=request.POST['openingbalance']
+            opb_type=request.POST['opb_type']
             due=request.POST['openingbalance']
             date=request.POST['date']
             payment=request.POST['paymentterms']
@@ -32762,7 +32763,7 @@ def createvendor1(request):
             
             vndr = vendor(title=title, firstname=first_name, lastname=last_name, companyname= cmpnm, gsttype=gsttype, gstin=gstin, 
                         panno=panno, email=email,sourceofsupply=supply,currency=currency, website=website, mobile=mobile, date=date,
-                        openingbalance=balance,opblnc_due=due, street=street, city=city, state=state, paymentterms=payment,
+                        openingbalance=balance,opblnc_due=due,opening_balance_type=opb_type, street=street, city=city, state=state, paymentterms=payment,
                         pincode=pincode, country=country, shipstreet=shipstreet, shipcity=shipcity, shipstate=shipstate,
                         shippincode=shippincode, shipcountry=shipcountry,cid=cmp1)
             vndr.save()
@@ -32792,6 +32793,7 @@ def createvendor2(request):
             supply=request.POST['sourceofsupply']
             currency=request.POST['currency']
             balance=request.POST['openingbalance']
+            opb_type=request.POST['opb_type']
             due=request.POST['openingbalance']
             date=request.POST['date']
             payment=request.POST['paymentterms']
@@ -32808,7 +32810,7 @@ def createvendor2(request):
             
             vndr = vendor(title=title, firstname=first_name, lastname=last_name, companyname= cmpnm, gsttype=gsttype, gstin=gstin, 
                         panno=panno, email=email,sourceofsupply=supply,currency=currency, website=website, mobile=mobile, date=date,
-                        openingbalance=balance,opblnc_due=due, street=street, city=city, state=state, paymentterms=payment,
+                        openingbalance=balance,opblnc_due=due,opening_balance_type=opb_type, street=street, city=city, state=state, paymentterms=payment,
                         pincode=pincode, country=country, shipstreet=shipstreet, shipcity=shipcity, shipstate=shipstate,
                         shippincode=shippincode, shipcountry=shipcountry,cid=cmp1)
             vndr.save()

@@ -39,8 +39,8 @@
                             <div class="col-md-4 mt-2">
                                 <label for="validationCustom01">Select Vendor</label>
                                 <div class="d-flex">
-                                    <select name="vendor_name" id="select" class="custom-select">
-                                        <option selected disabled>Select Vendor</option>
+                                    <select name="vendor_name" id="select" class="custom-select form-control" required>
+                                        <option value=""  hidden>Select Vendor</option>
                                         {% for v in vndr %}
                                         <option value="{{ v.firstname }} {{ v.lastname }}">{{ v.firstname }} {{ v.lastname }}</option>
                                         {% endfor %}
@@ -583,15 +583,15 @@
                                                     <label for="validationCustom04">GST Treatment</label>
                                                     <select class="form-control" id="gsttyp" name="gsttype" onchange="showgsttyp()"
                                                         onclick="hidinput('hello', this)" required>
-                                                        <option selected disabled value="">Choose..</option>
+                                                        <option selected hidden value="">Select GST Treatment</option>
                                                         <option value="Registered Business - Regular">Registered Business - Regular <span><i>(Business that is registered under gst)</i></span></option>
                                                         <option value="Registered Business - Composition">Registered Business - Composition (Business that is registered under composition scheme in gst)</option>
                                                         <option value="Unregistered Business">Unregistered Business (Business that has not been registered under gst)</option>
                                                         <option value="Overseas">Overseas (Import/Export of supply outside india)</option>
                                                         <option value="Special Economic Zone (SEZ)">Special Economic Zone (SEZ) (Business that is located in a special economic zone of india or a SEZ developer)</option>
-                                                        <option value="Demed Exports">Demed Exports (Supply of woods to an exports oriented unit or againsed advanced authorization or export promotion capital woods)</option>
+                                                        <!-- <option value="Demed Exports">Demed Exports (Supply of woods to an exports oriented unit or againsed advanced authorization or export promotion capital woods)</option>
                                                         <option value="Tax Deductor">Tax Deductor (State of central gov,government agencies or local authority)</option>
-                                                        <option value="SEZ Developer">SEZ Developer (A person or organization who owns atleast 26% eqaulity in creating business units in special economic zone)</option>
+                                                        <option value="SEZ Developer">SEZ Developer (A person or organization who owns atleast 26% eqaulity in creating business units in special economic zone)</option> -->
                                                     </select>
                                                     <!-- <div class="hide" id="regular"><label><i>(Business that is registered under gst)</i></label></div>
                                                     <div class="hide" id="comp"><label>&nbsp;<i>(Business that is registered under composition scheme in gst)</i></label></div>
@@ -689,8 +689,9 @@
                                                 <div class="col-md-3 mt-2">
                                                     <label for="">Currency</label>
                                                     <div class="d-flex">
-                                                        <input type="text" class="form-control" id="" name="currency" placeholder="INR - Indian Rupee"
-                                                            id="">
+                                                        <select name="currency" id="" class="form-control">
+                                                            <option selected value="INR - Indian Rupee">INR - Indian Rupee</option>
+                                                        </select>
                                                         <a href="#">
                                                             <button type="button" class="btn btn-outline-secondary ml-1">+</button>
                                                         </a> 
@@ -700,19 +701,23 @@
                                                 <div class="col-md-3 mt-2">
                                                    <label for="">Opening Balance</label>
                                                    <div class="d-flex">
-                                                    <p class="form-control" style="width: 60px;">INR</p>
-                                                    <input type="number" class="form-control" name="openingbalance" placeholder="INR">
-                                                   </div>
+                                                        <select class="form-control w-50" name="opb_type" required>
+                                                            <option value="" hidden>Type</option>
+                                                            <option value="Debit">Debit</option>
+                                                            <option value="Credit">Credit</option>
+                                                        </select>
+                                                        <input type="number" class="form-control" name="openingbalance" required>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-3 mt-2">
                                                    <label for="">Payment Terms</label>
                                                    <div class="d-flex">
                                                     <select class="form-control" name="paymentterms">
                                                         <option value="Nill"></option>
-                                                        <option value="0">Due on Receipt</option>
-                                                        <option value="15">NET 15</option>
-                                                        <option value="30">NET 30</option>
+                                                        <option value="Due on Receipt">Due on Receipt</option>
                                                         <option value="60">NET 60</option>
+                                                        <option value="45">NET 45</option>
+                                                        <option value="30">NET 30</option>
                                                         {% for pd in cpd %}
                                                             <option value="{{ pd.newperiod }}">NET {{ pd.newperiod }}</option>
                                                         {% endfor %}
