@@ -1413,6 +1413,7 @@ class purchasebill(models.Model):
     billid = models.AutoField(('bid'), primary_key=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     vendor_name = models.CharField(max_length=100,null=True)
+    vendor_mail=models.CharField(max_length=100,null=True)
     billing_address = models.TextField(null=True)
     bill_no = models.IntegerField(default=1000)
     sourceofsupply = models.CharField(max_length=100, null=True)

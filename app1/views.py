@@ -33929,6 +33929,14 @@ def gobilling(request):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         pbill = purchasebill.objects.filter(cid=cmp1)
+        for i in pbill:
+            name=i.vendor_name
+            fname, lname = name.split(' ', 1)
+            print(name,fname,lname)
+            vndr= vendor.objects.filter(cid=cmp1,firstname=fname,lastname=lname)
+            print(vndr)
+           
+       
         return render(request,'app1/gobilling.html',{'cmp1': cmp1,'pbill':pbill})
     return redirect('gobilling')
     
@@ -33969,6 +33977,7 @@ def createbill(request):
         cmp1 = company.objects.get(id=request.session['uid'])
         if request.method == 'POST':
             vname = request.POST['vendor_name']
+            vendor_mail=request.POST['email']
             baddress = request.POST['billing_address']
             bill_no= '1000'
             sourceofsupply=request.POST['sourceofsupply']
@@ -33982,7 +33991,7 @@ def createbill(request):
             credit_period=request.POST['credit_period']
             due_date=request.POST['due_date']
             sub_total=request.POST['sub_total']
-            discount=request.POST['discount']
+            # discount=request.POST['discount1']
             sgst=request.POST['sgst']
             cgst=request.POST['cgst']
             igst=request.POST['igst']
@@ -33995,12 +34004,12 @@ def createbill(request):
             amtrecvd=request.POST['amtrecvd']
             note=request.POST['note']
 
-            billed = purchasebill(vendor_name=vname,billing_address=baddress,
+            billed = purchasebill(vendor_name=vname,vendor_mail=vendor_mail,billing_address=baddress,
                                     sourceofsupply=sourceofsupply,
                                     destiofsupply=destsupply,branch=branch,reference=reference,
                                     contact_name=contact_name,deliverto=deliverto,
                                     date=date,deliver_date=deliver_dt,
-                                    credit_period=credit_period,due_date=due_date,sub_total=sub_total,discount=discount,sgst=sgst,
+                                    credit_period=credit_period,due_date=due_date,sub_total=sub_total,sgst=sgst,
                                     cgst=cgst,igst=igst,tax_amount=tax_amount,tcs=tcs,tcs_amount=tcs_amount,round_off=round_off,
                                     grand_total=grand_total,balance_due=balance_due,amtrecvd=amtrecvd,note=note,cid=cmp1)
 

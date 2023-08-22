@@ -45,6 +45,11 @@
                                         <option value="{{ v.firstname }} {{ v.lastname }}">{{ v.firstname }} {{ v.lastname }}</option>
                                         {% endfor %}
                                     </select>
+                                    {% for v in vndr %}
+                                    
+                                    <input type="email" name="email" id="" value="{{v.email}}" style="display: none;">
+                                    
+                                    {% endfor %}
                                     <a>
                                         <button type="button" class="btn btn-outline-secondary ml-1" 
                                         data-target="#newvendor" data-toggle="modal">+</button>
@@ -245,6 +250,7 @@
                                             <th class="text-center">Quantity</th>
                                             <th class="text-center">Rate</th>
                                             <th class="text-center">Tax (%)</th>
+                                            <th class="text-center">Discount</th>
                                             <th class="text-center">Amount</th>
                                         </tr>
                                     </thead>
@@ -304,7 +310,10 @@
                                                     <option value=0 text=" ">Exempt IGST(0%)</option>
                                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                               </select>
-                                            </td> 
+                                            </td>
+                                            <td><input type="number" name='discount1[]' id="discount1" class="form-control balance" 
+                                                placeholder="0" step="any">
+                                            </td>  
                                             <td><input type="number" name='amount[]' id="total1" class="form-control total" 
                                                 placeholder="0" step="any" readonly>
                                             </td> 
@@ -352,7 +361,7 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
-                                    <div class="row container-fluid p-2 m-0">
+                                    <div class="row container-fluid p-2 m-0" style="display: none;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
                                         <div class="col-sm-7 mt-2"><input type="number" name='discount' step="any" id="disc1" placeholder=0 
@@ -413,7 +422,7 @@
                                         </div> -->
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Round Off</a></div>
+                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Adjustments</a></div>
                                         <div class="col-sm-1 mt-2">:</div>
                                         <div class="col-sm-7 mt-2"><input type="number" name='round_off' step="any" id="round_off" placeholder=0 
                                             class="form-control" />
@@ -1074,18 +1083,18 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 mt-3">
-                                                <label for="validationCustom04">GST type</label>
+                                                <label for="validationCustom04">GST Type</label>
                                                 <select class="form-control" id="gsttyp" name="gsttype"
                                                         onclick="hidinput1('hello1', this)" required>
-                                                        <option selected disabled value="">Choose..</option>
+                                                        <option selected hidden value="">Select GST Type</option>
                                                         <option value="Registered Business - Regular">Registered Business - Regular</option>
                                                         <option value="Registered Business - Composition">Registered Business - Composition</option>
                                                         <option value="Unregistered Business">Unregistered Business</option>
                                                         <option value="Overseas">Overseas</option>
                                                         <option value="Special Economic Zone (SEZ)">Special Economic Zone (SEZ)</option>
-                                                        <option value="Demed Exports">Demed Exports</option>
+                                                        <!-- <option value="Demed Exports">Demed Exports</option>
                                                         <option value="Tax Deductor">Tax Deductor</option>
-                                                        <option value="SEZ Developer">SEZ Developer</option>
+                                                        <option value="SEZ Developer">SEZ Developer</option> -->
                                                     </select>
                                                 <div class="invalid-feedback">Please select a valid registration type.</div>
                                             </div>
@@ -1904,6 +1913,9 @@
                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                 </select>
                             </td>
+                            <td>
+                                <input type="number" name='discount1[]' id="discount1" class="form-control balance" placeholder="0" step="any">
+                            </td> 
                             <td>
                                 <input type="number" name='amount[]' id="total1" placeholder=0 class="form-control total" step="any" readonly>
                             </td>                    
