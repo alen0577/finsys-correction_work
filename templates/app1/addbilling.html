@@ -45,15 +45,12 @@
                                         <option value="{{ v.firstname }} {{ v.lastname }}">{{ v.firstname }} {{ v.lastname }}</option>
                                         {% endfor %}
                                     </select>
-                                    {% for v in vndr %}
                                     
-                                    <input type="email" name="email" id="" value="{{v.email}}" style="display: none;">
-                                    
-                                    {% endfor %}
                                     <a>
                                         <button type="button" class="btn btn-outline-secondary ml-1" 
                                         data-target="#newvendor" data-toggle="modal">+</button>
                                     </a>
+                                    <input type="text" id="email" name="email" placeholder='Email' class="form-control" style="display: none;">
                                     <div class="valid-feedback">Looks good!</div> 
                                 </div>
                             </div>
@@ -311,7 +308,7 @@
                                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                               </select>
                                             </td>
-                                            <td><input type="number" name='discount1[]' id="discount1" class="form-control balance" 
+                                            <td><input type="number" name='discount1[]' id="discount1" class="form-control discount" 
                                                 placeholder="0" step="any">
                                             </td>  
                                             <td><input type="number" name='amount[]' id="total1" class="form-control total" 
@@ -366,6 +363,14 @@
                                         <div class="col-sm-1 mt-2">:</div>
                                         <div class="col-sm-7 mt-2"><input type="number" name='discount' step="any" id="disc1" placeholder=0 
                                             class="form-control disc"/>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Shipping Charge</label></div>
+                                        <div class="col-sm-1 mt-2">:</div>
+                                        <div class="col-sm-7 mt-2"><input type="number" step="any" name='shipcharge' placeholder=0 
+                                            class="form-control" id="shipcharge">
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -448,6 +453,14 @@
                                         <div class="col-sm-1 mt-2"></div>
                                         <div class="col-sm-7 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
                                             class="form-control" readonly>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid  p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Paid</label></div>
+                                        <div class="col-sm-1 mt-2"></div>
+                                        <div class="col-sm-7 mt-2"><input type="number" name='paid' id="paid" placeholder="0" step="any" 
+                                            class="form-control">
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -1914,7 +1927,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name='discount1[]' id="discount1" class="form-control balance" placeholder="0" step="any">
+                                <input type="number" name='discount1[]' id="discount1" class="form-control quantity" placeholder="0" step="any">
                             </td> 
                             <td>
                                 <input type="number" name='amount[]' id="total1" placeholder=0 class="form-control total" step="any" readonly>
@@ -2540,6 +2553,7 @@
                 }).done(function(response) {
                 var json_data = JSON.parse(response);
                 for (key in json_data) {
+                    document.getElementById('email').value = json_data[key]['email'];
                     document.getElementById('billingaddress').value = json_data[key]['street'] + '\n' + json_data[key]['city'] + '\n' + json_data[key]['state'] + '\n' + json_data[key]['pincode'] + '\n' + json_data[key]['country'];
                     
                 }
@@ -2645,9 +2659,10 @@
                     var qty = $(this).find('.qty').val();
                     var price = $(this).find('.price').val();
                     var tax = $(this).find('.tax').val();
+                    var dis = $(this).find('.discount').val();
                 
-                    $(this).find('.total').val(parseFloat(qty * price));
-                    $(this).find('.taxamount').val(parseFloat((qty * price) * (parseFloat(tax) / 100)));
+                    $(this).find('.total').val(parseFloat((qty * price)-dis));
+                    $(this).find('.taxamount').val(parseFloat(((qty * price)-dis) * (parseFloat(tax) / 100)));
                     
                     calc_total();
                 }

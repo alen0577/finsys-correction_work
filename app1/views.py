@@ -33929,12 +33929,7 @@ def gobilling(request):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         pbill = purchasebill.objects.filter(cid=cmp1)
-        for i in pbill:
-            name=i.vendor_name
-            fname, lname = name.split(' ', 1)
-            print(name,fname,lname)
-            vndr= vendor.objects.filter(cid=cmp1,firstname=fname,lastname=lname)
-            print(vndr)
+        
            
        
         return render(request,'app1/gobilling.html',{'cmp1': cmp1,'pbill':pbill})
