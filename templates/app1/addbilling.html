@@ -308,7 +308,7 @@
                                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                               </select>
                                             </td>
-                                            <td><input type="number" name='discount1[]' id="discount1" class="form-control discount" 
+                                            <td><input type="number" name='reduce[]' id="reduce" class="form-control reduce" 
                                                 placeholder="0" step="any">
                                             </td>  
                                             <td><input type="number" name='amount[]' id="total1" class="form-control total" 
@@ -358,6 +358,14 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Total Discount</label></div>
+                                        <div class="col-sm-1 mt-2">:</div>
+                                        <div class="col-sm-7 mt-2"><input type="number" step="any" name='tot_dis' placeholder=0 
+                                            class="form-control" id="tot_dis">
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
                                     <div class="row container-fluid p-2 m-0" style="display: none;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
@@ -370,7 +378,7 @@
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Shipping Charge</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
                                         <div class="col-sm-7 mt-2"><input type="number" step="any" name='shipcharge' placeholder=0 
-                                            class="form-control" id="shipcharge">
+                                            class="form-control" id="shipcharge" value="0">
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -1927,7 +1935,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name='discount1[]' id="discount1" class="form-control quantity" placeholder="0" step="any">
+                                <input type="number" name='reduce[]' id="reduce" class="form-control reduce" placeholder="0" step="any">
                             </td> 
                             <td>
                                 <input type="number" name='amount[]' id="total1" placeholder=0 class="form-control total" step="any" readonly>
@@ -2659,7 +2667,7 @@
                     var qty = $(this).find('.qty').val();
                     var price = $(this).find('.price').val();
                     var tax = $(this).find('.tax').val();
-                    var dis = $(this).find('.discount').val();
+                    var dis = $(this).find('.reduce').val();
                 
                     $(this).find('.total').val(parseFloat((qty * price)-dis));
                     $(this).find('.taxamount').val(parseFloat(((qty * price)-dis) * (parseFloat(tax) / 100)));
@@ -2680,23 +2688,33 @@
                 taxamount += parseFloat($(this).val());
             });
 
+            total_discount = 0.0;
+            $('.reduce').each(function() {
+                total_discount += parseFloat($(this).val());
+            });
+
             $('#subtotal').val(parseFloat(total.toFixed(2)));
             $('#tax_amount').val(parseFloat(taxamount.toFixed(2)));
+            $('#tot_dis').val(parseFloat(total_discount.toFixed(2)));
             calc_tcs();
         }
         function calc_tcs() {
             tcsamount = 0;
+        
             var a = document.getElementById("tcs1").value
             var discount = document.getElementById("disc1").value
+            var shipCharge = parseFloat(document.getElementById("shipcharge").value); // Getting the shipping charge amount
+            
             tcs=0
             tcs =a/100 * total
             let z=Math.round(tcs)
             disc0=discount
             
-            var amount =taxamount + total - tcs 
+            
+            var amount =taxamount + total  - tcs 
             let x =Math.round(amount)
             let y =Math.round(x-disc0)
-            var gt = amount-disc0
+            var gt = amount-disc0+ shipCharge;
             
             $('#tcs_amount').val(parseFloat(tcs.toFixed(2)));
             $('#grandtotal').val(parseFloat(gt.toFixed(2)));
@@ -2706,6 +2724,7 @@
             // $('#round_off').val((y).toFixed(2));   
 
             test()
+            
         }
 
         function test(){
@@ -2725,6 +2744,31 @@
             }
         }
     </script>
+    <script>
+        document.getElementById("shipcharge").addEventListener("input", function() {
+        calc_tcs(); // Recalculate the values when shipCharge changes
+        });
+        
+    </script>
+
+
+    <!-- update grandtotal with shipping charges -->
+    <!-- <script>
+        // Function to update the grand total based on shipping charge
+        function updateGrandTotal() {
+            var shippingChargeInput = document.getElementById("shipcharge");
+            var grandTotalInput = document.getElementById("grandtotal");
+
+            var shippingCharge = parseFloat(shippingChargeInput.value);
+            var previousGrandTotal = parseFloat(grandTotalInput.value);
+
+            // Calculate new grand total
+            var newGrandTotal = shippingCharge === 0 ? previousGrandTotal : previousGrandTotal + shippingCharge;
+
+            // Update the grand total field
+            grandTotalInput.value = newGrandTotal.toFixed(2); // Display with two decimal places
+        }
+    </script> -->
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
