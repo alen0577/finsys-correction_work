@@ -1456,6 +1456,7 @@ class purchasebill_item(models.Model):
     rate = models.CharField(max_length=100,null=True)
     tax = models.CharField(max_length=100,null=True)
     amount = models.CharField(max_length=100,null=True)
+    discount = models.CharField(max_length=100,null=True)
 
 class purchase_expense(models.Model):
     cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
