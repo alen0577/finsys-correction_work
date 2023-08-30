@@ -356,9 +356,9 @@
                                         <div class="d-flex">
                                             <select class="form-control" name="paytype" id="paytype" required>
                                                 <option value="" hidden>Select</option>
-                                                <option value="0">Bank</option>
-                                                <option value="15">Cash</option>
-                                                <option value="30">Cheque</option>
+                                                <option value="Bank">Bank</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Cheque">Cheque</option>
                                                 
                                             </select>
                                             
@@ -488,20 +488,20 @@
                                         
                                         <div class="col-sm-4 mt-2">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck">
                                                 <label>Paid</label>
                                                 
                                             </div>
                                         </div>
                                         <div class="col-sm-1 mt-2"></div>
                                         <div class="col-sm-7 mt-2">
-                                            <input type="number" name='paid' id="paid" placeholder="0" step="any" 
+                                            <input type="number" name='paid' id="paid" placeholder="0" value="0" step="any" 
                                             class="form-control">
                                             <p id="error-message" class="mt-1" style="color: red;"></p>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
-                                    <div class="row container-fluid  p-2 m-0">
+                                    <div class="row container-fluid  p-2 m-0" style="display:none ;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
                                         <div class="col-sm-1 mt-2"></div>
                                         <div class="col-sm-7 mt-2">
@@ -538,7 +538,7 @@
                             <div class="col-md-4">
                                 <button class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3"
                                         type="submit">
-                                    Save as Draft
+                                    Save
                                 </button>
                             </div>
                             <div class="col-md-4"></div>

@@ -61,7 +61,6 @@
                                 <th>Vendor Name</th>
                                 <th>Mail Id</th>
                                 <th>Expected Delivery Date</th>
-                                
                                 <th>Total Amount</th>
                                 <th>Balance Due</th>
                             </tr>
@@ -74,9 +73,13 @@
                                     <td>{{ p.vendor_name }}</td>
                                     <td>{{ p.vendor_mail }}</td>
                                     <td>{{ p.deliver_date| date:'d-m-Y' }}</td>
-                                    
                                     <td>{{ p.grand_total }}</td>
-                                    <td>{{ p.balance }}</td>
+                                    {% if p.balance_amount > 0 %}
+                                    <td>{{ p.balance_amount }}</td>
+                                    {% else %}
+                                    <td>0.0</td>
+                                    {% endif %}
+
                                 </tr> 
                             {% endfor %}
                             </tbody>

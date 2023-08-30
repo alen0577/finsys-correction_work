@@ -33986,7 +33986,6 @@ def createbill(request):
             credit_period=request.POST['credit_period']
             due_date=request.POST['due_date']
             sub_total=request.POST['sub_total']
-            # discount=request.POST['discount1']
             sgst=request.POST['sgst']
             cgst=request.POST['cgst']
             igst=request.POST['igst']
@@ -33998,6 +33997,14 @@ def createbill(request):
             balance_due=request.POST['balance_due']
             amtrecvd=request.POST['amtrecvd']
             note=request.POST['note']
+            total_discount=request.POST['tot_dis']
+            shipping_charge=request.POST['shipcharge']
+            paid_amount=request.POST['paid']
+            payment_type=request.POST['paytype']  
+            balance_amount=int(grand_total)-int(paid_amount)
+            
+
+            
 
             billed = purchasebill(vendor_name=vname,vendor_mail=vendor_mail,billing_address=baddress,
                                     sourceofsupply=sourceofsupply,
@@ -34006,7 +34013,9 @@ def createbill(request):
                                     date=date,deliver_date=deliver_dt,
                                     credit_period=credit_period,due_date=due_date,sub_total=sub_total,sgst=sgst,
                                     cgst=cgst,igst=igst,tax_amount=tax_amount,tcs=tcs,tcs_amount=tcs_amount,round_off=round_off,
-                                    grand_total=grand_total,balance_due=balance_due,amtrecvd=amtrecvd,note=note,cid=cmp1)
+                                    grand_total=grand_total,balance_due=balance_due,amtrecvd=amtrecvd,note=note,cid=cmp1,
+                                    total_discount=total_discount,ship_charge=shipping_charge,paid_amount=paid_amount,balance_amount=balance_amount,
+                                    payment_type=payment_type)
 
             if len(request.FILES) != 0:
                 billed.file=request.FILES['file'] 
@@ -34158,6 +34167,7 @@ def createbill(request):
             rate = request.POST.getlist("rate[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("amount[]")
+            discount = request.POST.getlist("reduce[]")
 
             bll=purchasebill.objects.get(billid=billed.billid)
             
@@ -34172,12 +34182,12 @@ def createbill(request):
                     billAdd,created = itemstock.objects.get_or_create(items = ele[0],qty = ele[1],amount = ele[2],transactions='Billed',details=dl,
                     stocks='Stock Changed',date=dt,details1=ref,bill=bll,cid=cmp1)
 
-            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount) and items and hsn and quantity and rate and tax and amount:
-                mapped=zip(items,hsn,quantity,rate,tax,amount)
+            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount)==len(discount) and items and hsn and quantity and rate and tax and amount and discount:
+                mapped=zip(items,hsn,quantity,rate,tax,amount,discount)
                 mapped=list(mapped)
                 for ele in mapped:
                     billAdd,created = purchasebill_item.objects.get_or_create(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                    tax=ele[4],amount=ele[5],bill=bll,cid=cmp1)
+                    tax=ele[4],amount=ele[5],discount=ele[6],bill=bll,cid=cmp1)
 
                     itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                     if itemqty.stockin != 0:

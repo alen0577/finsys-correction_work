@@ -1440,12 +1440,17 @@ class purchasebill(models.Model):
     amtrecvd = models.CharField(max_length=100,null=True)
     note = models.CharField(max_length=255,null=True)
     file = models.FileField(upload_to='purchase/bill',default="default.png")
+    total_discount = models.CharField(max_length=100,null=True)
+    ship_charge = models.CharField(max_length=100,null=True)
+    paid_amount = models.FloatField(blank=True,null=True)
+    balance_amount = models.FloatField(blank=True,null=True)
+    payment_type = models.CharField(max_length=100,null=True)
 
     bill_status = (
         ('Draft','Draft'),
         ('Billed','Billed'),
     )
-    status =models.CharField(max_length=150,choices=bill_status,default='Draft')
+    status =models.CharField(max_length=150,choices=bill_status,default='Billed')
 
 class purchasebill_item(models.Model):
     bill = models.ForeignKey(purchasebill, on_delete=models.CASCADE,null=True)
