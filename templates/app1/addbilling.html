@@ -299,13 +299,13 @@
                                                     <option value=28 text=" ">28.0% IGST(28%)</option>
                                                     <option value=18 text=" ">18.0% IGST(18%)</option>
                                                     <option value=12 text=" ">12.0% IGST(12%)</option>
-                                                    <option value=6 text=" ">06.0% IGST(06%)</option>
+                                                    <!-- <option value=6 text=" ">06.0% IGST(06%)</option> -->
                                                     <option value=5 text=" ">05.0% IGST(05%)</option>
                                                     <option value=3 text=" ">03.0% IGST(03%)</option>
-                                                    <option value=.25 text=" ">0.25% IGST(0.25%)</option>
+                                                    <!-- <option value=.25 text=" ">0.25% IGST(0.25%)</option> -->
                                                     <option value=0 text=" ">0.0% IGST(0%)</option>
-                                                    <option value=0 text=" ">Exempt IGST(0%)</option>
-                                                    <option value=0 text=" ">Out of Scope(0%)</option>
+                                                    <!-- <option value=0 text=" ">Exempt IGST(0%)</option>
+                                                    <option value=0 text=" ">Out of Scope(0%)</option> -->
                                               </select>
                                             </td>
                                             <td><input type="number" name='reduce[]' id="reduce" class="form-control reduce" 
@@ -2846,23 +2846,7 @@
     </script>
 
 
-    <!-- update grandtotal with shipping charges -->
-    <!-- <script>
-        // Function to update the grand total based on shipping charge
-        function updateGrandTotal() {
-            var shippingChargeInput = document.getElementById("shipcharge");
-            var grandTotalInput = document.getElementById("grandtotal");
-
-            var shippingCharge = parseFloat(shippingChargeInput.value);
-            var previousGrandTotal = parseFloat(grandTotalInput.value);
-
-            // Calculate new grand total
-            var newGrandTotal = shippingCharge === 0 ? previousGrandTotal : previousGrandTotal + shippingCharge;
-
-            // Update the grand total field
-            grandTotalInput.value = newGrandTotal.toFixed(2); // Display with two decimal places
-        }
-    </script> -->
+    
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>

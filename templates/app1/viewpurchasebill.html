@@ -363,6 +363,7 @@
                                         <td>Quantity</td>
                                         <td>Rate</td>
                                         <td>Tax</td>
+                                        <td>Discount</td>
                                         <td>Total</td>
                                     </tr>
                                 </thead>
@@ -374,6 +375,7 @@
                                             <td class="text-center" style="color:#000">{{ pbill.quantity }}</td>
                                             <td class="text-center" style="color:#000">{{ pbill.rate  }}</td>
                                             <td class="text-center" style="color:#000">{{ pbill.tax  }}</td>
+                                            <td class="text-center" style="color:#000">{{ pbill.discount  }}</td>
                                             <td class="text-center" style="color:#000">{{ pbill.amount }}</td>
                                         </tr>
                                     {% endfor %} 
@@ -382,10 +384,12 @@
                         </section>
             
                         <section class="balance-info">
-                            <div class="row">
+                            <div class="row mt-5">
                                 <div class="col-8">
                                     <p class="m-0 font-weight-bold" style="color:black"> Note: </p>
                                     <p style="color:black">{{pbill.note}}</p>
+                                    <p class="m-0 font-weight-bold" style="color:black"> Payment Type: </p>
+                                    <p style="color:black">{{pbill.payment_type}}</p>
                                 </div>
                                 <div class="col-4">
                                     <table class="table border-0 table-hover">
@@ -393,12 +397,16 @@
                                             <td style="color:black">Sub Total :</td>
                                             <td style="color:black">{{pbill.sub_total}}</td>
                                         </tr>
-                                        {% if pbill.discount != "0.00" %}
+                                        <!-- {% if pbill.total_discount != "0.00" %}
                                         <tr>
                                             <td style="color:black">Discount</td>
-                                            <td style="color:black">{{pbill.discount}}</td>
+                                            <td style="color:black">{{pbill.total_discount}}</td>
                                         </tr>
-                                        {% endif %}
+                                        {% endif %} -->
+                                        <tr >
+                                            <td style="color:black">Shipping Charge :</td>
+                                            <td style="color:black">{{pbill.ship_charge}}</td>
+                                        </tr>
                                         {% if pbill.igst != "0" %}
                                         <tr>
                                             <td style="color:black">IGST :</td>
@@ -427,6 +435,14 @@
                                             <tr>
                                                 <td style="color:black">Grand Total:</td>
                                                 <td style="color:black ;">{{pbill.grand_total}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:black">Amount Paid:</td>
+                                                <td style="color:black ;">{{pbill.paid_amount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:black">Balance Due:</td>
+                                                <td style="color:black ;">{{pbill.balance_amount}}</td>
                                             </tr>
                                         </tfoot>
                                     </table>

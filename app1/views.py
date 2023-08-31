@@ -34375,6 +34375,22 @@ def editpurchasebill(request,id):
             pbill.round_off=request.POST['round_off']
             pbill.grand_total=request.POST['grand_total']
             pbill.note=request.POST['note']
+            pbill.total_discount=request.POST['tot_dis']
+            pbill.ship_charge=request.POST['shipcharge']
+            pbill.paid_amount=request.POST['paid']
+            pbill.payment_type=request.POST['paytype']  
+
+            # Convert the floating-point numbers to integers
+            grand_total = int(float(pbill.grand_total))
+            paid_amount = int(float(pbill.paid_amount))
+
+            # Calculate the balance amount
+            balance_amount = grand_total - paid_amount
+
+            # Now you have the balance amount as an integer
+            pbill.balance_amount = balance_amount
+
+           
 
             if len(request.FILES) != 0:
                 if len(pbill.file) > 0  :
@@ -34481,6 +34497,7 @@ def editpurchasebill(request,id):
             rate = request.POST.getlist("rate[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("amount[]")
+            discount = request.POST.getlist("reduce[]")
 
             bitmid = request.POST.getlist("id[]")
 
@@ -34488,9 +34505,9 @@ def editpurchasebill(request,id):
 
             billid=purchasebill.objects.get(billid=pbill.billid,cid=cmp1)
 
-            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount):
+            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount)==len(discount):
              
-                mapped=zip(items,hsn,quantity,rate,tax,amount)
+                mapped=zip(items,hsn,quantity,rate,tax,amount,discount)
                 mapped=list(mapped)
                 
                 count = purchasebill_item.objects.filter(bill=pbill.billid).count()
@@ -34502,9 +34519,9 @@ def editpurchasebill(request,id):
                         pbillss=purchasebill.objects.get(billid=id)
                         cmp1 = company.objects.get(id=request.session['uid'])
                         
-
+                        
                         billAdd,created = purchasebill_item.objects.get_or_create(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                        tax=ele[4],amount=ele[5],bill_id=pbillss.billid,cid=cmp1)
+                        tax=ele[4],amount=ele[5],discount=ele[6],bill_id=pbillss.billid,cid=cmp1)
                         
                         itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                         if itemqty.stock != 0:
@@ -34524,9 +34541,20 @@ def editpurchasebill(request,id):
 
                     else:
                       
-                        dbs=purchasebill_item.objects.get(bill =pbill.billid,items = ele[0],hsn=ele[1])
-                        created = purchasebill_item.objects.filter(bill =dbs.bill,items = ele[0],hsn=ele[1]).update(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                        tax=ele[4],amount=ele[5])
+                        dbs=purchasebill_item.objects.filter(bill =pbill.billid,items = ele[0],hsn=ele[1])
+                        
+                        for db in dbs:
+                            created = purchasebill_item.objects.filter(bill =db.bill,items = ele[0],hsn=ele[1]).update(
+                                items=ele[0],
+                                hsn=ele[1],
+                                quantity=ele[2],
+                                rate=ele[3],
+                                tax=ele[4],
+                                amount=ele[5],
+                                discount=ele[6]
+                            )
+                        # created = purchasebill_item.objects.filter(bill =dbs.bill,items = ele[0],hsn=ele[1]).update(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
+                        # tax=ele[4],amount=ele[5],discount=ele[6])
                         itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                         if itemqty.stock != 0:
                             temp=0
