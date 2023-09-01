@@ -33402,6 +33402,7 @@ def createpurchaseorder(request):
         cmp1 = company.objects.get(id=request.session['uid'])
         if request.method == 'POST':
             vname = request.POST['vendor_name']
+            vendor_mail=request.POST['email']
             baddress = request.POST['billing_address']
             puchaseorder_no= '1000'
             supply=request.POST['sourceofsupply']
@@ -33426,15 +33427,22 @@ def createpurchaseorder(request):
             balance_due=request.POST['balance_due']
             grand_total=request.POST['grand_total']
             note=request.POST['note']
+            total_discount=request.POST['tot_dis']
+            shipping_charge=request.POST['shipcharge']
+            paid_amount=request.POST['paid']
+            payment_type=request.POST['paytype']  
+            balance_amount=int(grand_total)-int(paid_amount)
 
-            porder = purchaseorder(vendor_name=vname,billing_address=baddress,
+            porder = purchaseorder(vendor_name=vname,vendor_mail=vendor_mail,billing_address=baddress,
                                     sourceofsupply=supply,
                                     destiofsupply=destsupply,branch=branch,reference=reference,
                                     contact_name=contact_name,deliverto=deliverto,
                                     date=date,deliver_date=deliver_dt,
                                     credit_period=credit_period,due_date=due_date,sub_total=sub_total,discount=discount,sgst=sgst,
                                     cgst=cgst,igst=igst,tax_amount=tax_amount,tcs=tcs,tcs_amount=tcs_amount,round_off=round_off,
-                                    grand_total=grand_total,balance_due=balance_due,note=note,cid=cmp1)
+                                    grand_total=grand_total,balance_due=balance_due,note=note,cid=cmp1,
+                                    total_discount=total_discount,ship_charge=shipping_charge,paid_amount=paid_amount,balance_amount=balance_amount,
+                                    payment_type=payment_type)
 
             if len(request.FILES) != 0:
                 porder.file=request.FILES['file'] 
@@ -33450,16 +33458,17 @@ def createpurchaseorder(request):
             rate = request.POST.getlist("rate[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("amount[]")
+            discount = request.POST.getlist("reduce[]")
             
             prid=purchaseorder.objects.get(porderid=porder.porderid)
 
-            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount):
+            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount)==len(discount):
                 
-                mapped=zip(items,hsn,quantity,rate,tax,amount)
+                mapped=zip(items,hsn,quantity,rate,tax,amount,discount)
                 mapped=list(mapped)
                 for ele in mapped:
                     porderAdd,created = purchaseorder_item.objects.get_or_create(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                    tax=ele[4],amount=ele[5],porder=prid,cid=cmp1)
+                    tax=ele[4],amount=ele[5],discount=ele[6],porder=prid,cid=cmp1)
 
                     # itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                     # if itemqty.stock != 0:

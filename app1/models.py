@@ -1365,6 +1365,7 @@ class purchaseorder(models.Model):
     porderid = models.AutoField(('pid'), primary_key=True)
     cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     vendor_name = models.CharField(max_length=100,null=True)
+    vendor_mail=models.CharField(max_length=100,null=True)
     billing_address = models.TextField(null=True)
     puchaseorder_no = models.IntegerField(default=1000)
     sourceofsupply = models.CharField(max_length=100, null=True)
@@ -1390,6 +1391,11 @@ class purchaseorder(models.Model):
     grand_total = models.CharField(max_length=100,null=True)
     note = models.CharField(max_length=255,null=True)
     file = models.FileField(upload_to='purchase/purchaseorder',default="default.png")
+    total_discount = models.CharField(max_length=100,null=True)
+    ship_charge = models.CharField(max_length=100,null=True)
+    paid_amount = models.FloatField(blank=True,null=True)
+    balance_amount = models.FloatField(blank=True,null=True)
+    payment_type = models.CharField(max_length=100,null=True)
 
     porder_status = (
         ('Draft','Draft'),
@@ -1408,6 +1414,7 @@ class purchaseorder_item(models.Model):
     rate = models.CharField(max_length=100,null=True)
     tax = models.CharField(max_length=100,null=True)
     amount = models.CharField(max_length=100,null=True)
+    discount = models.CharField(max_length=100,null=True)
 
 class purchasebill(models.Model):
     billid = models.AutoField(('bid'), primary_key=True)
