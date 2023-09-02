@@ -33604,6 +33604,20 @@ def editpurchaseorder(request,id):
             pordr.balance_due=request.POST['balance_due']
             pordr.grand_total=request.POST['grand_total']
             pordr.note=request.POST['note']
+            pordr.total_discount=request.POST['tot_dis']
+            pordr.ship_charge=request.POST['shipcharge']
+            pordr.paid_amount=request.POST['paid']
+            pordr.payment_type=request.POST['paytype']  
+
+            # Convert the floating-point numbers to integers
+            grand_total = int(float(pordr.grand_total))
+            paid_amount = int(float(pordr.paid_amount))
+
+            # Calculate the balance amount
+            balance_amount = grand_total - paid_amount
+
+            # Now you have the balance amount as an integer
+            pordr.balance_amount = balance_amount
 
             if len(request.FILES) != 0:
                 if len(pordr.file) > 0  :
@@ -33618,25 +33632,21 @@ def editpurchaseorder(request,id):
             rate = request.POST.getlist("price[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("total[]")
+            discount = request.POST.getlist("reduce[]")
 
             pitemid = request.POST.getlist("id[]")
 
-            print(items)
-            print(hsn)
-            print(quantity)
-            print(rate)
-            print(tax)
-            print(amount)
+            
             porderid=purchaseorder.objects.get(porderid=pordr.porderid)
             count = purchaseorder_item.objects.filter(porder=pordr.porderid).count()
             
-            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount):
+            if len(items)==len(hsn)==len(quantity)==len(rate)==len(tax)==len(amount)==len(discount):
                 if int(len(items))>int(count):
-                    mapped=zip(items,hsn,quantity,rate,tax,amount)
+                    mapped=zip(items,hsn,quantity,rate,tax,amount,discount)
                     mapped=list(mapped)
                     for ele in mapped:
                         porderAdd,created = purchaseorder_item.objects.get_or_create(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                        tax=ele[4],amount=ele[5],porder=porderid,cid=cmp1)
+                        tax=ele[4],amount=ele[5],discount=ele[6],porder=porderid,cid=cmp1)
 
                         itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                         if itemqty.stock != 0:
@@ -33648,13 +33658,13 @@ def editpurchaseorder(request,id):
                             itemqty.save()
                 else:
                  
-                    mapped=zip(items,hsn,quantity,rate,tax,amount)
+                    mapped=zip(items,hsn,quantity,rate,tax,amount,discount)
                     mapped=list(mapped)
                 
                     for ele in mapped:
                         
                         created = purchaseorder_item.objects.filter(porder=porderid.porderid,items = ele[0],hsn = ele[1]).update(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
-                        tax=ele[4],amount=ele[5])
+                        tax=ele[4],amount=ele[5],discount=ele[6])
 
                         itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
                         if itemqty.stock != 0:
@@ -34506,7 +34516,8 @@ def editpurchasebill(request,id):
             rate = request.POST.getlist("rate[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("amount[]")
-            discount = request.POST.getlist("reduce[]")
+            
+            
 
             bitmid = request.POST.getlist("id[]")
 

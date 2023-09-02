@@ -71,7 +71,9 @@
                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                 </select>
                             </td>
-                                               
+                            <td>
+                                <input type="number" name='reduce[]' id="reduce" class="form-control reduce" placeholder="0" step="any">
+                            </td>                  
                             <td style="display: none;"><input type="number" step="any" name='taxamount1' id="taxamount1" class="form-control taxamount"></td>
                             <td>
                                 <input type="number" name='total[]' id="total1" placeholder=0 class="form-control total" step="any" readonly>
@@ -922,6 +924,7 @@
                                             <th class="text-center">Quantity</th>
                                             <th class="text-center">Rate</th>
                                             <th class="text-center">Tax (%)</th>
+                                            <th class="text-center">Discount</th>
                                             <th class="text-center">Amount</th>
                                         </tr>
                                     </thead>
@@ -977,7 +980,9 @@
                                                     <option value=0 text=" ">Out of Scope(0%)</option>
                                               </select>
                                             </td> 
-                                            
+                                            <td><input type="number" name='reduce[]' value="{{p.discount}}" id="reduce{{ forloop.counter }}" class="form-control reduce" 
+                                                placeholder="0" step="any">
+                                            </td> 
                                             <td style="display: none;"><input type="number" step="any" name='taxamount1' id="taxamount1{{ forloop.counter }}" class="form-control taxamount"/></td>   
                                             <td><input type="number" value="{{ p.amount }}" name='total[]' id="total1{{ forloop.counter }}" class="form-control total" 
                                                 placeholder="0" step="any" readonly>
@@ -1007,14 +1012,37 @@
                         </div>  
                         
                         <div class="row clearfix" style="margin-top:20px">
-                            <div class="col-md-6 mt-3">
-                                <label for="">Note</label>
-                                <div class="form-row">
-                                    <textarea class="form-control" name="note" rows="3">{{ pordr.note }}</textarea>
-                                </div><br>
-                                <div>
-                                    <input type="file" class="form-control" name="file">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="">Note</label>
+                                        <div class="form-row">
+                                            <textarea class="form-control" name="note" rows="3" >{{ pordr.note }}</textarea>
+                                        </div><br>
+                                        <div>
+                                            <input type="file" class="form-control" name="file" value="{{ pordr.file }}">
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
                                 </div>
+                                
+                                <div class="row mt-5 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="">Payment Type</label>
+                                        <div class="d-flex">
+                                            <select class="form-control" name="paytype" id="paytype" required>
+                                                <option value="{{pordr.payment_type}}" hidden>{{pordr.payment_type}}</option>
+                                                <option value="Bank">Bank</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Cheque">Cheque</option>
+                                                
+                                            </select>
+                                            
+                                        </div> 
+                                    </div>
+                                </div>
+                               
                             </div>
                             <div class="col-md-1 mt-3"></div>
                             <div class="col-md-5 table-responsive-md mt-3" id="tab_logic_total" style="background-color:rgba(0,0,0,.4); border: 1px solid rgba(128, 128, 128, 0.6);"><br>
@@ -1027,9 +1055,25 @@
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Total Discount</label></div>
+                                        
+                                        <div class="col-sm-8 mt-2"><input type="number" step="any" name='tot_dis' placeholder=0 
+                                            class="form-control" id="tot_dis" value="{{pordr.total_discount}}">
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid p-2 m-0" style="display: none;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='discount' step="any" id="disc1" placeholder=0 
                                             class="form-control disc" value="{{ pordr.discount }}"/>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Shipping Charge</label></div>
+                                        
+                                        <div class="col-sm-8 mt-2"><input type="number" step="any" name='shipcharge' placeholder=0 
+                                            class="form-control" id="shipcharge" value="{{pordr.ship_charge}}">
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -1074,7 +1118,7 @@
                                         </div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Round Off</a></div>
+                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Adjustments</a></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='round_off' step="any" id="round_off" placeholder=0 
                                             class="form-control" value="{{ pordr.round_off }}"/>
                                         </div>
@@ -1091,6 +1135,53 @@
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
                                             class="form-control" value="{{ pordr.grand_total }}" readonly>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    {% if pordr.paid_amount %}
+                                    <div class="row container-fluid  p-2 m-0">
+                                        
+                                        <div class="col-sm-4 mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" checked>
+                                                <label>Paid</label>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-sm-8 mt-2">
+                                            <input type="number" name='paid' id="paid" placeholder="0" value="{{pordr.paid_amount}}" step="any" 
+                                            class="form-control">
+                                            <p id="error-message" class="mt-1" style="color: red;"></p>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="row container-fluid  p-2 m-0">
+                                        
+                                        <div class="col-sm-4 mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck">
+                                                <label>Paid</label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1 mt-2"></div>
+                                        <div class="col-sm-7 mt-2">
+                                            <input type="number" name='paid' id="paid" placeholder="0" value="0" step="any" 
+                                            class="form-control">
+                                            <p id="error-message" class="mt-1" style="color: red;"></p>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    {% endif %}
+                                    <div class="row container-fluid  p-2 m-0" style="display:none ;">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
+                                        <div class="col-sm-1 mt-2"></div>
+                                        <div class="col-sm-7 mt-2">
+                                            <input type="number" name='bal_due' id="bal_due" placeholder="0" step="any" 
+                                            class="form-control" readonly >
+                                            
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -1240,9 +1331,10 @@
                     var qty = $(this).find('.qty').val();
                     var price = $(this).find('.price').val();
                     var tax = $(this).find('.tax').val();
+                    var dis = $(this).find('.reduce').val();
 
-                    $(this).find('.total').val(parseFloat(qty * price));
-                    $(this).find('.taxamount').val(parseFloat((qty * price) * (parseFloat(tax) / 100)));
+                    $(this).find('.total').val(parseFloat((qty * price)-dis));
+                    $(this).find('.taxamount').val(parseFloat(((qty * price)-dis) * (parseFloat(tax) / 100)));
                     
                     calc_total();
                 }
@@ -1260,8 +1352,14 @@
                 taxamount += parseFloat($(this).val());
             });
 
+            total_discount = 0.0;
+            $('.reduce').each(function() {
+                total_discount += parseFloat($(this).val());
+            });
+
             $('#subtotal').val(parseFloat(total.toFixed(2)));
             $('#tax_amount').val(parseFloat(taxamount.toFixed(2)));
+            $('#tot_dis').val(parseFloat(total_discount.toFixed(2)));
         
             calc_tcs();
         }
@@ -1269,6 +1367,8 @@
             tcsamount = 0;
             var a = document.getElementById("tcs1").value
             var discount = document.getElementById("disc1").value
+            var shipCharge = parseFloat(document.getElementById("shipcharge").value); // Getting the shipping charge amount
+
             tcs=0
             tcs =a/100 * total
             let z=Math.round(tcs)
@@ -1276,7 +1376,7 @@
             
             var amount =taxamount + total + tcs 
             let x =Math.round(amount)
-            let y =Math.round(x-disc0)
+            let y =Math.round(x - disc0 + shipCharge)
             
             // $('#tcs_amount').val((z).toFixed(2));
             // $('#grandtotal').val((y).toFixed(2));
@@ -1303,6 +1403,66 @@
                 $('#sgst').val(d.toFixed(2));
             }
         }
+    </script>
+    <script>
+        document.getElementById("shipcharge").addEventListener("input", function() {
+            calc();    
+        // calc_tcs(); // Recalculate the values when shipCharge changes
+        });
+        
+    </script>
+
+    <script>
+        const grandTotalInput = document.getElementById("grandtotal");
+        const paidInput = document.getElementById("paid");
+        const balanceDueInput = document.getElementById("bal_due");
+        const paidCheckbox = document.getElementById("invalidCheck");
+        
+
+        paidCheckbox.addEventListener("change", function () {
+            if (paidCheckbox.checked) {
+                paidInput.value = grandTotalInput.value;
+            } else {
+                paidInput.value = "";
+            }
+            calculateBalance();
+        });
+
+        paidInput.addEventListener("input", calculateBalance);
+
+        function calculateBalance() {
+            const grandTotal = parseFloat(grandTotalInput.value);
+            const paidAmount = parseFloat(paidInput.value);
+
+            if (paidAmount > grandTotal) {
+                alert("Paid amount cannot be greater than Grand Total.");
+                paidInput.value = grandTotal;
+                
+                
+            
+            }
+
+            const balanceDue = grandTotal - paidAmount;
+            balanceDueInput.value = balanceDue.toFixed(2);
+        }
+
+        grandTotalInput.addEventListener("input", function () {
+            if (paidCheckbox.checked) {
+                paidInput.value = grandTotalInput.value;
+                calculateBalance();
+            }
+        });
+
+        paidInput.addEventListener("focus", function () {
+            paidCheckbox.checked = true;
+        });
+
+        paidInput.addEventListener("blur", function () {
+            if (paidInput.value === "") {
+                paidCheckbox.checked = false;
+            }
+            
+        });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
