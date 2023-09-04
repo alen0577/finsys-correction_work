@@ -33719,6 +33719,29 @@ def convertapproved(request,id):
         return redirect(viewpurchaseorder,id)
     return redirect('/')
 
+@login_required(login_url='regcomp')
+def purchaseorder_convert(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        item = itemtable.objects.all()
+        pordr=purchaseorder.objects.get(porderid=id)
+        pitem = purchaseorder_item.objects.filter(porder=id)
+        
+        context={
+            'cmp1': cmp1,
+            'pordr':pordr,
+            'pitem':pitem,
+            'item':item,
+
+        }
+        return render(request,'app1/purchaseorder_converttobill.html',context)
+    return redirect('gopurchaseorder')
+
+
 def convertbilled(request,id):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -33760,6 +33783,8 @@ def convertbilled(request,id):
         upd.bill_no = '1000'
 
         upd.save()
+
+        
         upd.bill_no = int(upd.bill_no) + upd.billid
         upd.save()
 
