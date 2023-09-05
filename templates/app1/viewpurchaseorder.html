@@ -246,20 +246,20 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarScroll">
                             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                              <li class="nav-item active" >
-                                <a class="nav-link text-light btn" role="button" onclick="window.print()"><i class="fa fa-print">Print</i><span class="sr-only">(current)</span></a>
-                              </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-light btn" href="#" id="navbarDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-share-alt">Share</i> 
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item">&nbsp;{% send_email object.title "New:{{object.title}}" object_or_url "Email" %}</a>
-                                        <a class="dropdown-item" href="#">&nbsp;{% post_to_whatsapp object_or_url "Whatsapp" %}</a>
-                                    </div>
+                                <li class="nav-item active" >
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" onclick="window.print()"><i class="fa fa-print"  style="font-size: medium;"> Print</i><span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-share-alt" style="font-size: medium;"> Share</i> 
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item ms-3">{% send_email object.title "New:{{object.title}}" object_or_url " Email" %}</a>
+                                        <a class="dropdown-item ms-3" href="#">{% post_to_whatsapp object_or_url " Whatsapp" %}</a>
+                                    </div>
+                                </li>
+                                <!-- <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle text-light btn" id="navbarDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-exchange">Convert</i>
@@ -272,25 +272,23 @@
                                             </a>
                                         {% endif %}    
                                     </div>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a class="nav-link text-light btn" role="button" href="{% url 'render_pdfpurchase_view' pordr.porderid%}">
-                                        <i class="fa fa-file-pdf-o">Pdf</i>
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" href="{% url 'render_pdfpurchase_view' pordr.porderid%}">
+                                        <i class="fa fa-file-pdf-o" style="font-size: medium;"> Pdf</i>
                                     </a>
                                 </li>
+                                
                                 <li class="nav-item">
-                                    <a class="nav-link"></a>
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm mx-1" role="button" href="goeditpurchaseorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class=" fa fa-pencil" style="font-size: medium;"> Edit</i></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light btn" role="button" href="goeditpurchaseorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class=" fa fa-pencil">Edit</i></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light btn" role="button" href="deletepurchasorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class="fa fa-trash-o delete">Delete</i></a>
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" href="deletepurchasorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class="fa fa-trash-o delete" style="font-size: medium;"> Delete</i></a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-light btn" href="#" id="navbarDropdown" role="button"
+                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-file">File</i>
+                                        <i class="fa fa-file" style="font-size: medium;"> File</i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" data-toggle="modal" data-target="#file"><i class="fa fa-paperclip">&nbsp;Attach File</i></a>

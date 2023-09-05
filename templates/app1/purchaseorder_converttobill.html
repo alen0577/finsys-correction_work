@@ -733,7 +733,7 @@
                     <h4 class="mb-0">Vendor Details</h4>
                 </div>
                 <hr/>
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                <form action="{% url 'converttobill' pordr.porderid %}" method="post" enctype="multipart/form-data" autocomplete="off">
                     {% csrf_token %}
                     
                     {% if user.is_authenticated %}
@@ -743,6 +743,7 @@
                                 <label for="validationCustom01">Select Vendor</label>
                                 <input type="text" value="{{ pordr.vendor_name }}" name="vendor_name" class="form-control">
                             </div>
+                            <input type="text" id="email" name="email" value="{{ pordr.vendor_mail }}" class="form-control" style="display:none;">
                         </div>
                         <div class="row">
                             <div class="col-md-4 mt-3">
@@ -1128,6 +1129,13 @@
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='balance_due' id="due" placeholder="0" step="any" 
                                             class="form-control" value="{{ pordr.balance_due }}" readonly>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid  p-2 m-0" style="display: none;">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Amount Received</label></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='amtrecvd' id="" value="0" step="any" 
+                                            class="form-control" readonly>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>

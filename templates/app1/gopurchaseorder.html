@@ -47,7 +47,7 @@
                                 <a class="dropdown-item" href="{% url 'gopurchaseorder' %}">All</a>
                                 <a class="dropdown-item" href="{% url 'porder_draft' %}">Draft</a>
                                 <a class="dropdown-item" href="{% url 'porder_billed' %}">Billed</a>
-                                <a class="dropdown-item" href="{% url 'porder_approved' %}">Approved</a>
+                               
                             </div>
                             <a href="{% url 'addpurchaseorder' %}" class="btn btn-outline-info fa fa-plus text-white" role="button">&nbsp;New</a>
                         </div>
@@ -71,9 +71,9 @@
                             <tbody>
                             {% for p in pordr %}
                             <tr onclick="window.location='viewpurchaseorder/{{ p.porderid }}';">
-                                <th>{{ p.date| date:'d-m-Y' }}</th>
+                                <td>{{ p.date| date:'d-m-Y' }}</td>
                                 <td>PO - {{ p.puchaseorder_no }}</a></td>
-                                <td>{{ p.vendor_name }}</td>
+                                <th style="font-family: monospace;">{{ p.vendor_name }}</th>
                                 <td>{{ p.vendor_mail }}</td>
                                 <td>{{ p.deliver_date| date:'d-m-Y' }}</td>
                                 <td>{{ p.grand_total }}</td>
@@ -82,8 +82,18 @@
                                 {% else %}
                                 <td>0.0</td>
                                 {% endif %}
-                                <td class="text-warning">{{ p.status }}</td>
+
+                                {% if p.status == 'Billed' %}
+                                <td class="text-success" style="font-family: monospace;">{{ p.status }}</td>
+                                {% else %}
+                                <td class="text-warning" style="font-family: monospace;">{{ p.status }}</td>
+                                {% endif %}
+                                
+                                {% if p.status == 'Draft' %}
                                 <td><a href="{% url 'purchaseorder_convert' p.porderid %}"><button class="btn btn-outline-info btn-sm text-white">Convert to Purchase</button></a></td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
 
                             </tr>
                             {% endfor %}
