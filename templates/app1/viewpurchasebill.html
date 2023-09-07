@@ -416,18 +416,24 @@
                                 <div class="col-4">
                                     <table>
                                         <tbody>
-                                            {% if pordr.note %}
+                                           
+                                            <tr >
+                                                <td style="color: #000;">Payment Type</td>
+                                                <td style="color: #000;">:</td>
+                                                <th class="text-center" style="color: #000;text-align: center;">{{pbill.payment_type}}</th>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            {% if pbill.note %}
                                             <tr >
                                                 <td style="color: #000;">Note</td>
                                                 <td style="color: #000;">:</td>
                                                 <th class="text-center" style="color: #000;">{{pbill.note}}</th>
                                             </tr>
                                             {% endif %}
-                                            <tr >
-                                                <td style="color: #000;">Payment Type</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;text-align: center;">{{pbill.payment_type}}</th>
-                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -447,14 +453,14 @@
                                                 <td style="color: #000;">:</td>
                                                 <td class="text-center" style="color: #000;">{{pbill.ship_charge}}</td>
                                             </tr>
-                                            {% if pordr.igst != "0" %}
+                                            {% if pbill.igst != "0" %}
                                             <tr >
                                                 <td style="color: #000;">IGST</td>
                                                 <td style="color: #000;">:</td>
                                                 <td class="text-center" style="color: #000;">{{pbill.igst}}</td>
                                             </tr>
                                             {% endif %}
-                                            {% if pordr.cgst != "0" %}
+                                            {% if pbill.cgst != "0" %}
                                             <tr>
                                                 <td style="color: #000;">CGST</td>
                                                 <td style="color: #000;">:</td>
@@ -462,14 +468,14 @@
                                                 
                                             </tr>
                                             {% endif %}
-                                            {% if pordr.sgst != "0" %}
+                                            {% if pbill.sgst != "0" %}
                                             <tr>
                                                 <td style="color: #000;">SGST</td>
                                                 <td style="color: #000;">:</td>
                                                 <td class="text-center" style="color: #000;">{{pbill.sgst}}</td>
                                             </tr>
                                             {% endif %}
-                                            {% if pordr.tcs != "0.00" %}
+                                            {% if pbill.tcs != "0.00" %}
                                             <tr style="display: none;">
                                                 <td style="color:black">TCS:</td>
                                                 <td style="color:black">{{pbill.tcs}}</td>

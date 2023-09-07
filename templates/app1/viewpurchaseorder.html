@@ -422,6 +422,18 @@
                                 <div class="col-4">
                                     <table>
                                         <tbody>
+                                            
+                                            <tr >
+                                                <td style="color: #000;">Payment Type</td>
+                                                <td style="color: #000;">:</td>
+                                                <th class="text-center" style="color: #000;text-align: center;">{{pordr.payment_type}}</th>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                
+                                            </tr>
                                             {% if pordr.note %}
                                             <tr >
                                                 <td style="color: #000;">Note</td>
@@ -429,11 +441,6 @@
                                                 <th class="text-center" style="color: #000;">{{pordr.note}}</th>
                                             </tr>
                                             {% endif %}
-                                            <tr >
-                                                <td style="color: #000;">Payment Type</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;text-align: center;">{{pordr.payment_type}}</th>
-                                            </tr>
 
                                         </tbody>
                                     </table>

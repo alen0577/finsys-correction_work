@@ -68,9 +68,9 @@
                             <tbody>
                             {% for p in pbill %}
                                 <tr onclick="window.location='viewbill/{{ p.billid }}';">
-                                    <th>{{ p.date | date:'d-m-Y' }}</th>
+                                    <td>{{ p.date | date:'d-m-Y' }}</td>
                                     <td>{{ p.bill_no }}</a></td>
-                                    <td>{{ p.vendor_name }}</td>
+                                    <th>{{ p.vendor_name }}</th>
                                     <td>{{ p.vendor_mail }}</td>
                                     <td>{{ p.deliver_date| date:'d-m-Y' }}</td>
                                     <td>{{ p.grand_total }}</td>
@@ -103,7 +103,7 @@
             });
         </script> -->
 
-        <script>
+        <!-- <script>
             document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("search");
             const dataTable = document.getElementById("table");
@@ -122,7 +122,8 @@
                 }
             });
             });
-        </script>
+        </script> -->
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
         <script>
@@ -136,21 +137,42 @@
 
         </script>
 
-<!-- <script>
-    function generatePDF() {
-        var doc = new jsPDF();
-        doc.fromHTML(document.getElementById("test"), // page element which you want to print as PDF
-        15,
-        15, 
-        {
-            'width': 170
-        },
-        function(a) 
-        {
-            doc.save("HTML2PDF.pdf");
-        });
-        }
-</script> -->
+        <!-- <script>
+            function generatePDF() {
+                var doc = new jsPDF();
+                doc.fromHTML(document.getElementById("test"), // page element which you want to print as PDF
+                15,
+                15, 
+                {
+                    'width': 170
+                },
+                function(a) 
+                {
+                    doc.save("HTML2PDF.pdf");
+                });
+                }
+        </script> -->
+
+        <script>
+            // Add an event listener to the search input
+            document.getElementById("search").addEventListener("input", function() {
+                var searchText = this.value.toLowerCase(); // Get the entered search text
+            
+                // Get the table rows
+                var rows = document.querySelectorAll("#table tbody tr");
+            
+                // Loop through each row and check the vendor name column for a match
+                rows.forEach(function(row) {
+                    var vendorName = row.querySelector("th").textContent.toLowerCase(); // Change to lowercase for case-insensitive search
+                    if (vendorName.includes(searchText)) {
+                        row.style.display = ""; // Display the row if it matches the search text
+                    } else {
+                        row.style.display = "none"; // Hide the row if it doesn't match
+                    }
+                });
+            });
+        </script>
+
 
 
     {% endif %}

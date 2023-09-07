@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Destination of Supply</label>
-                                <select name="destiofsupply" id="" class="form-control" required>
+                                <select name="destiofsupply" id="" class="form-control" onchange="updateTaxValues()" required>
                                     <option hidden value=""></option>
                                     <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                                     <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
@@ -1986,6 +1986,36 @@
                                                     
                     `
                 );
+                
+                // var $select1 = $('#plosu'),
+                // $select2 = $('#tax1'),
+                // $select3 = $('#tax2'),
+                // $select4 = $('#tax3'),
+                // $select5 = $('#tax4'),
+                // $options = $select2.find('option'),
+                // $options1 = $select3.find('option'),
+                // $options2 = $select4.find('option'),
+                // $options3 = $select5.find('option');
+                // if ($options1.value == '{{ cmp1.state }}') {
+                //     $options1.text = "{{ cmp1.state }}"
+                // }
+                // $(`#product${roinc}`).on('change', function() {
+                //     if (this.value == "{{ cmp1.state }}") {
+                        
+                //         $select2.html($options.filter('[text="' + this.value + '"]'));
+                //         $select3.html($options1.filter('[text="' + this.value + '"]'));
+                //         $select4.html($options2.filter('[text="' + this.value + '"]'));
+                //         $select5.html($options3.filter('[text="' + this.value + '"]'));
+                //     } 
+                //     else {
+                        
+                //         $select2.html($options.filter('[text="' + " " + '"]'));
+                //         $select3.html($options1.filter('[text="' + " " + '"]'));
+                //         $select4.html($options2.filter('[text="' + " " + '"]'));
+                //         $select5.html($options3.filter('[text="' + " " + '"]'));
+                //     }
+                // }).trigger('change');
+
             });
 
             $(document).on('click','.remove_row',function(){

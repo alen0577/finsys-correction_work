@@ -73,7 +73,7 @@
                             <tr onclick="window.location='viewpurchaseorder/{{ p.porderid }}';">
                                 <td>{{ p.date| date:'d-m-Y' }}</td>
                                 <td>PO - {{ p.puchaseorder_no }}</a></td>
-                                <th style="font-family: monospace;">{{ p.vendor_name }}</th>
+                                <th>{{ p.vendor_name }}</th>
                                 <td>{{ p.vendor_mail }}</td>
                                 <td>{{ p.deliver_date| date:'d-m-Y' }}</td>
                                 <td>{{ p.grand_total }}</td>
@@ -84,9 +84,9 @@
                                 {% endif %}
 
                                 {% if p.status == 'Billed' %}
-                                <td class="text-success" style="font-family: monospace;">{{ p.status }}</td>
+                                <td class="text-white" style="font-family: monospace;font-weight: bold;">{{ p.status }}</td>
                                 {% else %}
-                                <td class="text-warning" style="font-family: monospace;">{{ p.status }}</td>
+                                <td class="text-white" style="font-family: monospace;font-weight: bold;">{{ p.status }}</td>
                                 {% endif %}
                                 
                                 {% if p.status == 'Draft' %}
@@ -104,40 +104,6 @@
             </div>
         </div>
 
-        <!-- <a href="javascript:generatePDF()">Dowload PDF</a> -->
-
-        <!-- <script>
-            var $rows = $('#table tr');
-            $('#search').keyup(function() {
-                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-                
-                $rows.show().filter(function() {
-                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-                    return !~text.indexOf(val);
-                }).hide();
-            });
-        </script> -->
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("search");
-            const dataTable = document.getElementById("table");
-            
-            searchInput.addEventListener("input", function() {
-                const searchText = searchInput.value.toLowerCase();
-                const rows = dataTable.getElementsByTagName("tr");
-            
-                for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip table header row
-                const rowData = rows[i].getElementsByTagName("td")[0].textContent.toLowerCase();
-                if (rowData.includes(searchText)) {
-                    rows[i].style.display = ""; // Show the row
-                } else {
-                    rows[i].style.display = "none"; // Hide the row
-                }
-                }
-            });
-            });
-        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
         <script>
@@ -151,21 +117,48 @@
 
         </script>
 
-<!-- <script>
-    function generatePDF() {
-        var doc = new jsPDF();
-        doc.fromHTML(document.getElementById("test"), // page element which you want to print as PDF
-        15,
-        15, 
-        {
-            'width': 170
-        },
-        function(a) 
-        {
-            doc.save("HTML2PDF.pdf");
-        });
-        }
-</script> -->
+        <!-- <script>
+            function generatePDF() {
+                var doc = new jsPDF();
+                doc.fromHTML(document.getElementById("test"), // page element which you want to print as PDF
+                15,
+                15, 
+                {
+                    'width': 170
+                },
+                function(a) 
+                {
+                    doc.save("HTML2PDF.pdf");
+                });
+                }
+        </script> -->
+
+        <script>
+            // Add an event listener to the search input
+            document.getElementById("search").addEventListener("input", function() {
+                var searchText = this.value.toLowerCase(); // Get the entered search text
+            
+                // Get the table rows
+                var rows = document.querySelectorAll("#table tbody tr");
+            
+                // Loop through each row and check the vendor name column for a match
+                rows.forEach(function(row) {
+                    var vendorName = row.querySelector("th").textContent.toLowerCase(); // Change to lowercase for case-insensitive search
+                    if (vendorName.includes(searchText)) {
+                        row.style.display = ""; // Display the row if it matches the search text
+                    } else {
+                        row.style.display = "none"; // Hide the row if it doesn't match
+                    }
+                });
+            });
+        </script>
+   
+    
+    
+    
+    
+    
+    
 
     {% endif %}
 {% endblock %}
