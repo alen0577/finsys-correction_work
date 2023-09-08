@@ -420,13 +420,13 @@
                         <section class="balance-info">
                             <div class="row mt-5">
                                 <div class="col-4">
-                                    <table>
+                                    <table class="table table-borderless">
                                         <tbody>
                                             
                                             <tr >
-                                                <td style="color: #000;">Payment Type</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;text-align: center;">{{pordr.payment_type}}</th>
+                                                <td style="color: #000;text-align: left;">Payment Type</td>
+                                                <td style="color: #000;text-align: left;">:</td>
+                                                <th style="color: #000;text-align: center;">{{pordr.payment_type}}</th>
                                             </tr>
                                             <tr>
                                                 <td></td>
@@ -436,9 +436,9 @@
                                             </tr>
                                             {% if pordr.note %}
                                             <tr >
-                                                <td style="color: #000;">Note</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;">{{pordr.note}}</th>
+                                                <td style="color: #000;text-align: left;">Note</td>
+                                                <td style="color: #000;text-align: left;">:</td>
+                                                <th style="color: #000;text-align: center;">{{pordr.note}}</th>
                                             </tr>
                                             {% endif %}
 

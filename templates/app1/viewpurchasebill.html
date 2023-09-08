@@ -202,9 +202,9 @@
             display: inline-block;
             color: #000000;
         }
-        table.table-bordered{
+        /* table.table-bordered{
             color: 1px solid #000;
-        }
+        } */
         #sign{
             border: none;
             border-bottom: 2px solid #000;
@@ -414,30 +414,30 @@
                         <section class="balance-info">
                             <div class="row mt-5">
                                 <div class="col-4">
-                                    <table>
+                                    <table class="table table-borderless">
                                         <tbody>
-                                           
+                                            
                                             <tr >
-                                                <td style="color: #000;">Payment Type</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;text-align: center;">{{pbill.payment_type}}</th>
+                                                <td style="color: #000;text-align: left;">Payment Type</td>
+                                                <td style="color: #000;text-align: left;">:</td>
+                                                <th style="color: #000;text-align: center;">{{pbill.payment_type}}</th>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                                
                                             </tr>
                                             {% if pbill.note %}
                                             <tr >
-                                                <td style="color: #000;">Note</td>
-                                                <td style="color: #000;">:</td>
-                                                <th class="text-center" style="color: #000;">{{pbill.note}}</th>
+                                                <td style="color: #000;text-align: left;">Note</td>
+                                                <td style="color: #000;text-align: left;">:</td>
+                                                <th style="color: #000;text-align: center;">{{pbill.note}}</th>
                                             </tr>
                                             {% endif %}
 
                                         </tbody>
                                     </table>
-                                    
                                 </div>
                                 <div class="col-4"></div>
                                 <div class="col-4">
@@ -494,7 +494,7 @@
                                                 <th class="text-center" style="color: #000;">{{pbill.grand_total}}</th>
                                             </tr>
                                             <tr >
-                                                <td style="color: #000;">Advance Amount</td>
+                                                <td style="color: #000;">Paid Amount</td>
                                                 <td style="color: #000;">:</td>
                                                 <th class=" text-center" style="color: #000;">{{pbill.paid_amount}}</th>
                                             </tr>
@@ -507,6 +507,7 @@
                                         </tbody>
 
                                     </table>
+
                                     
                                     
                                     
