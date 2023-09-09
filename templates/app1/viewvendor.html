@@ -141,7 +141,7 @@
                                 <a class="nav-link btn " role="button" onclick="transaction()" style="color: white;"><i class="fa fa-stack-exchange" style="font-size: large;">&nbsp;Transactions</i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn " role="button" onclick="Statment()" style="color: white;"><i class="fa fa-tasks" style="font-size: large;">&nbsp;Statment</i></a>
+                                <a class="nav-link btn " role="button" onclick="Statment()" style="color: white;"><i class="fa fa-tasks" style="font-size: large;">&nbsp;Statement</i></a>
                             </li>
                         </ul>
                         <ul class="navbar-nav navbar-right">
@@ -648,8 +648,95 @@
             </div>
 
             <div id="transation" style="display: none;" >
-                <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispinv()">Bill</a>
+
+                <div class="row">
+
+                    <div class="h5 mt-5 mb-5" style="margin-left: 45px;font-family: Arial, Helvetica, sans-serif;">Transactions</div>
+
+                </div>
+
+                <div class="row mt-2 mb-5">
+
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-10">
+
+                        <div class="table-responsive">
+
+                            <table class="table tabledata  table-bordered table-hover">
+                                <thead>
+
+                                    <tr>
+                                        
+                                        <th class="type-column">
+                                            <div class="row">
+                                                <div class="col-md-4">Type</div>
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-4 mb-4">
+                                                    <select id="typeFilter" class="type-filter text-white form-control-sm" style="background-color:  #243e54;">
+                                                        <option value="all">All</option>
+                                                        <option value="Bill">Bill</option>
+                                                        <option value="Purchase order">Purchase order</option>
+                                                        <option value="Expense">Expense</option>
+                                                        <option value="Payment">Payment</option>
+                                                        <option value="Debit note">Debit note</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                           
+                                        </th>
+                                        <th>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-outline-info">Number</button>
+                                                        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                          <span class="visually-hidden">All</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                          <li><a class="dropdown-item" href="#">Action</a></li>
+                                                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                          <li><hr class="dropdown-divider"></li>
+                                                          <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                                        </ul>
+                                                      </div>
+                                                </div>
+                                                
+                                                    
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Balance</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    {% for data in combined_data %}
+                                    <tr>
+                                        <td style="font-family: monospace;"><strong>{{data.Type}}</strong></td>
+                                        <td>{{data.Number}}</td>
+                                        <td>{{data.Date|date:'d-m-Y'}}</td>
+                                        <td>{{data.Total}}</td>
+                                        <td>{{data.Balance}}</td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-1"></div>
+
+                </div>
+
+                <!-- <div style=" margin-top: 20px;">
+                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispinv()">Bille</a>
                     <a href="{% url 'addbilling' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
                 </div> 
                 <div id="invtable" style="display:none;">
@@ -679,8 +766,8 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div><br>
-                <div style=" margin-top: 20px;">
+                </div><br> -->
+                <!-- <div style=" margin-top: 20px;">
                     <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispay()" >Payment</a>
                     <a href="{% url 'addpurchasepymnt' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>    
                 </div> 
@@ -707,7 +794,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                </div><br>
+                </div><br> -->
                 <!-- <div style=" margin-top: 20px;">
                     <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="disest()" >Expenses</a>
                     <a href="{% url 'addexpenses' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a> 
@@ -736,7 +823,7 @@
                         </tbody>
                     </table>
                 </div><br> -->
-                <div style=" margin-top: 20px;">
+                <!-- <div style=" margin-top: 20px;">
                     <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dissale()" >Purchase Order</a>
                     <a href="{% url 'addpurchaseorder' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
                 </div> 
@@ -750,7 +837,7 @@
                                 <th style="text-align: center;">CUSTOMER NAME</th>
                                 <th style="text-align: center;">STATUS</th>
                                 <th style="text-align: center;">AMOUNT</th>
-                                <!-- <th style="text-align: center;">ACTION</th> -->
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -766,8 +853,8 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div><br>
-                <div style=" margin-top: 20px;">
+                </div><br> -->
+                <!-- <div style=" margin-top: 20px;">
                     <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispdeb()">Debit Note</a>
                     <a href="{% url 'addpurchasedebit' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
                 </div> 
@@ -794,7 +881,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div><br>
+                </div><br> -->
             </div>
         </div>
     </div>
@@ -963,6 +1050,40 @@
         }
     
     </script> 
+    <style>
+        .tabledata th.type-column {
+            position: relative;
+            text-align: left;
+        }
+    
+        .type-filter {
+            position: absolute;
+            top: 10;
+            right: 0;
+            bottom: 10;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeFilter = document.getElementById('typeFilter');
+            const tableRows = document.querySelectorAll('.tabledata tbody tr');
+    
+            typeFilter.addEventListener('change', function () {
+                const selectedType = typeFilter.value.toLowerCase();
+    
+                tableRows.forEach(function (row) {
+                    const typeCell = row.querySelector('td:first-child');
+                    const rowType = typeCell.textContent.toLowerCase();
+    
+                    if (selectedType === 'all' || rowType === selectedType) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
     
     
     

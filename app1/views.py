@@ -32537,14 +32537,106 @@ def viewvendor(request, id):
             if i.grand_total:
                 billed += i.grand_total  
 
-        pbl = purchasebill.objects.filter(vendor_name=su,).all() 
-        paymnt = purchasepayment.objects.filter(vendor=su,).all()  
-        pdeb = purchasedebit.objects.filter(vendor=su,).all()  
-        expnc = purchase_expense.objects.filter(vendor=su,).all()   
-        pordr =purchaseorder.objects.filter(vendor_name=su,).all() 
+        pbl = purchasebill.objects.filter(vendor_name=su,cid_id=cmp1).all() 
+        paymnt = purchasepayment.objects.filter(vendor=su,cid_id=cmp1).all()  
+        pdeb = purchasedebit.objects.filter(vendor=su,cid_id=cmp1).all()  
+        expnc = purchase_expense.objects.filter(vendor=su,cid_id=cmp1).all()   
+        pordr =purchaseorder.objects.filter(vendor_name=su,status='Draft',cid_id=cmp1).all() 
+        print(pbl,paymnt,pdeb,expnc,pordr)
+
+        combined_data=[]
+
+        for item in pbl:
+            Type='Bill'
+            Number=item.bill_no
+            Date=item.date
+            Total=item.grand_total
+            Balance=item.balance_amount
+
+            combined_data.append({
+                'Type':Type,
+                'Number':Number,
+                'Date':Date,
+                'Total':Total,
+                'Balance':Balance
+
+            })
+
+        for item in pordr:
+            Type='Purchase Order'
+            Number=item.puchaseorder_no
+            Date=item.date
+            Total=item.grand_total
+            Balance=item.balance_amount
+
+            combined_data.append({
+                'Type':Type,
+                'Number':Number,
+                'Date':Date,
+                'Total':Total,
+                'Balance':Balance
+
+            })    
+
+        for item in paymnt:
+            Type='Payment'
+            Number=item.pymntid
+            Date=item.paymentdate
+            Total = int(item.paymentamount) if item.paymentamount else 0
+            paid = int(item.amtreceived) if item.amtreceived else 0
+
+            # Calculate the balance
+            Balance = Total - paid
+
+            combined_data.append({
+                'Type':Type,
+                'Number':Number,
+                'Date':Date,
+                'Total':Total,
+                'Balance':Balance
+
+            }) 
+
+        for item in pdeb:
+            Type='Debit Note'
+            Number=item.debit_no
+            Date=item.debitdate
+            Total=item.grandtotal
+            Balance='None'
+
+            combined_data.append({
+                'Type':Type,
+                'Number':Number,
+                'Date':Date,
+                'Total':Total,
+                'Balance':Balance
+
+            })    
+
+          
+        for item in expnc:
+            Type='Expense'
+            Number=item.expense_no
+            Date=item.date 
+            Total=item.amount
+            Balance='None'
+
+            combined_data.append({
+                'Type':Type,
+                'Number':Number,
+                'Date':Date,
+                'Total':Total,
+                'Balance':Balance
+
+            })                 
+
+        print(combined_data)    
+        
+
+
         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,
                     'pymnt':pymnt,'pbl':pbl,'paymnt':paymnt,'pordr':pordr,'expnc':expnc,'pdeb':pdeb,
-                    'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2
+                    'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2,'combined_data':combined_data,
 
                 }
         return render(request,'app1/viewvendor.html',context)
@@ -33821,7 +33913,7 @@ def converttobill(request,id):
             statment2.details = billed.bill_no
             statment2.details2 = reference
             statment2.date = billed.date
-            statment2.balance = billed.balance_due
+            statment2.balance = billed.balance_amount
             statment2.payments = billed.grand_total
             statment2.save()
 
@@ -34376,7 +34468,7 @@ def createbill(request):
             statment2.details = billed.bill_no
             statment2.details2 = reference
             statment2.date = billed.date
-            statment2.balance = billed.balance_due
+            statment2.balance = billed.balance_amount
             statment2.payments = billed.grand_total
             statment2.save()
 
@@ -34751,7 +34843,7 @@ def editpurchasebill(request,id):
             statment2.details = pbill.bill_no
             statment2.details2 = pbill.reference
             statment2.date = pbill.date
-            statment2.balance = pbill.balance_due
+            statment2.balance = pbill.balance_amount
             statment2.payments = pbill.grand_total
             statment2.save()
 
