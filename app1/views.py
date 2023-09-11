@@ -32514,9 +32514,37 @@ def viewvendor(request, id):
         toda = date.today()
         tod = toda.strftime("%Y-%m-%d")
 
+
         pbill = purchasebill.objects.filter(vendor_name=su,status='Approved',date=tod)
-        
         pymnt = purchasepayment.objects.filter(vendor=su, paymentdate=tod)
+
+        reportperiod = request.POST['reportperiod']
+        if reportperiod == 'Today':
+            frd1 = tod
+            tod1 = tod
+            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date=tod1)
+        elif reportperiod == 'Custom':
+            frd1 = request.POST['fper']
+            tod1 = request.POST['tper'] 
+            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date__gte=frd1, date__lte=tod1) 
+
+        elif reportperiod == 'This month':
+            input_dt = date.today()
+            day_num = input_dt.strftime("%d")
+            res = input_dt - timedelta(days=int(day_num) - 1)
+            frd1 = str(res)
+
+            any_day=date.today()
+            next_month = any_day.replace(day=28) + datetime.timedelta(days=4)
+            d = next_month - datetime.timedelta(days=next_month.day)
+
+            tod1 = str(d) 
+            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date__gte=frd1, date__lte=tod1)     
+
+
+        fromdates=request.user.date_joined.date()
+        frd1=fromdates.strftime("%Y-%m-%d")
+        tod1 = toda.strftime("%Y-%m-%d")
 
         statment = vendor_statment.objects.filter(vendor=su,cid=cmp1)
         # statment = vendor_statment.objects.filter(vendor=su,date=tod)
@@ -32548,7 +32576,7 @@ def viewvendor(request, id):
 
         for item in pbl:
             Type='Bill'
-            Number=item.bill_no
+            Number=int(item.bill_no)
             Date=item.date
             Total=item.grand_total
             Balance=item.balance_amount
@@ -32564,7 +32592,7 @@ def viewvendor(request, id):
 
         for item in pordr:
             Type='Purchase Order'
-            Number=item.puchaseorder_no
+            Number=int(item.puchaseorder_no)
             Date=item.date
             Total=item.grand_total
             Balance=item.balance_amount
@@ -32580,7 +32608,7 @@ def viewvendor(request, id):
 
         for item in paymnt:
             Type='Payment'
-            Number=item.pymntid
+            Number=int(item.pymntid)
             Date=item.paymentdate
             Total = int(item.paymentamount) if item.paymentamount else 0
             paid = int(item.amtreceived) if item.amtreceived else 0
@@ -32599,7 +32627,7 @@ def viewvendor(request, id):
 
         for item in pdeb:
             Type='Debit Note'
-            Number=item.debit_no
+            Number=int(item.debit_no)
             Date=item.debitdate
             Total=item.grandtotal
             Balance='None'
@@ -32616,7 +32644,7 @@ def viewvendor(request, id):
           
         for item in expnc:
             Type='Expense'
-            Number=item.expense_no
+            Number=int(item.expense_no)
             Date=item.date 
             Total=item.amount
             Balance='None'
@@ -32637,6 +32665,7 @@ def viewvendor(request, id):
         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,
                     'pymnt':pymnt,'pbl':pbl,'paymnt':paymnt,'pordr':pordr,'expnc':expnc,'pdeb':pdeb,
                     'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2,'combined_data':combined_data,
+                    'frd1':frd1,'tod1':tod1,
 
                 }
         return render(request,'app1/viewvendor.html',context)

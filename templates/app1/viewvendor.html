@@ -53,7 +53,7 @@
         .widget-header{
             background-color:#444;
             color:white;
-            font-size:14px;
+            font-size:20px;
         }
         .widget-header:after,
         .widget-header:before {
@@ -488,16 +488,16 @@
                                                     <div class="row">
                                                         <div class="col-sm-12 col-sm-offset-1" style="padding:20px;">
                                                             <div class="widget-box">
-                                                                <div class="widget-header widget-header-large" >
-                                                                    <h6 class="widget-title ">
-                                                                        Statement of Accounts<br>
-                                                                        <input  id="df" value="{{tod}}" style="border: none; background-color:#444; width: 13%;"  >to
-                                                                        <input type="text" id="dl" value="{{tod}}" style="border: none; background-color: none; background-color:#444;">
-                                                                    </h6>  
+                                                                <div class="widget-header widget-header-large bg-dark" >
+                                                                    <h5 class="widget-title mb-4">
+                                                                       <strong><span class="h5 mt-3">Statement of Accounts</span></strong><br>
+                                                                        <input class="bg-dark" id="df" value="{{frd1}}" style="border: none; width: 13%;color: #F7F7F7;"  >to
+                                                                        <input class="bg-dark" type="text" id="dl" value="{{tod1}}" style="border: none; background-color: none;color: #F7F7F7;">
+                                                                    </h5>  
                                                                 </div>
                                                 
                                                                 <div class="widget-body">
-                                                                    <div class="widget-main padding-24">
+                                                                    <div class="widget-main padding-20">
                                                                         <div class="row"  style="padding:20px;" >
                                                                             <div class="col-sm-12">
                                                                                 <div class="col-6">
@@ -506,7 +506,8 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-6">
-                                                                                    <p style="font-size:10px;color:black;"> {{cmp1.city}} <br>
+                                                                                    <p style="font-size:12px;color:black;"><strong>{{ cmp1.cname }}</strong> <br>
+                                                                                        {{cmp1.city}} <br>
                                                                                         {{cmp1.pincode}}<br>
                                                                                         {{cmp1.state}},India <br>
                                                                                         {{cmp1.cemail}}<br>
@@ -518,7 +519,7 @@
                                                                         </div>
                                                                         <div class="row col-12">
                                                                             <div class="col-6">
-                                                                                <p style="font-size:10px;color:black;">To,<br>{{vndr.firstname}} {{vndr.lastname}}<br>
+                                                                                <p style="font-size:12px;color:black;">To,<br>{{vndr.firstname}} {{vndr.lastname}}<br>
                                                                                     {{vndr.street}},{{vndr.city}}<br>
                                                                                     {{vndr.state}},{{vndr.country}}<br>
                                                                                     {{vndr.pincode }}<br>
@@ -527,7 +528,7 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="col-6" >
-                                                                                <table style="font-size:10px;color:black;">
+                                                                                <table style="font-size:12px;color:black;">
                                                                                     <tr>
                                                                                         <td>Account Summary</td>
                                                                                     </tr>
@@ -552,9 +553,9 @@
                                                                                 </table>
                                                                             </div>
                                                                         </div>
-                                                                    </div><br>
-                                                                    <div class="col-md-12">
-                                                                        <table border="0" id="logic" class=" table-striped" width="100%" style="font-size:10px;color:black;">
+                                                                    </div>
+                                                                    <div class="col-md-12 mb-5">
+                                                                        <table id="logic" class="table table-bordered table-hover table-dark" width="100%" style="font-size:10px;color:black;">
                                                                             <thead class="thead-dark">
                                                                                 <tr>
                                                                                 <th>Date</th>
@@ -615,7 +616,7 @@
                                                                             </tbody>
                                                                             <tbody></tbody>
                                                                         </table>
-                                                                    </div>
+                                                                    </div><br>
                                                                     <div class="col-md-12 tab_logic">
                                                                         <!-- <table border="0" id="tab_logic" class=" table-striped" width="100%" style="font-size:10px;color:black;">
                                                                             <thead class="thead-dark">
@@ -648,86 +649,156 @@
             </div>
 
             <div id="transation" style="display: none;" >
-
-                <div class="row">
-
-                    <div class="h5 mt-5 mb-5" style="margin-left: 45px;font-family: Arial, Helvetica, sans-serif;">Transactions</div>
-
+                <div class="row mt-3 mb-3">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="row mt-5">
+                            <h5 style="margin-left: 15px;"><strong>{{ vndr.firstname }} {{ vndr.lastname }}</strong></h5>
+                        </div>
+                        <div class="row mt-4 mb-3">
+                            <div class="col-md-4">
+                                <p style="font-family: monospace;font-size: large;">Mobile : <strong>{{vndr.mobile}}</strong></p>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <p style="font-family: monospace;font-size: large;">Address : <strong>{{vndr.city}}</strong></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col-md-4">
+                                <p style="font-family: monospace;font-size: large;">Email : <strong>{{vndr.email}}</strong></p>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <p style="font-family: monospace;font-size: large;">GSTIN : <strong>{{vndr.gstin}}</strong></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col-md-4">
+                                <p style="font-family: monospace;font-size: large;">No Credit Limit Set</p>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-4">
+                            <h5 style="margin-left: 15px;"><strong>Transactions</strong></h5>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    
                 </div>
+                
+                
 
-                <div class="row mt-2 mb-5">
+                <div class="row mt-4 mb-5">
 
                     <div class="col-md-1"></div>
 
                     <div class="col-md-10">
 
-                        <div class="table-responsive">
+                        
+                        <table id="dataTable" class="table tabledata  table-bordered table-hover" style="border-width: 2px;">
+                            <thead>
 
-                            <table class="table tabledata  table-bordered table-hover">
-                                <thead>
-
-                                    <tr>
+                                <tr>
+                                    
+                                    <th class="type-column">
+                                        <div class="row">
+                                            
+                                            <div class="col-md-12">
+                                                <div class="btn-group  dropup">
+                                                    <button type="button" class="btn btn-outline-info  text-white" >Type</button>
+                                                    <button type="button" class="btn btn-outline-info  text-white  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span class="visually-hidden"></span>
+                                                    </button>
+                                                    <ul id="filterDropdown" class="dropdown-menu">
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="all">All</a></li>
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Bill">Bill</a></li>
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Purchase Order">Purchase Order</a></li>
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Expense">Expense</a></li>
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Payment">Payment</a></li>
+                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Debit Note">Debit Note</a></li>
+                                                        
+                                                    </ul>
+                                                    </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
                                         
-                                        <th class="type-column">
-                                            <div class="row">
-                                                <div class="col-md-4">Type</div>
-                                                <div class="col-md-4"></div>
-                                                <div class="col-md-4 mb-4">
-                                                    <select id="typeFilter" class="type-filter text-white form-control-sm" style="background-color:  #243e54;">
-                                                        <option value="all">All</option>
-                                                        <option value="Bill">Bill</option>
-                                                        <option value="Purchase order">Purchase order</option>
-                                                        <option value="Expense">Expense</option>
-                                                        <option value="Payment">Payment</option>
-                                                        <option value="Debit note">Debit note</option>
-                                                    </select>
+                                    </th>
+                                    <th class="filterable-column">
+                                        <div class="btn-group dropup">
+                                            <button type="button" class="btn btn-outline-info text-white">Number</button>
+                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="numberFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="numberFilterDropdown">
+                                                <div class="input-group mt-2 mb-2">
+                                                    <input type="text" class="form-control" id="numberFilterInput" placeholder="Enter number">
                                                 </div>
                                             </div>
-                                           
-                                        </th>
-                                        <th>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-outline-info">Number</button>
-                                                        <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                          <span class="visually-hidden">All</span>
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                          <li><a class="dropdown-item" href="#">Action</a></li>
-                                                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                          <li><hr class="dropdown-divider"></li>
-                                                          <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                                        </ul>
-                                                      </div>
-                                                </div>
-                                                
-                                                    
+                                        </div>
+                                    </th>
+
+                                    <th class="filterable-column">
+                                        <div class="btn-group dropup">
+                                            <button type="button" class="btn btn-outline-info text-white">Date</button>
+                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="dateFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dateFilterDropdown">
+                                                <div class="input-group mt-2 mb-2">
+                                                    <input type="date" class="form-control" id="dateFilterInput" placeholder="Enter date">
                                                 </div>
                                             </div>
-                                        </th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Balance</th>
-                                    </tr>
+                                        </div>
+                                    </th>
+                                    
+                                    <th class="filterable-column">
+                                        <div class="btn-group dropup">
+                                            <button type="button" class="btn btn-outline-info text-white">Total</button>
+                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="totalFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="totalFilterDropdown">
+                                                <div class="input-group  mt-2 mb-2">
+                                                    <input type="text" class="form-control" id="totalFilterInput" placeholder="Enter total">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
 
-                                </thead>
-                                <tbody>
-                                    {% for data in combined_data %}
-                                    <tr>
-                                        <td style="font-family: monospace;"><strong>{{data.Type}}</strong></td>
-                                        <td>{{data.Number}}</td>
-                                        <td>{{data.Date|date:'d-m-Y'}}</td>
-                                        <td>{{data.Total}}</td>
-                                        <td>{{data.Balance}}</td>
+                                    <th class="filterable-column">
+                                        <div class="btn-group dropup">
+                                            <button type="button" class="btn btn-outline-info text-white">Balance</button>
+                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="balanceFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="balanceFilterDropdown">
+                                                <div class="input-group mt-2 mb-2">
+                                                    <input type="text" class="form-control" id="balanceFilterInput" placeholder="Enter balance">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
 
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
+                            </thead>
+                            <tbody>
+                                {% for data in combined_data %}
+                                <tr>
+                                    <th style="font-family: monospace;"><strong>{{data.Type}}</strong></th>
+                                    <td>{{data.Number}}</td>
+                                    <td>{{data.Date|date:'d-m-Y'}}</td>
+                                    <td>{{data.Total}}</td>
+                                    <td>{{data.Balance}}</td>
 
-                            </table>
-                        </div>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                        
 
                     </div>
 
@@ -735,153 +806,6 @@
 
                 </div>
 
-                <!-- <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispinv()">Bille</a>
-                    <a href="{% url 'addbilling' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
-                </div> 
-                <div id="invtable" style="display:none;">
-                    <table class="table table-responsive-md mt-3">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center;">BILL DATE</th>
-                                <th style="text-align: center;">BILL NO</th>
-                                <th style="text-align: center;">REFERENCE</th>
-                                <th style="text-align: center;">STATUS</th>
-                                <th style="text-align: center;">DUE DATE</th>
-                                <th style="text-align: center;">GRAND TOTAL</th>
-                                <th style="text-align: center;">BALANCE DUE</th>   
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for p in pbl %}
-                                 <tr class="table-row tr" onclick=window.location='{% url "viewbill" p.billid %}';>
-                                    <th style="text-align: center;">{{ p.date }}</th>
-                                    <td style="text-align: center;">{{ p.bill_no }}</td>
-                                    <td style="text-align: center;">{{ p.reference }}</td>
-                                    <td style="text-align: center;">{{ p.status }}</td>
-                                    <td style="text-align: center;">{{ p.due_date }}</td>
-                                    <td style="text-align: center;">{{ p.grand_total }}</td>
-                                    <td style="text-align: center;">{{ p.balance_due }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div><br> -->
-                <!-- <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispay()" >Payment</a>
-                    <a href="{% url 'addpurchasepymnt' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>    
-                </div> 
-                <div id="paytable" style="display:none;">
-                    <table class="table table-responsive-md mt-4">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center;">DATE</th>
-                                <th style="text-align: center;">PAYMENT NO</th>
-                                <th style="text-align: center;">PAYMENT METHOD</th>
-                                <th style="text-align: center;">APPLIED AMOUNT</th>
-                                <th style="text-align: center;">CREDITED AMOUNT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in paymnt %}
-                            <tr class="table-row tr" onclick=window.location="{% url 'viewpurchasepymnt' i.pymntid %}">
-                                <th style="text-align: center;">{{ i.paymentdate  | date:'d-m-Y' }}</th>
-                                <td style="text-align: center;">{{ i.reference }}</td>
-                                <td style="text-align: center;"> {{ i.paymentmethod }}</td>
-                                <td style="text-align: center;"> {{ i.paymentamount }}</td>
-                                <td style="text-align: center;">{{ i.amtcredit }}</td>   
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div><br> -->
-                <!-- <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="disest()" >Expenses</a>
-                    <a href="{% url 'addexpenses' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a> 
-                </div> 
-                <div id="esttable" style="display:none;">
-                    <table class="table table-responsive-md mt-4">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center;">Date</th>
-                                <th style="text-align: center;">Expense No</th>
-                                <th style="text-align: center;">Reference Number</th>
-                                <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for e in expnc %}
-                            <tr class="table-row tr" onclick=window.location="{% url 'viewexpense' e.expenseid %}">
-                                <th style="text-align: center;">{{ e.date | date:'d-m-Y' }}</th>
-                                <td style="text-align: center;">{{ e.expense_no }}</td>
-                                <td style="text-align: center;"> {{ e.reference }}</td>
-                                <td style="text-align: center;"> {{ e.status }}</td>
-                                <td style="text-align: center;">{{ e.amount }}</td>    
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div><br> -->
-                <!-- <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dissale()" >Purchase Order</a>
-                    <a href="{% url 'addpurchaseorder' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
-                </div> 
-                <div id="saletable" style="display:none;">
-                    <table class="table table-responsive-md mt-4">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center;">DATE</th>
-                                <th style="text-align: center;">PURCHASE ORDER N0</th>
-                                <th style="text-align: center;">REFERENCE NUMBER</th>
-                                <th style="text-align: center;">CUSTOMER NAME</th>
-                                <th style="text-align: center;">STATUS</th>
-                                <th style="text-align: center;">AMOUNT</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for po in pordr %}
-                                <tr tr class="table-row tr" onclick=window.location="{% url 'viewpurchaseorder' po.porderid %}">
-                                    <th style="text-align: center;">{{ po.date | date:'d-m-Y' }}</th>
-                                    <td style="text-align: center;">PO - {{ po.puchaseorder_no }}</td>
-                                    <td style="text-align: center;"> {{ po.reference }}</td>
-                                    <td style="text-align: center;">{{ po.contact_name }}</td>
-                                    <td style="text-align: center;"> {{ po.status }}</td>
-                                    <td style="text-align: center;">{{ po.grand_total }}</td> 
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div><br> -->
-                <!-- <div style=" margin-top: 20px;">
-                    <a style="padding: 10px; cursor: pointer; font-size: 20px;" class="head" onclick="dispdeb()">Debit Note</a>
-                    <a href="{% url 'addpurchasedebit' %}" class="fa fa-plus new" style="float: right; margin-right: 20px;">&nbsp;Add New</a>   
-                </div> 
-                <div id="pdebtable" style="display:none;">
-                    <table class="table table-responsive-md mt-3">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center;">DATE</th>
-                                <th style="text-align: center;">DEBIT NOTE</th>
-                                <th style="text-align: center;">VENDOR</th>
-                                <th style="text-align: center;">BILL NO</th>
-                                <th style="text-align: center;">GRAND TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for p in pdeb %}
-                                 <tr class="table-row tr" onclick=window.location='{% url "viewpurchasedebit" p.pdebitid %}';>
-                                    <th style="text-align: center;">{{ p.debitdate |date:'d-m-Y' }}</th>
-                                    <td style="text-align: center;">DN - {{ p.debit_no }}</td>
-                                    <td style="text-align: center;">{{ p.vendor }}</td>
-                                    <td style="text-align: center;">{{ p.billno }}</td>
-                                    <td style="text-align: center;">{{ p.grandtotal }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div><br> -->
             </div>
         </div>
     </div>
@@ -1050,38 +974,92 @@
         }
     
     </script> 
-    <style>
-        .tabledata th.type-column {
-            position: relative;
-            text-align: left;
-        }
-    
-        .type-filter {
-            position: absolute;
-            top: 10;
-            right: 0;
-            bottom: 10;
-        }
-    </style>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const typeFilter = document.getElementById('typeFilter');
-            const tableRows = document.querySelectorAll('.tabledata tbody tr');
+        // Get references to the table and dropdown
+        const table1 = document.getElementById('dataTable');
+        const dropdown = document.getElementById('filterDropdown');
     
-            typeFilter.addEventListener('change', function () {
-                const selectedType = typeFilter.value.toLowerCase();
+        // Add an event listener to the dropdown items
+        dropdown.addEventListener('click', (event) => {
+            if (event.target.classList.contains('filter-item')) {
+                const filterValue = event.target.getAttribute('data-filter');
+                filterTableByType(filterValue);
+            }
+        });
     
-                tableRows.forEach(function (row) {
-                    const typeCell = row.querySelector('td:first-child');
-                    const rowType = typeCell.textContent.toLowerCase();
+        // Function to filter the table by the selected type
+        function filterTableByType(type) {
+            const rows = table1.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (const row of rows) {
+                const typeCell = row.getElementsByTagName('th')[0];
+                if (type === 'all' || typeCell.textContent.trim() === type) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
+            }
+        }
+    </script>
+
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("numberFilterInput");
+        const dataTable = document.getElementById("dataTable");
+        
+        searchInput.addEventListener("input", function() {
+            const searchText = searchInput.value.toLowerCase();
+            const rows = dataTable.getElementsByTagName("tr");
+        
+            for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip table header row
+            const rowData = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
+            if (rowData.includes(searchText)) {
+                rows[i].style.display = ""; // Show the row
+            } else {
+                rows[i].style.display = "none"; // Hide the row
+            }
+            }
+        });
+        });
+    </script> -->
+
+    <script>
+        // Function to filter the table based on user input
+        function filterTable(columnIndex, inputId) {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById(inputId);
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
     
-                    if (selectedType === 'all' || rowType === selectedType) {
-                        row.style.display = 'table-row';
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[columnIndex];
+                if (td) {
+                    var cellText = td.textContent || td.innerText;
+                    if (cellText.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
                     } else {
-                        row.style.display = 'none';
+                        tr[i].style.display = "none";
                     }
-                });
-            });
+                }
+            }
+        }
+    
+        // Event listeners for each filter input
+        document.getElementById("numberFilterInput").addEventListener("input", function () {
+            filterTable(1, "numberFilterInput");
+        });
+    
+        document.getElementById("dateFilterInput").addEventListener("input", function () {
+            filterTable(2, "dateFilterInput");
+        });
+    
+        document.getElementById("totalFilterInput").addEventListener("input", function () {
+            filterTable(3, "totalFilterInput");
+        });
+    
+        document.getElementById("balanceFilterInput").addEventListener("input", function () {
+            filterTable(4, "balanceFilterInput");
         });
     </script>
     
