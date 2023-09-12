@@ -437,7 +437,7 @@
 
                             <div>
                                 <div class="card-body">
-                                    <form action="" method="post" class="needs-validation" novalidate>
+                                    <form action="{% url 'viewvendor' vndr.vendorid %}" method="post" class="needs-validation" novalidate>
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-sm-4">
@@ -446,11 +446,11 @@
                                                 <select class="form-control" id="filterstyle" onchange="filterDate(this)"
                                                         list="hosting-plan"
                                                         name="reportperiod" type="text">
-                                                    <option><span class="bx bx-right-arrow-alt"></span>All dates</option>
-                                                    <option><span class="bx bx-right-arrow-alt"></span>Custom</option>
-                                                    <option><span class="bx bx-right-arrow-alt"></span>Today</option>
-                                                    <option><span class="bx bx-right-arrow-alt"></span>This month</option>
-                                                    <option><span class="bx bx-right-arrow-alt"></span>This financial year</option>
+                                                    <option value="" hidden><span class="bx bx-right-arrow-alt"></span>Select a period</option>
+                                                    <option value="Custom"><span class="bx bx-right-arrow-alt"></span>Custom</option>
+                                                    <option value="Today"><span class="bx bx-right-arrow-alt"></span>Today</option>
+                                                    <option value="This month"><span class="bx bx-right-arrow-alt"></span>This month</option>
+                                                    <option value="This financial year"><span class="bx bx-right-arrow-alt"></span>This financial year</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-4" id="frdate" style="display: none;">
@@ -499,7 +499,8 @@
                                                                 <div class="widget-body">
                                                                     <div class="widget-main padding-20">
                                                                         <div class="row"  style="padding:20px;" >
-                                                                            <div class="col-sm-12">
+                                                                            
+                                                                            <div class="col-sm-12" style="margin-left: 26px;">
                                                                                 <div class="col-6">
                                                                                     <div style="width:30px;">
                                                                                         <img src="/media/images/default.png">
@@ -514,12 +515,15 @@
                                                                                         {{cmp1.pincode}}<br>
                                                                                     </p>  
                                                                                 </div>
-                                                                                 <hr>
+                                                                            
                                                                             </div>
+                                                                           
                                                                         </div>
+                                                                        
                                                                         <div class="row col-12">
-                                                                            <div class="col-6">
-                                                                                <p style="font-size:12px;color:black;">To,<br>{{vndr.firstname}} {{vndr.lastname}}<br>
+                                                                            <div class="col-1"></div>
+                                                                            <div class="col-5">
+                                                                                <p style="font-size:12px;color:black;">To,<br><strong>{{vndr.firstname}} {{vndr.lastname}}</strong><br>
                                                                                     {{vndr.street}},{{vndr.city}}<br>
                                                                                     {{vndr.state}},{{vndr.country}}<br>
                                                                                     {{vndr.pincode }}<br>
@@ -527,31 +531,37 @@
                                                                                     {{vndr.phone}}<br>
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="col-6" >
+                                                                            <div class="col-2"></div>
+                                                                            <div class="col-4" >
                                                                                 <table style="font-size:12px;color:black;">
                                                                                     <tr>
-                                                                                        <td>Account Summary</td>
+                                                                                        <th class="text-black">Account Summary</th>
                                                                                     </tr>
                                                                                     {% if vndr.openingbalance != ""  %}
                                                                                         <tr>
-                                                                                            <td>Opening balance</td>
-                                                                                            <td>{{vndr.openingbalance}}</td>
+                                                                                            <th>Opening balance</th>
+                                                                                            <th>:</th>
+                                                                                            <th>{{vndr.openingbalance}}</th>
                                                                                         </tr>
                                                                                     {% endif %}
                                                                                     <tr>
-                                                                                        <td>Billed Amount</td>
-                                                                                        <td>{{tot2.t2}}</td>
+                                                                                        <th>Billed Amount</th>
+                                                                                        <th>:</th>
+                                                                                        <th>{{tot2.t2}}</th>
                                                                                     </tr>
                                                                                     <tr style="border-bottom: 1px solid black; width:100%;">
-                                                                                        <td>Amount received</td>
-                                                                                        <td>{{tot1.t2}}</td>
+                                                                                        <th>Amount received</th>
+                                                                                        <th>:</th>
+                                                                                        <th>{{tot1.t2}}</th>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td>Balance Due</td>
-                                                                                        <td>{{tot6.t2}}</td>
+                                                                                        <th>Balance Due</th>
+                                                                                        <th>:</th>
+                                                                                        <th>{{tot6.t2}}</th>
                                                                                     </tr>
                                                                                 </table>
                                                                             </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12 mb-5">
@@ -568,50 +578,50 @@
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td>{{ tod }}</td>
-                                                                                    <td>**Opening Balance**</td>
+                                                                                    <th>{{ tod }}</th>
+                                                                                    <th>**Opening Balance**</th>
                                                                                     <td></td>
-                                                                                    <td>{{ tot2.t2 }}</td>
+                                                                                    <th>{{ tot2.t2 }}</th>
                                                                                     <td></td>
-                                                                                    <td>{{ tot6.t2 }}{{ tot8.t2 }}</td>
+                                                                                    <th>{{ tot6.t2 }}{{ tot8.t2 }}</th>
                                                                                 </tr>
                                                                                 {% for i in statment %}
                                                                                     <tr>
-                                                                                        <td>{{i.date | date:'d-m-Y'}}</td>
-                                                                                        <td>
+                                                                                        <th>{{i.date | date:'d-m-Y'}}</th>
+                                                                                        <th>
                                                                                             {% if i.transactions == "Payable"  %}
                                                                                                 Payment Payable
                                                                                             {% elif i.transactions == "Billed"  %}
                                                                                                 Bill
                                                                                             {% else %}
                                                                                                 {{i.transactions}}
-                                                                                            {% endif %}</td>
-                                                                                        <td>{% if i.pbill != null  %}
+                                                                                            {% endif %}</th>
+                                                                                        <th>{% if i.pbill != null  %}
                                                                                             BILL-{{i.pbill.bill_no}}
                                                                                             {% endif %} 
                                                                                             {% if i.pymnt != null  %}
                                                                                             ₹{{i.payments}} 
                                                                                             {% endif %} 
-                                                                                        </td>
-                                                                                        <td>
+                                                                                        </th>
+                                                                                        <th>
                                                                                             {% if i.amount %}
                                                                                             {{i.amount}}
                                                                                             {% endif %}
-                                                                                        </td>
-                                                                                        <td>{% if i.payments %}
+                                                                                        </th>
+                                                                                        <th>{% if i.payments %}
                                                                                             {{i.payments}}
                                                                                             {% endif %}
-                                                                                            </td>
-                                                                                        <td>{% if i.balance %}
+                                                                                            </th>
+                                                                                        <th>{% if i.balance %}
                                                                                             {{i.balance}}
                                                                                             {% endif %} 
-                                                                                        </td>
+                                                                                        </th>
                                                                                     </tr>
                                                                                 {% endfor %}
                                                                                 <br>
                                                                                 <tr>
-                                                                                    <td colspan="5">Balance Due</td>
-                                                                                    <td >{{tot6.t2}}</td>
+                                                                                    <th colspan="5">Balance Due</th>
+                                                                                    <th >{{tot6.t2}}</th>
                                                                                 </tr>
                                                                             </tbody>
                                                                             <tbody></tbody>

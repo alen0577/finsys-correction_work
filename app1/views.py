@@ -14144,6 +14144,7 @@ def profitandloss(request):
         return render(request, 'app1/profitandloss.html', context)
     return redirect('/')   
 
+
 def profitandloss1(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -32499,6 +32500,55 @@ def createvendor(request):
         return render(request,'app1/addvendor.html',{'cmp1': cmp1})
     return redirect('/')
 
+
+def get_vendor_statement(request, su, cmp1):
+    if request.method == 'POST':
+        reportperiod = request.POST.get('reportperiod')
+        frd1 = tod1 = str(date.today())  # Default values
+
+        if reportperiod == 'Today':
+            # Logic for 'Today' report
+            statment = vendor_statment.objects.filter(vendor=su, cid=cmp1, date=tod1)
+        elif reportperiod == 'Custom':
+            # Logic for 'Custom' report
+            frd1 = request.POST.get('fper')
+            tod1 = request.POST.get('tper')
+            statment = vendor_statment.objects.filter(vendor=su, cid=cmp1, date__gte=frd1, date__lte=tod1)
+        elif reportperiod == 'This month':
+            # Logic for 'This month' report
+            frd1 = date.today().replace(day=1)
+            tod1 = date.today().replace(day=1, month=date.today().month + 1) - timedelta(days=1)
+            statment = vendor_statment.objects.filter(vendor=su, cid=cmp1, date__gte=frd1, date__lte=tod1)
+        elif reportperiod == 'This financial year':
+            # Logic for 'This financial year' report
+            current_month = int(date.today().strftime("%m"))
+            if current_month >= 1 and current_month <= 3:
+                pyear = int(date.today().strftime("%Y")) - 1
+                frd1 = f'{pyear}-03-01'
+                tod1 = f'{date.today().strftime("%Y")}-03-31'
+            else:
+                pyear = int(date.today().strftime("%Y")) + 1
+                frd1 = f'{date.today().strftime("%Y")}-03-01'
+                tod1 = f'{pyear}-03-31'
+            statment = vendor_statment.objects.filter(vendor=su, cid=cmp1, date__gte=frd1, date__lte=tod1)
+        else:
+            # Default case
+            fromdates = request.user.date_joined.date()
+            frd1 = fromdates.strftime("%Y-%m-%d")
+            tod1 = tod1.strftime("%Y-%m-%d")
+            statment = vendor_statment.objects.filter(vendor=su, cid=cmp1)
+
+        return statment, frd1, tod1  # Return a tuple with all three values
+    else:
+        # Handle the case where the request method is not 'POST'
+        # You can return default values or raise an error as needed.
+        fromdates = request.user.date_joined.date()
+        frd1 = fromdates.strftime("%Y-%m-%d")
+        tod = (date.today())
+        tod1 = tod.strftime("%Y-%m-%d")
+        statment = vendor_statment.objects.filter(vendor=su, cid=cmp1)
+        return statment, frd1, tod1  # Return default values or handle the error appropriately
+
 @login_required(login_url='regcomp')
 def viewvendor(request, id):
     if 'uid' in request.session:
@@ -32518,38 +32568,11 @@ def viewvendor(request, id):
         pbill = purchasebill.objects.filter(vendor_name=su,status='Approved',date=tod)
         pymnt = purchasepayment.objects.filter(vendor=su, paymentdate=tod)
 
-        reportperiod = request.POST['reportperiod']
-        if reportperiod == 'Today':
-            frd1 = tod
-            tod1 = tod
-            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date=tod1)
-        elif reportperiod == 'Custom':
-            frd1 = request.POST['fper']
-            tod1 = request.POST['tper'] 
-            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date__gte=frd1, date__lte=tod1) 
 
-        elif reportperiod == 'This month':
-            input_dt = date.today()
-            day_num = input_dt.strftime("%d")
-            res = input_dt - timedelta(days=int(day_num) - 1)
-            frd1 = str(res)
+        statment, frd1, tod1 = get_vendor_statement(request, su, cmp1)   
+        
 
-            any_day=date.today()
-            next_month = any_day.replace(day=28) + datetime.timedelta(days=4)
-            d = next_month - datetime.timedelta(days=next_month.day)
-
-            tod1 = str(d) 
-            statment = vendor_statment.objects.filter(vendor=su,cid=cmp1,date__gte=frd1, date__lte=tod1)     
-
-
-        fromdates=request.user.date_joined.date()
-        frd1=fromdates.strftime("%Y-%m-%d")
-        tod1 = toda.strftime("%Y-%m-%d")
-
-        statment = vendor_statment.objects.filter(vendor=su,cid=cmp1)
-        # statment = vendor_statment.objects.filter(vendor=su,date=tod)
-
-        tot6 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('balance_due'))
+        tot6 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('balance_amount'))
         tot2 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('grand_total'))
         tot1 = purchasepayment.objects.filter(vendor=su).all().aggregate(t2=Sum('paymentamount'))
         tot7 = purchasepayment.objects.filter(vendor=su).all().aggregate(t3=Sum('amtcredit')) 
@@ -32560,8 +32583,8 @@ def viewvendor(request, id):
         re=0
 
         for i in pbill:
-            if i.balance_due:
-                sum+=i.balance_due
+            if i.balance_amount:
+                sum+=i.balance_amount
             if i.grand_total:
                 billed += i.grand_total  
 
@@ -32570,7 +32593,6 @@ def viewvendor(request, id):
         pdeb = purchasedebit.objects.filter(vendor=su,cid_id=cmp1).all()  
         expnc = purchase_expense.objects.filter(vendor=su,cid_id=cmp1).all()   
         pordr =purchaseorder.objects.filter(vendor_name=su,status='Draft',cid_id=cmp1).all() 
-        print(pbl,paymnt,pdeb,expnc,pordr)
 
         combined_data=[]
 
@@ -32658,7 +32680,6 @@ def viewvendor(request, id):
 
             })                 
 
-        print(combined_data)    
         
 
 
