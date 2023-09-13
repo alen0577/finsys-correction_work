@@ -1452,7 +1452,6 @@ class purchasebill(models.Model):
     paid_amount = models.FloatField(blank=True,null=True)
     balance_amount = models.FloatField(blank=True,null=True)
     payment_type = models.CharField(max_length=100,null=True)
-
     bill_status = (
         ('Draft','Draft'),
         ('Billed','Billed'),
@@ -1801,3 +1800,13 @@ class pricelist_individual(models.Model):
     itemrate=models.IntegerField(null=True,blank=True,default=0)
     customrate=models.CharField(max_length=100,null=True,blank=True,default=0)
 
+class bankings_G(models.Model):
+    bankname = models.CharField(max_length=100)
+    ifsccode = models.CharField(max_length=20)
+    branchname = models.CharField(max_length=100)
+    openingbalance = models.IntegerField()
+    date = models.DateField()
+    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    balance=models.IntegerField(default=0)
+    cash_balance=models.IntegerField(default=0)
+    

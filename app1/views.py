@@ -33522,6 +33522,7 @@ def addpurchaseorder(request):
         cpd = creditperiod.objects.filter(cid=cmp1)
         acc2 = accounts1.objects.filter(cid=cmp1,acctype='Sales')
         acc1 = accounts1.objects.filter(cid=cmp1,acctype='Cost of Goods Sold')
+        bank= bankings_G.objects.filter(cid=cmp1)
         context = {
                     'cmp1': cmp1,
                     'vndr':vndr,
@@ -33530,7 +33531,8 @@ def addpurchaseorder(request):
                     'cust':cust,        
                     'cpd':cpd ,
                     'acc1':acc1,    
-                    'acc2':acc2      
+                    'acc2':acc2,
+                    'bank':bank,      
                 }
         return render(request,'app1/addpurchaseorder.html',context)
     return redirect('addpurchaseorder')
@@ -33635,7 +33637,15 @@ def viewpurchaseorder(request,id):
         cmp1 = company.objects.get(id=request.session['uid'])
         pordr=purchaseorder.objects.get(porderid=id)
         pitem = purchaseorder_item.objects.all().filter(porder=id)
-        return render(request,'app1/viewpurchaseorder.html',{'cmp1': cmp1,'pordr':pordr,'pitem':pitem})
+        bank_id=pordr.payment_type
+        
+        if str(bank_id).isnumeric():
+            bank = bankings_G.objects.get(id=bank_id, cid=cmp1)
+            # Perform the task with the 'bank' object
+        else:
+            # Handle the case where 'bank_id' is not a number
+            bank=None  # Or provide an appropriate action
+        return render(request,'app1/viewpurchaseorder.html',{'cmp1': cmp1,'pordr':pordr,'pitem':pitem,'bank':bank,})
     return redirect('gopurchaseorder')
 
 
@@ -33701,12 +33711,24 @@ def goeditpurchaseorder(request,id):
         item = itemtable.objects.all()
         pordr=purchaseorder.objects.get(porderid=id)
         pitem = purchaseorder_item.objects.filter(porder=id)
+        banks=bankings_G.objects.filter(cid=cmp1)
+        bank_id=pordr.payment_type
+        
+        if str(bank_id).isnumeric():
+            bank = bankings_G.objects.get(id=bank_id, cid=cmp1)
+            # Perform the task with the 'bank' object
+        else:
+            # Handle the case where 'bank_id' is not a number
+            bank=None  # Or provide an appropriate action
+        
         
         context={
             'cmp1': cmp1,
             'pordr':pordr,
             'pitem':pitem,
             'item':item,
+            'bank':bank,
+            'banks':banks
 
         }
         return render(request,'app1/editpurchaseorder.html',context)
@@ -33872,12 +33894,24 @@ def purchaseorder_convert(request,id):
         item = itemtable.objects.all()
         pordr=purchaseorder.objects.get(porderid=id)
         pitem = purchaseorder_item.objects.filter(porder=id)
+        banks=bankings_G.objects.filter(cid=cmp1)
+        bank_id=pordr.payment_type
+        
+        if str(bank_id).isnumeric():
+            bank = bankings_G.objects.get(id=bank_id, cid=cmp1)
+            # Perform the task with the 'bank' object
+        else:
+            # Handle the case where 'bank_id' is not a number
+            bank=None  # Or provide an appropriate action
+        
         
         context={
             'cmp1': cmp1,
             'pordr':pordr,
             'pitem':pitem,
             'item':item,
+            'banks':banks,
+            'bank':bank,
 
         }
         return render(request,'app1/purchaseorder_converttobill.html',context)
@@ -34436,6 +34470,7 @@ def addbilling(request):
         cpd = creditperiod.objects.filter(cid=cmp1)
         acc2 = accounts1.objects.filter(cid=cmp1,acctype='Sales')
         acc1 = accounts1.objects.filter(cid=cmp1,acctype='Cost of Goods Sold')
+        bank= bankings_G.objects.filter(cid=cmp1)
         context = {
                     'cmp1': cmp1,
                     'vndr':vndr,
@@ -34444,7 +34479,8 @@ def addbilling(request):
                     'cust':cust,        
                     'cpd':cpd ,
                     'acc1':acc1,    
-                    'acc2':acc2      
+                    'acc2':acc2,
+                    'bank':bank,      
                 }
         return render(request,'app1/addbilling.html',context)
     return redirect('addbilling')
@@ -34747,8 +34783,17 @@ def viewbill(request,id):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         pbill=purchasebill.objects.get(billid=id)
+        bank_id=pbill.payment_type
+        
+        if str(bank_id).isnumeric():
+            bank = bankings_G.objects.get(id=bank_id, cid=cmp1)
+            # Perform the task with the 'bank' object
+        else:
+            # Handle the case where 'bank_id' is not a number
+            bank=None  # Or provide an appropriate action
+        
         bitem = purchasebill_item.objects.all().filter(bill=id)
-        return render(request,'app1/viewpurchasebill.html',{'cmp1': cmp1,'pbill':pbill,'bitem':bitem})
+        return render(request,'app1/viewpurchasebill.html',{'cmp1': cmp1,'pbill':pbill,'bitem':bitem,'bank':bank})
     return redirect('gobilling')
 
 def render_pdfbill_view(request,id):
@@ -34811,6 +34856,18 @@ def goeditbill(request,id):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         pbill=purchasebill.objects.get(billid=id)
+        banks=bankings_G.objects.filter(cid=cmp1)
+        bank_id=pbill.payment_type
+        
+        if str(bank_id).isnumeric():
+            bank = bankings_G.objects.get(id=bank_id, cid=cmp1)
+            # Perform the task with the 'bank' object
+        else:
+            # Handle the case where 'bank_id' is not a number
+            bank=None  # Or provide an appropriate action
+        
+
+
         bitem = purchasebill_item.objects.all().filter(bill=id)
         vndr = vendor.objects.filter(cid=cmp1)
         item = itemtable.objects.filter(cid=cmp1)
@@ -34821,7 +34878,10 @@ def goeditbill(request,id):
                     'item':item ,
                     'cust':cust,
                     'pbill':pbill,
-                    'bitem':bitem         
+                    'bitem':bitem,
+                    'bank':bank,
+                    'banks':banks,
+
                 }
         return render(request,'app1/editpurchasebill.html',context)
     return redirect('gobilling')
@@ -34983,6 +35043,7 @@ def editpurchasebill(request,id):
             rate = request.POST.getlist("rate[]")
             tax = request.POST.getlist("tax[]")
             amount = request.POST.getlist("amount[]")
+            discount = request.POST.getlist("reduce[]")
             
             
 

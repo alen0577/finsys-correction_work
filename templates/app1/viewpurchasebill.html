@@ -420,7 +420,11 @@
                                             <tr >
                                                 <td style="color: #000;text-align: left;">Payment Type</td>
                                                 <td style="color: #000;text-align: left;">:</td>
+                                                {% if bank %}
+                                                <th style="color: #000;text-align: center;">{{bank.bankname}}</th>
+                                                {% else %}
                                                 <th style="color: #000;text-align: center;">{{pbill.payment_type}}</th>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <td></td>

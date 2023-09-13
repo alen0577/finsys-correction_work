@@ -1033,8 +1033,17 @@
                                         <label for="">Payment Type</label>
                                         <div class="d-flex">
                                             <select class="form-control" name="paytype" id="paytype" required>
+                                                
+                                                {% if bank %}
+                                                <option value="{{bank.id}}" hidden>{{bank.bankname}}</option>
+                                                {% else %}
                                                 <option value="{{pordr.payment_type}}" hidden>{{pordr.payment_type}}</option>
-                                                <option value="Bank">Bank</option>
+                                                {% endif %}
+                                                
+                                                {% for i in banks %}
+                                                <option value="{{i.id}}">{{i.bankname}}</option>
+                                                {% endfor %}
+                                                
                                                 <option value="Cash">Cash</option>
                                                 <option value="Cheque">Cheque</option>
                                                 

@@ -965,7 +965,9 @@
                         
                         <div class="row clearfix" style="margin-top:20px">
                             <div class="col-md-6">
-                                <div class="row">
+
+                                
+                                <div class="row ">
                                     <div class="col-md-12 mb-3">
                                         <label for="">Note</label>
                                         <div class="form-row">
@@ -978,14 +980,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row mt-5 mb-3">
                                     <div class="col-md-6">
                                         <label for="">Payment Type</label>
                                         <div class="d-flex">
                                             <select class="form-control" name="paytype" id="paytype" required>
+
+                                                {% if bank %}
+                                                <option value="{{bank.id}}" hidden>{{bank.bankname}}</option>
+                                                {% else %}
                                                 <option value="{{pbill.payment_type}}" hidden>{{pbill.payment_type}}</option>
-                                                <option value="Bank">Bank</option>
+                                                {% endif %}
+                                                
+                                                {% for i in banks %}
+                                                <option value="{{i.id}}">{{i.bankname}}</option>
+                                                {% endfor %}
                                                 <option value="Cash">Cash</option>
                                                 <option value="Cheque">Cheque</option>
                                                 
@@ -994,6 +1004,8 @@
                                         </div> 
                                     </div>
                                 </div>
+                                
+                                
                             </div>
                             <div class="col-md-1 mt-3"></div>
                             <div class="col-md-5 table-responsive-md mt-3" id="tab_logic_total" style="background-color:rgba(0,0,0,.4); border: 1px solid rgba(128, 128, 128, 0.6);"><br>
