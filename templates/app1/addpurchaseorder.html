@@ -2247,7 +2247,7 @@
         $(document).on('click','.remove_row',function(){
             var row_id = $(this).attr("id");
             $('#addr0'+row_id+'').remove();
-            calc_total();
+            calc();
         });
 
 
@@ -2981,27 +2981,6 @@
     });
 </script>
 
-<!-- <script>
-    function updateTaxOptions() {
-        var placeOfSupply = $('#plosu').val();
-        var gstOptions = `
-            <option value=28>28.0% GST(28%)</option>
-            <option value=18>18.0% GST(18%)</option>
-            <option value=12>12.0% GST(12%)</option>`;
-        var igstOptions = `
-            <option value=28>28.0% IGST(28%)</option>
-            <option value=18>18.0% IGST(18%)</option>
-            <option value=12>12.0% IGST(12%)</option>`;
-
-        // Determine which tax options to use based on the place of supply
-        var selectedOptions = (placeOfSupply === '{{ cmp1.state }}') ? gstOptions : igstOptions;
-
-        // Update tax options for all rows
-        $('.tax').html(selectedOptions);
-
-
-    }
-</script> -->
 <script>
     $(document).ready(function() {
 
@@ -3036,6 +3015,7 @@
         // Bind an event listener to the "Place of Supply" element
         $('#plosu').on('change', function() {
             updateTaxOptions();
+            calc();
         });
 
     

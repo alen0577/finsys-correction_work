@@ -284,32 +284,26 @@
                                             </td> 
                                             <td>
                                                 <select name='tax[]' id="tax1" class="form-control tax">
-                                                    <option id="ta1" value=0 text={{ cmp1.state }} hidden>Choose</option>
-                                                    <option value=28 text={{ cmp1.state }}>28.0% GST(28%)</option>
-                                                    <option value=18 text={{ cmp1.state }}>18.0% GST(18%)</option>
-                                                    <option value=12 text={{ cmp1.state }}>12.0% GST(12%)</option>
-                                                    <!-- <option value=6 text={{ cmp1.state }}>06.0% GST(06%)</option> -->
-                                                    <option value=5 text={{ cmp1.state }}>05.0% GST(05%)</option>
-                                                    <option value=3 text={{ cmp1.state }}>03.0% GST(03%)</option>
-                                                    <!-- <option value=.25 text={{ cmp1.state }}>0.25% GST(0.25%)</option> -->
-                                                    <option value=0 text={{ cmp1.state }}>0.0% GST(0%)</option>
-                                                    <!-- <option value=0 text={{ cmp1.state }}>Exempt GST(0%)</option>
-                                                    <option value=0 text={{ cmp1.state }}>Out of Scope(0%)</option> -->
-                                                    <option id="ta5" value=0 text=" ">Choose</option>
-                                                    <option value=28 text=" ">28.0% IGST(28%)</option>
-                                                    <option value=18 text=" ">18.0% IGST(18%)</option>
-                                                    <option value=12 text=" ">12.0% IGST(12%)</option>
-                                                    <!-- <option value=6 text=" ">06.0% IGST(06%)</option> -->
-                                                    <option value=5 text=" ">05.0% IGST(05%)</option>
+                                                    <option id="ta1" value=0 text={{ cmp1.state }} hidden>Select</option>
+                                                    <option value=0 text={{ cmp1.state }}>00% GST(00%)</option>
+                                                    <option value=3 text={{ cmp1.state }}>03% GST(03%)</option>
+                                                    <option value=5 text={{ cmp1.state }}>05% GST(05%)</option>
+                                                    <option value=12 text={{ cmp1.state }}>12% GST(12%)</option>
+                                                    <option value=18 text={{ cmp1.state }}>18% GST(18%)</option>
+                                                    <option value=28 text={{ cmp1.state }}>28% GST(28%)</option>
+                                                    
+                                                    
+                                                    <option id="ta5" value=0 text=" " hidden>Select</option>
+                                                    <option value=0 text=" ">0.0% IGST(00%)</option>
                                                     <option value=3 text=" ">03.0% IGST(03%)</option>
-                                                    <!-- <option value=.25 text=" ">0.25% IGST(0.25%)</option> -->
-                                                    <option value=0 text=" ">0.0% IGST(0%)</option>
-                                                    <!-- <option value=0 text=" ">Exempt IGST(0%)</option>
-                                                    <option value=0 text=" ">Out of Scope(0%)</option> -->
+                                                    <option value=5 text=" ">05.0% IGST(05%)</option>
+                                                    <option value=12 text=" ">12.0% IGST(12%)</option>
+                                                    <option value=18 text=" ">18.0% IGST(18%)</option>
+                                                    <option value=28 text=" ">28.0% IGST(28%)</option>
                                               </select>
                                             </td>
                                             <td><input type="number" name='reduce[]' id="reduce" class="form-control reduce" 
-                                                placeholder="0" step="any">
+                                                placeholder="0" step="any" value="0">
                                             </td>  
                                             <td><input type="number" name='amount[]' id="total1" class="form-control total" 
                                                 placeholder="0" step="any" readonly>
@@ -1925,6 +1919,26 @@
             var roinc = 0
             $('#addrow').click(function(){
                 roinc++
+                var placeOfSupply = $('#plosu').val();
+
+                // Define the tax options based on place of supply
+                var taxOptions = (placeOfSupply === '{{ cmp1.state }}') ? 
+            
+                    `<option value="0" hidden>Select</option>
+                    <option value=0>00 % GST(00%)</option>
+                    <option value=3>03 % GST(03%)</option>
+                    <option value=5>05 % GST(05%)</option>
+                    <option value=12>12 % GST(12%)</option>
+                    <option value=18>18 % GST(18%)</option>
+                    <option value=28>28 % GST(28%)</option>`:
+                    `<option value="0" hidden>Select</option>
+                    <option value=0>00 % IGST(00%)</option>
+                    <option value=3>03 % IGST(03%)</option>
+                    <option value=5>05 % IGST(05%)</option>
+                    <option value=12>12 % IGST(12%)</option>
+                    <option value=18>18 % IGST(18%)</option>
+                    <option value=28>28 % IGST(28%)</option>`;
+
                 $('#items-table-body').append(
                     `
                         <tr id='addr0${roinc}'>
@@ -1932,7 +1946,7 @@
                             <td style="width: 20%;">
                                 <div class="d-flex">
                                     <select name='items[]' id="product${roinc}" class="form-control">
-                                        <option value=" " selected>Select Item</option>
+                                        <option value=" " hidden>Select Item</option>
                                         {% for i in item %}
                                             <option value="{{ i.name }}">{{ i.name }}</option>
                                         {% endfor %}
@@ -1952,30 +1966,12 @@
                             </td>                                            
                             <td>
                                 <select name='tax[]' id="tax${roinc+1}" class="form-control tax">
-                                    <option id="ta1${roinc}" value=0 text={{ cmp1.state }}>Choose</option>
-                                    <option value=28 text={{ cmp1.state }}>28.0% GST(28%)</option>
-                                    <option value=18 text={{ cmp1.state }}>18.0% GST(18%)</option>
-                                    <option value=12 text={{ cmp1.state }}>12.0% GST(12%)</option>
-                                    <option value=6 text={{ cmp1.state }}>06.0% GST(06%)</option>
-                                    <option value=5 text={{ cmp1.state }}>05.0% GST(05%)</option>
-                                    <option value=3 text={{ cmp1.state }}>03.0% GST(03%)</option>
-                                    
-                                    <option value=0 text={{ cmp1.state }}>0.0% GST(0%)</option>
-                                    
-                                    <option id="ta5${roinc}" value=0 text=" ">Choose</option>
-                                    <option value=28 text=" ">28.0% IGST(28%)</option>
-                                    <option value=18 text=" ">18.0% IGST(18%)</option>
-                                    <option value=12 text=" ">12.0% IGST(12%)</option>
-                                    <option value=6 text=" ">06.0% IGST(06%)</option>
-                                    <option value=5 text=" ">05.0% IGST(05%)</option>
-                                    <option value=3 text=" ">03.0% IGST(03%)</option>
-                                   
-                                    <option value=0 text=" ">0.0% IGST(0%)</option>
+                                    ${taxOptions}
                                     
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name='reduce[]' id="reduce" class="form-control reduce" placeholder="0" step="any">
+                                <input type="number" name='reduce[]' id="reduce" class="form-control reduce" placeholder="0" step="any" value="0">
                             </td> 
                             <td>
                                 <input type="number" name='amount[]' id="total1" placeholder=0 class="form-control total" step="any" readonly>
@@ -1987,40 +1983,13 @@
                     `
                 );
                 
-                // var $select1 = $('#plosu'),
-                // $select2 = $('#tax1'),
-                // $select3 = $('#tax2'),
-                // $select4 = $('#tax3'),
-                // $select5 = $('#tax4'),
-                // $options = $select2.find('option'),
-                // $options1 = $select3.find('option'),
-                // $options2 = $select4.find('option'),
-                // $options3 = $select5.find('option');
-                // if ($options1.value == '{{ cmp1.state }}') {
-                //     $options1.text = "{{ cmp1.state }}"
-                // }
-                // $(`#product${roinc}`).on('change', function() {
-                //     if (this.value == "{{ cmp1.state }}") {
-                        
-                //         $select2.html($options.filter('[text="' + this.value + '"]'));
-                //         $select3.html($options1.filter('[text="' + this.value + '"]'));
-                //         $select4.html($options2.filter('[text="' + this.value + '"]'));
-                //         $select5.html($options3.filter('[text="' + this.value + '"]'));
-                //     } 
-                //     else {
-                        
-                //         $select2.html($options.filter('[text="' + " " + '"]'));
-                //         $select3.html($options1.filter('[text="' + " " + '"]'));
-                //         $select4.html($options2.filter('[text="' + " " + '"]'));
-                //         $select5.html($options3.filter('[text="' + " " + '"]'));
-                //     }
-                // }).trigger('change');
-
+                
             });
 
             $(document).on('click','.remove_row',function(){
                 var row_id = $(this).attr("id");
                 $('#addr0'+row_id+'').remove();
+                calc();
             });
 
             var place = document.getElementById('plosu').value;
@@ -2041,10 +2010,10 @@
                         document.getElementById('hsn1').value = data
                         document.getElementById('unit1').value = data3
                         if (place == '{{ cmp1.state }}'){
-                            document.getElementById('ta1').innerHTML = data4 + ' % GST';
+                            // document.getElementById('ta1').innerHTML = data4 + ' % GST';
                             document.getElementById('ta1').value=data4
                         } 
-                        document.getElementById('ta5').innerHTML  = data5 + ' % IGST';
+                        // document.getElementById('ta5').innerHTML  = data5 + ' % IGST';
                         document.getElementById('ta5').value=data5
                     }
                 });
@@ -2993,6 +2962,47 @@
             inventorytrack.style.display = track.checked ? "flex" : "none";
 
         } 
+    </script>
+    <script>
+        $(document).ready(function() {
+    
+            // Function to update tax options based on the place of supply
+            function updateTaxOptions() {
+                var placeOfSupply = $('#plosu').val();
+                var gstOptions = `
+                    <option value="0" hidden>Select</option>
+                    <option value=0>00 % GST(00%)</option>
+                    <option value=3>03 % GST(03%)</option>
+                    <option value=5>05 % GST(05%)</option>
+                    <option value=12>12 % GST(12%)</option>
+                    <option value=18>18 % GST(18%)</option>
+                    <option value=28>28 % GST(28%)</option>`;
+                var igstOptions = `
+                    <option value="0" hidden>Select</option>
+                    <option value=0>00 % IGST(00%)</option>
+                    <option value=3>03 % IGST(03%)</option>
+                    <option value=5>05 % IGST(05%)</option>
+                    <option value=12>12 % IGST(12%)</option>
+                    <option value=18>18 % IGST(18%)</option>
+                    <option value=28>28 % IGST(28%)</option>`;
+                    
+    
+                // Determine which tax options to use based on the place of supply
+                var selectedOptions = (placeOfSupply === '{{ cmp1.state }}') ? gstOptions : igstOptions;
+    
+                // Update tax options for the all rows class
+                $('.tax').html(selectedOptions);
+            }
+    
+            // Bind an event listener to the "Place of Supply" element
+            $('#plosu').on('change', function() {
+                updateTaxOptions();
+                calc();
+            });
+    
+        
+        });
+    
     </script>
     
 {% endblock %}
