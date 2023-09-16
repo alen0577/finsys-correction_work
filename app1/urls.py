@@ -949,5 +949,6 @@ urlpatterns = [
     path('fileupload_vendor/<int:id>',views.upload_file_vendor,name='upload_file_vendor'),
     path('convert_to_bill/<int:id>',views.purchaseorder_convert,name='purchaseorder_convert'),
     path('converttobill/<int:id>',views.converttobill,name='converttobill'),
+    path('get_transaction_data/<int:id>',views.get_transaction_data,name='get_transaction_data'),
     
 ]

@@ -725,12 +725,59 @@
                                                         <span class="visually-hidden"></span>
                                                     </button>
                                                     <ul id="filterDropdown" class="dropdown-menu">
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="all">All</a></li>
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Bill">Bill</a></li>
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Purchase Order">Purchase Order</a></li>
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Expense">Expense</a></li>
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Payment">Payment</a></li>
-                                                        <li><a class="dropdown-item filter-item" href="#" data-filter="Debit Note">Debit Note</a></li>
+                                                        
+                                                        <form method="post" action="">
+                                                            {% csrf_token %}
+
+                                                            <div class="container">
+                                                                                                                            
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input" type="checkbox" value="All" id="checkboxAll">
+                                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                                      All
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Bill" id="checkboxbill">
+                                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                                      Bill
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Purchase Order" id="checkboxorder">
+                                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                                      Purchase Order
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Expense" id="checkboxexpense">
+                                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                                      Expense
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Payment" id="checkboxpayment">
+                                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                                      Payment
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check mb-1">
+                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Debit Note" id="checkboxdebit">
+                                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                                      Debit Note
+                                                                    </label>
+                                                                </div>
+                                                                
+                                                                
+                                                                <div class="d-grid gap-2 d-md-block">
+                                                                    
+                                                                    <input type="reset" id="resetbtn" class="btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+                                                                </div>
+
+                                                            </div>
+                                                            
+
+                                                        </form>
                                                         
                                                     </ul>
                                                     </div>
@@ -747,7 +794,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="numberFilterDropdown">
                                                 <div class="input-group mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="numberFilterInput" placeholder="Enter number">
+                                                    <input type="text" class="form-control" id="numberfilter" placeholder="Enter number">
+                                                </div>
+                                                <div class="d-grid gap-2 d-md-block">
+                                                                    
+                                                    <input type="submit" id="submitbtn" class=" filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                    <input type="reset" id="clearbtn" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+
                                                 </div>
                                             </div>
                                         </div>
@@ -760,7 +813,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dateFilterDropdown">
                                                 <div class="input-group mt-2 mb-2">
-                                                    <input type="date" class="form-control" id="dateFilterInput" placeholder="Enter date">
+                                                    <input type="date" class="form-control" id="datefilter" placeholder="Enter date">
+                                                </div>
+                                                <div class="d-grid gap-2 d-md-block">
+                                                                    
+                                                    <input type="submit" id="submitbtn1" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                    <input type="reset" id="clearbtn1" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+
                                                 </div>
                                             </div>
                                         </div>
@@ -773,7 +832,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="totalFilterDropdown">
                                                 <div class="input-group  mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="totalFilterInput" placeholder="Enter total">
+                                                    <input type="text" class="form-control" id="totalfilter" placeholder="Enter total">
+                                                </div>
+                                                <div class="d-grid gap-2 d-md-block">
+                                                                    
+                                                    <input type="submit" id="submitbtn2" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                    <input type="reset" id="clearbtn2" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+
                                                 </div>
                                             </div>
                                         </div>
@@ -786,7 +851,13 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="balanceFilterDropdown">
                                                 <div class="input-group mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="balanceFilterInput" placeholder="Enter balance">
+                                                    <input type="text" class="form-control" id="balancefilter" placeholder="Enter balance">
+                                                </div>
+                                                <div class="d-grid gap-2 d-md-block">
+                                                                    
+                                                    <input type="submit" id="submitbtn3" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                    <input type="reset" id="clearbtn3" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+
                                                 </div>
                                             </div>
                                         </div>
@@ -985,7 +1056,7 @@
     
     </script> 
 
-    <script>
+    <!-- <script>
         // Get references to the table and dropdown
         const table1 = document.getElementById('dataTable');
         const dropdown = document.getElementById('filterDropdown');
@@ -1010,68 +1081,127 @@
                 }
             }
         }
-    </script>
-
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById("numberFilterInput");
-        const dataTable = document.getElementById("dataTable");
-        
-        searchInput.addEventListener("input", function() {
-            const searchText = searchInput.value.toLowerCase();
-            const rows = dataTable.getElementsByTagName("tr");
-        
-            for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip table header row
-            const rowData = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase();
-            if (rowData.includes(searchText)) {
-                rows[i].style.display = ""; // Show the row
-            } else {
-                rows[i].style.display = "none"; // Hide the row
-            }
-            }
-        });
-        });
     </script> -->
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Function to filter the table based on user input
-        function filterTable(columnIndex, inputId) {
-            var input, filter, table, tr, td, i;
-            input = document.getElementById(inputId);
-            filter = input.value.toUpperCase();
-            table = document.getElementById("dataTable");
-            tr = table.getElementsByTagName("tr");
-    
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[columnIndex];
-                if (td) {
-                    var cellText = td.textContent || td.innerText;
-                    if (cellText.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+        function updateTableContent(combinedData) {
+            var tableBody = $('#dataTable tbody'); // Get the table body element
+
+            // Clear existing table rows
+            tableBody.empty();
+
+            // Iterate through the new combinedData and append rows to the table
+            $.each(combinedData, function(index, item) {
+                var newRow = '<tr>';
+                newRow += '<th style="font-family: monospace;"><strong>' + item.Type + '</strong></th>';
+                newRow += '<td>' + item.Number + '</td>';
+                newRow += '<td>' + item.Date + '</td>';
+                newRow += '<td>' + item.Total + '</td>';
+                newRow += '<td>' + item.Balance + '</td>';
+                newRow += '</tr>';
+
+                // Append the new row to the table body
+                tableBody.append(newRow);
+            });
         }
-    
-        // Event listeners for each filter input
-        document.getElementById("numberFilterInput").addEventListener("input", function () {
-            filterTable(1, "numberFilterInput");
+
+        $(document).ready(function() {
+            $('.checkboxFilter').change(function() {
+                var selectedTypes = [];
+                
+
+                $('.checkboxFilter:checked').each(function() {
+                    selectedTypes.push($(this).val());
+                });
+
+                if ($('#checkboxAll').is(':checked')) {
+                    selectedTypes.push('All');
+                }
+
+                $.ajax({
+                    url: '{% url "get_transaction_data" vndr.vendorid %}',
+                    type: 'GET',
+                    data: { selectedTypes: selectedTypes },
+                    dataType: 'json',
+                    success: function(data) {
+                        updateTableContent(data.combined_data);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            // Add a click event handler for the "Reset" button
+            $('#resetbtn').click(function() {
+                // Make an AJAX request to fetch the original combined_data
+                $.ajax({
+                    url: '{% url "get_transaction_data" vndr.vendorid %}', // Replace with the actual URL to fetch the original data
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        updateTableContent(data.combined_data);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
         });
-    
-        document.getElementById("dateFilterInput").addEventListener("input", function () {
-            filterTable(2, "dateFilterInput");
-        });
-    
-        document.getElementById("totalFilterInput").addEventListener("input", function () {
-            filterTable(3, "totalFilterInput");
-        });
-    
-        document.getElementById("balanceFilterInput").addEventListener("input", function () {
-            filterTable(4, "balanceFilterInput");
+
+        // Add a click event handler for the input box in the other column
+        $('.filter-button').click(function() {
+            
+            var numbervalue = $('#numberfilter').val();
+            var datevalue = $('#datefilter').val();
+            var totalvalue = $('#totalfilter').val();
+            var balancevalue = $('#balancefilter').val();
+
+            // Make an AJAX request to filter based on the input box value
+            $.ajax({
+                url: '{% url "get_transaction_data" vndr.vendorid %}', // Replace with the actual URL to filter data based on input
+                type: 'GET',
+                data: {
+                    
+                    numbervalue: numbervalue,
+                    datevalue: datevalue,
+                    totalvalue: totalvalue,
+                    balancevalue: balancevalue
+                },
+                dataType: 'json',
+                success: function(data) {
+                    updateTableContent(data.combined_data);
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+
+            $('.clearbtn').click(function() {
+                // Make an AJAX request to fetch the original combined_data
+                // Clear input box values
+                $('#numberfilter').val('');
+                $('#datefilter').val('');
+                $('#totalfilter').val('');
+                $('#balancefilter').val('');
+                $.ajax({
+                    url: '{% url "get_transaction_data" vndr.vendorid %}', // Replace with the actual URL to fetch the original data
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        updateTableContent(data.combined_data);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
         });
     </script>
+
+
+
     
     
     

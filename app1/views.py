@@ -32,6 +32,7 @@ from xhtml2pdf import pisa
 from django.db.models import F
 from django.db.models import Count
 from . models import *
+from datetime import datetime as dt
 
 def index(request):
     return render(request, 'app1/index.html')
@@ -32535,7 +32536,8 @@ def get_vendor_statement(request, su, cmp1):
             # Default case
             fromdates = request.user.date_joined.date()
             frd1 = fromdates.strftime("%Y-%m-%d")
-            tod1 = tod1.strftime("%Y-%m-%d")
+            tod=date.today()
+            tod1=tod.strftime("%Y-%m-%d")
             statment = vendor_statment.objects.filter(vendor=su, cid=cmp1)
 
         return statment, frd1, tod1  # Return a tuple with all three values
@@ -32600,8 +32602,8 @@ def viewvendor(request, id):
             Type='Bill'
             Number=int(item.bill_no)
             Date=item.date
-            Total=item.grand_total
-            Balance=item.balance_amount
+            Total=int(item.grand_total)
+            Balance=int(item.balance_amount) if item.balance_amount is not None else 0
 
             combined_data.append({
                 'Type':Type,
@@ -32616,8 +32618,8 @@ def viewvendor(request, id):
             Type='Purchase Order'
             Number=int(item.puchaseorder_no)
             Date=item.date
-            Total=item.grand_total
-            Balance=item.balance_amount
+            Total=int(item.grand_total)
+            Balance=int(item.balance_amount)
 
             combined_data.append({
                 'Type':Type,
@@ -32635,15 +32637,14 @@ def viewvendor(request, id):
             Total = int(item.paymentamount) if item.paymentamount else 0
             paid = int(item.amtreceived) if item.amtreceived else 0
 
-            # Calculate the balance
-            Balance = Total - paid
+            
 
             combined_data.append({
                 'Type':Type,
                 'Number':Number,
                 'Date':Date,
                 'Total':Total,
-                'Balance':Balance
+                'Balance':'None'
 
             }) 
 
@@ -32651,7 +32652,7 @@ def viewvendor(request, id):
             Type='Debit Note'
             Number=int(item.debit_no)
             Date=item.debitdate
-            Total=item.grandtotal
+            Total=int(item.grandtotal)
             Balance='None'
 
             combined_data.append({
@@ -32668,7 +32669,7 @@ def viewvendor(request, id):
             Type='Expense'
             Number=int(item.expense_no)
             Date=item.date 
-            Total=item.amount
+            Total=int(item.amount)
             Balance='None'
 
             combined_data.append({
@@ -32680,7 +32681,7 @@ def viewvendor(request, id):
 
             })                 
 
-        
+        print(combined_data)
 
 
         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,
@@ -32691,6 +32692,137 @@ def viewvendor(request, id):
                 }
         return render(request,'app1/viewvendor.html',context)
     return redirect('viewvendor') 
+
+
+def get_transaction_data(request,id): 
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+
+        
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id) 
+        fn =vndr.firstname
+        ln = vndr.lastname
+        su = fn+ ' ' +ln
+
+        pbl = purchasebill.objects.filter(vendor_name=su, cid_id=cmp1).all()
+        paymnt = purchasepayment.objects.filter(vendor=su, cid_id=cmp1).all()
+        pdeb = purchasedebit.objects.filter(vendor=su, cid_id=cmp1).all()
+        expnc = purchase_expense.objects.filter(vendor=su, cid_id=cmp1).all()
+        pordr = purchaseorder.objects.filter(vendor_name=su, status='Draft', cid_id=cmp1).all()
+
+        combined_data = []
+
+        for item in pbl:
+            Type = 'Bill'
+            Number = int(item.bill_no)
+            Date = item.date
+            Total = int(item.grand_total)
+            Balance = int(item.balance_amount) if item.balance_amount is not None else 0
+
+            combined_data.append({
+                'Type': Type,
+                'Number': Number,
+                'Date': Date,
+                'Total': Total,
+                'Balance': Balance
+            })
+
+        for item in pordr:
+            Type = 'Purchase Order'
+            Number = int(item.puchaseorder_no)
+            Date = item.date
+            Total = int(item.grand_total)
+            Balance = int(item.balance_amount)
+
+            combined_data.append({
+                'Type': Type,
+                'Number': Number,
+                'Date': Date,
+                'Total': Total,
+                'Balance': Balance
+            })
+
+        for item in paymnt:
+            Type = 'Payment'
+            Number = int(item.pymntid)
+            Date = item.paymentdate
+            Total = int(item.paymentamount) if item.paymentamount else 0
+            paid = int(item.amtreceived) if item.amtreceived else 0
+
+            # Calculate the balance
+            Balance ='None'
+
+            combined_data.append({
+                'Type': Type,
+                'Number': Number,
+                'Date': Date,
+                'Total': Total,
+                'Balance': Balance
+            })
+
+        for item in pdeb:
+            Type = 'Debit Note'
+            Number = int(item.debit_no)
+            Date = item.debitdate
+            Total = int(item.grandtotal)
+            Balance = 'None'
+
+            combined_data.append({
+                'Type': Type,
+                'Number': Number,
+                'Date': Date,
+                'Total': Total,
+                'Balance': Balance
+            })
+
+        for item in expnc:
+            Type = 'Expense'
+            Number = int(item.expense_no)
+            Date = item.date
+            Total = int(item.amount)
+            Balance = 'None'
+
+            combined_data.append({
+                'Type': Type,
+                'Number': Number,
+                'Date': Date,
+                'Total': Total,
+                'Balance': Balance
+            })
+
+        selected_types = request.GET.getlist('selectedTypes[]')
+        if selected_types:
+            if 'All' in selected_types:
+                return JsonResponse({'combined_data': combined_data})
+            combined_data = [item for item in combined_data if item['Type'] in selected_types]
+        
+        numbervalue = request.GET.get('numbervalue')
+        datevalue = request.GET.get('datevalue')
+        totalvalue = request.GET.get('totalvalue')
+        balancevalue = request.GET.get('balancevalue')
+
+        if datevalue:
+            datevalue = dt.strptime(datevalue, '%Y-%m-%d').date()
+
+        if numbervalue:
+            combined_data = [item for item in combined_data if str(item['Number']) == numbervalue]
+
+        if datevalue:
+            combined_data = [item for item in combined_data if item['Date'] == datevalue]
+
+        if totalvalue:
+            combined_data = [item for item in combined_data if str(item['Total']) == totalvalue]
+
+        if balancevalue:
+            combined_data = [item for item in combined_data if str(item['Balance']) == balancevalue]
+
+        
+        return JsonResponse({'combined_data': combined_data})      
+    return redirect('/')      
 
 def upload_file_vendor(request,id):
      if request.method == 'POST':
