@@ -32416,7 +32416,7 @@ def view_eway_inv(request):
 
 
 
-#Jisha
+#Jisha (correction-Alen Antony)
 
 @login_required(login_url='regcomp')
 def govendor(request):
@@ -32681,7 +32681,7 @@ def viewvendor(request, id):
 
             })                 
 
-        print(combined_data)
+       
 
 
         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,
@@ -32831,77 +32831,6 @@ def upload_file_vendor(request,id):
         vndr.save()
         return redirect('viewvendor',id=vndr.vendorid)
 
-# @login_required(login_url='regcomp')
-# def viewvendor1(request,id):
-#     if 'uid' in request.session:
-#         if request.session.has_key('uid'):
-#             uid = request.session['uid']
-#         else:
-#             return redirect('/')
-#         cmp1 = company.objects.get(id=request.session['uid'])
-#         if request.method=='POST': 
-            
-#             toda = date.today()
-#             tod = toda.strftime("%Y-%m-%d")
-#             filmeth = request.POST['reportperiod']
-#             if filmeth == 'Today':
-#                 fromdate = tod
-#                 todate = tod
-#             elif filmeth == 'Custom':
-#                 fromdate = request.POST['fper']
-#                 todate = request.POST['tper']
-#             elif filmeth == 'This month':
-#                 fromdate = toda.strftime("%Y-%m-01")
-#                 todate = toda.strftime("%Y-%m-31")
-#             elif filmeth == 'This financial year':
-#                 if int(toda.strftime("%m")) >= 1 and int(toda.strftime("%m")) <= 3:
-#                     pyear = int(toda.strftime("%Y")) - 1
-#                     fromdate = f'{pyear}-03-01'
-#                     todate = f'{toda.strftime("%Y")}-03-31'
-#                 else:
-#                     pyear = int(toda.strftime("%Y")) + 1
-#                     fromdate = f'{toda.strftime("%Y")}-03-01'
-#                     todate = f'{pyear}-03-31'
-#             # else:
-#             #     return redirect('viewvendor')
-#             vndr=vendor.objects.get(vendorid=id) 
-#             fn =vndr.firstname
-#             ln = vndr.lastname
-#             su = fn+ ' ' +ln
-
-#             pbill = purchasebill.objects.filter(vendor_name=su,date__gte=fromdate,date__lte=todate,status='Approved')
-            
-#             pymnt = purchasepayment.objects.filter(vendor=su, paymentdate=tod)
-
-#             statment = vendor_statment.objects.filter(vendor=su,cid=cmp1)
-            # statment = vendor_statment.objects.filter(vendor=su,date=tod)
-
-    #         tot6 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('balance_due'))
-    #         tot2 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('grand_total'))
-    #         tot1 = purchasepayment.objects.filter(vendor=su).all().aggregate(t2=Sum('paymentamount'))
-    #         tot7 = purchasepayment.objects.filter(vendor=su).all().aggregate(t3=Sum('amtcredit')) 
-
-    #         billed=0
-    #         sum=0
-    #         summ=0
-    #         re=0
-
-    #         for i in pbill:
-    #             if i.balance_due:
-    #                 sum+=i.balance_due
-    #             if i.grand_total:
-    #                 billed += i.grand_total  
-
-    #         pbl = purchasebill.objects.filter(vendor_name=su,).all() 
-    #         paymnt = purchasepayment.objects.filter(vendor=su,).all()  
-    #         expnc = purchase_expense.objects.filter(vendor=su,).all()   
-    #         pordr =purchaseorder.objects.filter(vendor_name=su,).all() 
-    #         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,'pymnt':pymnt,'pbl':pbl,
-    #                     'paymnt':paymnt,'pordr':pordr,'expnc':expnc,'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2
-
-    #                 }
-    #         return render(request,'app1/viewvendor.html',context)
-    # return redirect('viewvendor')  
 
 @login_required(login_url='regcomp')
 def goeditvendor(request, id):
@@ -33635,7 +33564,7 @@ def gopurchaseorder(request):
         cmp1 = company.objects.get(id=request.session['uid'])
         
         pordr = purchaseorder.objects.filter(cid=cmp1).all()
-        print(pordr)
+        
         return render(request,'app1/gopurchaseorder.html',{'cmp1': cmp1,'pordr':pordr})
     return redirect('gopurchaseorder')
 
@@ -34261,9 +34190,9 @@ def converttobill(request,id):
             items = request.POST.getlist("items[]")
             hsn = request.POST.getlist("hsn[]")
             quantity = request.POST.getlist("quantity[]")
-            rate = request.POST.getlist("rate[]")
+            rate = request.POST.getlist("price[]")
             tax = request.POST.getlist("tax[]")
-            amount = request.POST.getlist("amount[]")
+            amount = request.POST.getlist("total[]")
             discount = request.POST.getlist("reduce[]")
 
             bll=purchasebill.objects.get(billid=billed.billid)
@@ -34271,6 +34200,7 @@ def converttobill(request,id):
             dl=billed.bill_no
             ref=billed.reference
             dt=billed.date
+            print(items,hsn,quantity,rate,tax,amount,discount,dl)
 
             if len(items)==len(quantity)==len(amount) and items and quantity and amount:
                 mapped=zip(items,quantity,amount)

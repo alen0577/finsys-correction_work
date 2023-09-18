@@ -247,46 +247,22 @@
                         <div class="collapse navbar-collapse" id="navbarScroll">
                             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                                 <li class="nav-item active" >
-                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" onclick="window.print()"><i class="fa fa-print"  style="font-size: medium;"> Print</i><span class="sr-only">(current)</span></a>
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" onclick="printDiv()"><i class="fa fa-print"  style="font-size: medium;"> Print</i><span class="sr-only">(current)</span></a>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-share-alt" style="font-size: medium;"> Share</i> 
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item ms-3">{% send_email object.title "New:{{object.title}}" object_or_url " Email" %}</a>
-                                        <a class="dropdown-item ms-3" href="#">{% post_to_whatsapp object_or_url " Whatsapp" %}</a>
-                                    </div>
-                                </li>
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-light btn" id="navbarDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-exchange">Convert</i>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'convertapproved' pordr.porderid %}">Approved</a>
-                                        {% if pordr.status != 'Billed' %}
-                                            <a class="dropdown-item" href="{% url 'convertbilled' pordr.porderid %}">
-                                                Bill
-                                            </a>
-                                        {% endif %}    
-                                    </div>
-                                </li> -->
-                                <li class="nav-item">
+                                
+                               
+                                <!-- <li class="nav-item">
                                     <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" href="{% url 'render_pdfpurchase_view' pordr.porderid%}">
                                         <i class="fa fa-file-pdf-o" style="font-size: medium;"> Pdf</i>
                                     </a>
-                                </li>
+                                </li> -->
                                 
                                 <li class="nav-item">
                                     <a class="nav-link text-light btn btn-outline-info btn-sm mx-1" role="button" href="goeditpurchaseorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class=" fa fa-pencil" style="font-size: medium;"> Edit</i></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" href="deletepurchasorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class="fa fa-trash-o delete" style="font-size: medium;"> Delete</i></a>
-                                </li>
+                                
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
+                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm" href="#" id="navbarDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-file" style="font-size: medium;"> File</i>
                                     </a>
@@ -296,6 +272,19 @@
                                             <a class="dropdown-item" download  href="{{pordr.file.url }}"><i class="fa fa-download">&nbsp;Download File</i></a>
                                         {% endif %}
                                     </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-share-alt" style="font-size: medium;"> Share</i> 
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item " style="margin-left: 15px;">{% send_email object.title "New:{{object.title}}" object_or_url " Email" %}</a>
+                                        <a class="dropdown-item " href="#" style="margin-left: 15px;">{% post_to_whatsapp object_or_url " Whatsapp" %}</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light btn btn-outline-info btn-sm " role="button" href="deletepurchasorder/{{ pordr.porderid }}{{ pitem.porder }}"><i class="fa fa-trash-o delete" style="font-size: medium;"> Delete</i></a>
                                 </li>
                             </ul>
                         </div>
@@ -339,25 +328,18 @@
                         </div>
                         <section class="top-content bb d-flex justify-content-between">
                             <div class="logo">
-                                <!-- <img src="logo.png" alt="" class="img-fluid"> -->
+                                
                             </div>
                             
                             <div class="top-left">
-                                <!-- <div class="graphic-path">
-                                    <p> PO - <span>{{pordr.puchaseorder_no }}</span></p>
-                                </div> -->
-                                <!-- <div class="position-relative">
-                                    <p> PO - <span>{{pordr.puchaseorder_no }}</span></p>
-                                    <p>Date : <span>{{ pordr.date | date:'d-m-Y' }}</span></p>
-                                    <p>Excpected Date : <span> {{ pordr.deliver_date | date:'d-m-Y' }}</span></p>
-                                </div> -->
+                                
                             </div>
                         </section>
                     
             
                         <section class="store-user">
                             <div class="col-12">
-                                <div class="row bb pb-5 mt-5">
+                                <div class="row bb pb-3 mt-3">
                                     <div class="col-4">
                                         <label class="text-white bg-info w-100 p-1"><b>VENDOR</b></label>
                                         <h5 class="text-info" style="font-weight: bold;">{{pordr.vendor_name}}</h5>
@@ -374,17 +356,7 @@
                                         <p class="address" style="font-weight: bold;margin-top: 2px;">{{ pordr.deliverto|linebreaksbr }} </p>   
                                     </div>
                                 </div>
-                                <!-- <div class="row extra-info pt-3">
-                                    <div class="col-7">
-                                        <p>Deliver To Details: </p>
-                                        <p>{{pordr.contact_name}}</p>
-                                        <p class="address col-6" style="margin-left: -14px;"> {{ pordr.deliverto}} </p>   
-                                    </div>
-                                    <div class="col-5">
-                                        <p>Date : <span>{{ pordr.date | date:'d-m-Y' }}</span></p>
-                                        <p>Excpected Date : <span> {{ pordr.deliver_date | date:'d-m-Y' }}</span></p>
-                                    </div>
-                                </div> -->
+                               
                             </div>
                         </section>
             
@@ -418,7 +390,7 @@
                         </section>
             
                         <section class="balance-info">
-                            <div class="row mt-5">
+                            <div class="row mt-3">
                                 <div class="col-4">
                                     <table class="table table-borderless">
                                         <tbody>
@@ -525,13 +497,13 @@
                                     
                                 </div> 
                             </div>
-                            <div class="row container-fluid  p-2 m-0">
+                            <div class="row container-fluid">
                                 <div class="col-sm-3 m-0 p-0"><label style="color: #000;"><b>Authorized Signature</b></label></div>
-                                <div class="col-sm-4 m-0 p-0"><input type="text" id="sign"></div>
+                                <div class="col-sm-4 m-0 p-0 text-dark">________________________</div>
                                 <div class="col-sm-4 m-0 p-0"></div>
                             </div>
                         </section>
-                        <img src="cart.jpg" class="img-fluid cart-bg" alt="">   
+                        
                     </div>
                 </div>
             </div>
@@ -571,18 +543,20 @@
                 });
             });
         </script>
+        
 
-        <script> 
-            function printDiv() { 
-                var divContents = document.getElementById("panel").innerHTML; 
-                var a = window.open('', '', 'height=800, width=800'); 
-                a.document.write('<html>'); 
-                a.document.write('<body > <h1> <br>'); 
-                a.document.write(divContents); 
-                a.document.write('</body></html>'); 
-                a.document.close(); 
-                a.print(); 
-            } 
+       
+        <script>
+            function printDiv() {
+                var printContents = document.getElementById("whatToPrint").innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+            }
         </script>
 
         <script type="text/javascript">

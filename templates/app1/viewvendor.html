@@ -147,32 +147,18 @@
                         <ul class="navbar-nav navbar-right">
                             
                             <li class="nav-item">
+                                <a class="nav-link btn btn-outline-info btn-sm  "  role="button" onclick="printDiv()"  style="color: white;">
+                                    <i class="fa fa-print" style="font-size: medium;" >&nbsp;Print</i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link btn btn-outline-info btn-sm  " role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-edit" style="font-size: medium;">&nbsp;Edit</i>
                                 </a>
                             </li>
-                            {% if vndr.attachment %}
-                            <li class="nav-item">
-                               
-                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="{{vndr.attachment.url}}" style="color: white;">
-                                    <i class="fa fa-download" style="font-size: medium;">&nbsp;Download File</i>
-                                </a>
-                               
-                            </li>
-                            {% else %}
-                            <li class="nav-item">
-                               
-                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " id="attach-button" role="button" href="" style="color: white;" data-toggle="modal" data-target="#attachModal">
-                                    <i class="fa fa-paperclip" style="font-size: medium;">&nbsp;Attach File</i>
-                                </a>
-                               
-                            </li>
-                            {% endif %}
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm  "  role="button" onclick="printdata()"  style="color: white;">
-                                    <i class="fa fa-print" style="font-size: medium;" >&nbsp;Print</i>
-                                </a>
-                            </li>
+
+                            
+                            
                             {% if vndr.is_active %}
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
@@ -191,13 +177,25 @@
                                     <i class="fa fa-trash-o" style="font-size: medium;">&nbsp;Delete</i>
                                 </a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-file" style="font-size: medium;"> File</i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#attachModal"><i class="fa fa-paperclip">&nbsp;Attach File</i></a>
+                                    {% if vndr.attachment %}
+                                        <a class="dropdown-item" download  href="{{vndr.attachment.url }}"><i class="fa fa-download">&nbsp;Download File</i></a>
+                                    {% endif %}
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </nav>
             </div>
         </div>
-        <div class="card card-registration card-registration-2 " style="border-radius: 15px;">
-            <div class="card-body p-0 ">
+        <div  class="card card-registration card-registration-2 " style="border-radius: 15px;">
+            <div id="whatToPrint"  class="card-body p-0 ">
                 <div id="details">
                     <div class="row g-0">
                         <div class="col-lg-8">
@@ -480,10 +478,10 @@
                             
                             <div class="row hidden-md-up" style="margin-top: 15px;">
                                 <div class="col-md-7" style="margin: auto;">
-                                  <div class="card">
+                                  <div  class="card">
                                     <div id="panel">
                                         <div class="card-block">
-                                            <div class="card-body">
+                                            <div id="whatToPrint" class="card-body">
                                                 <div class="container bootdey">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-sm-offset-1" style="padding:20px;">
@@ -628,19 +626,7 @@
                                                                         </table>
                                                                     </div><br>
                                                                     <div class="col-md-12 tab_logic">
-                                                                        <!-- <table border="0" id="tab_logic" class=" table-striped" width="100%" style="font-size:10px;color:black;">
-                                                                            <thead class="thead-dark">
-                                                                                <tr>
-                                                                                <th>Date</th>
-                                                                                <th>Transactions</th>
-                                                                                <th>Details</th>
-                                                                                <th>Amount</th>
-                                                                                <th>Payments</th>
-                                                                                <th>Balance</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody></tbody>
-                                                                        </table> -->
+                                                                       
                                                                     </div>
                                                                     <div class="hr hr8 hr-double hr-dotted"></div>
                                                                 </div>
@@ -658,236 +644,235 @@
                 </div>
             </div>
 
-            <div id="transation" style="display: none;" >
-                <div class="row mt-3 mb-3">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="row mt-5">
-                            <h5 style="margin-left: 15px;"><strong>{{ vndr.firstname }} {{ vndr.lastname }}</strong></h5>
+            <div id="whatToPrint">
+                <div id="transation" style="display: none;" >
+                    <div class="row mt-3 mb-3">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="row mt-5">
+                                <h5 style="margin-left: 15px;"><strong>{{ vndr.firstname }} {{ vndr.lastname }}</strong></h5>
+                            </div>
+                            <div class="row mt-4 mb-3">
+                                <div class="col-md-4">
+                                    <p style="font-family: monospace;font-size: large;">Mobile : <strong>{{vndr.mobile}}</strong></p>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <p style="font-family: monospace;font-size: large;">Address : <strong>{{vndr.city}}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row mt-3 mb-3">
+                                <div class="col-md-4">
+                                    <p style="font-family: monospace;font-size: large;">Email : <strong>{{vndr.email}}</strong></p>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <p style="font-family: monospace;font-size: large;">GSTIN : <strong>{{vndr.gstin}}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row mt-3 mb-3">
+                                <div class="col-md-4">
+                                    <p style="font-family: monospace;font-size: large;">No Credit Limit Set</p>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mt-4">
+                                <h5 style="margin-left: 15px;"><strong>Transactions</strong></h5>
+                            </div>
                         </div>
-                        <div class="row mt-4 mb-3">
-                            <div class="col-md-4">
-                                <p style="font-family: monospace;font-size: large;">Mobile : <strong>{{vndr.mobile}}</strong></p>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <p style="font-family: monospace;font-size: large;">Address : <strong>{{vndr.city}}</strong></p>
-                            </div>
-                        </div>
-                        <div class="row mt-3 mb-3">
-                            <div class="col-md-4">
-                                <p style="font-family: monospace;font-size: large;">Email : <strong>{{vndr.email}}</strong></p>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <p style="font-family: monospace;font-size: large;">GSTIN : <strong>{{vndr.gstin}}</strong></p>
-                            </div>
-                        </div>
-                        <div class="row mt-3 mb-3">
-                            <div class="col-md-4">
-                                <p style="font-family: monospace;font-size: large;">No Credit Limit Set</p>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row mt-4">
-                            <h5 style="margin-left: 15px;"><strong>Transactions</strong></h5>
-                        </div>
+                        <div class="col-md-1"></div>
+                        
                     </div>
-                    <div class="col-md-1"></div>
                     
-                </div>
-                
-                
-
-                <div class="row mt-4 mb-5">
-
-                    <div class="col-md-1"></div>
-
-                    <div class="col-md-10">
-
-                        
-                        <table id="dataTable" class="table tabledata  table-bordered table-hover" style="border-width: 2px;">
-                            <thead>
-
-                                <tr>
-                                    
-                                    <th class="type-column">
-                                        <div class="row">
-                                            
-                                            <div class="col-md-12">
-                                                <div class="btn-group  dropup">
-                                                    <button type="button" class="btn btn-outline-info  text-white" >Type</button>
-                                                    <button type="button" class="btn btn-outline-info  text-white  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <span class="visually-hidden"></span>
-                                                    </button>
-                                                    <ul id="filterDropdown" class="dropdown-menu">
-                                                        
-                                                        <form method="post" action="">
-                                                            {% csrf_token %}
-
-                                                            <div class="container">
-                                                                                                                            
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input" type="checkbox" value="All" id="checkboxAll">
-                                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                                      All
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Bill" id="checkboxbill">
-                                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                                      Bill
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Purchase Order" id="checkboxorder">
-                                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                                      Purchase Order
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Expense" id="checkboxexpense">
-                                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                                      Expense
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Payment" id="checkboxpayment">
-                                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                                      Payment
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check mb-1">
-                                                                    <input class="form-check-input checkboxFilter" type="checkbox" value="Debit Note" id="checkboxdebit">
-                                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                                      Debit Note
-                                                                    </label>
-                                                                </div>
-                                                                
-                                                                
-                                                                <div class="d-grid gap-2 d-md-block">
-                                                                    
-                                                                    <input type="reset" id="resetbtn" class="btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
-                                                                </div>
-
-                                                            </div>
-                                                            
-
-                                                        </form>
-                                                        
-                                                    </ul>
-                                                    </div>
-                                            </div>
-                                            
-                                            
-                                        </div>
+                    
+    
+                    <div class="row mt-4 mb-5">
+    
+                        <div class="col-md-1"></div>
+    
+                        <div class="col-md-10">
+    
+                            
+                            <table id="dataTable" class="table tabledata  table-bordered table-hover" style="border-width: 2px;">
+                                <thead>
+    
+                                    <tr>
                                         
-                                    </th>
-                                    <th class="filterable-column">
-                                        <div class="btn-group dropup">
-                                            <button type="button" class="btn btn-outline-info text-white">Number</button>
-                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="numberFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="numberFilterDropdown">
-                                                <div class="input-group mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="numberfilter" placeholder="Enter number">
-                                                </div>
-                                                <div class="d-grid gap-2 d-md-block">
+                                        <th class="type-column">
+                                            <div class="row">
+                                                
+                                                <div class="col-md-12">
+                                                    <div class="btn-group  dropup">
+                                                        <button type="button" class="btn btn-outline-info  text-white" >Type</button>
+                                                        <button type="button" class="btn btn-outline-info  text-white  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <span class="visually-hidden"></span>
+                                                        </button>
+                                                        <ul id="filterDropdown" class="dropdown-menu">
+                                                            
+                                                            <form method="post" action="">
+                                                                {% csrf_token %}
+    
+                                                                <div class="container">
+                                                                                                                                
                                                                     
-                                                    <input type="submit" id="submitbtn" class=" filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
-                                                    <input type="reset" id="clearbtn" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
-
+                                                                    <div class="form-check mb-1">
+                                                                        <input class="form-check-input checkboxFilter" type="checkbox" value="Bill" id="checkboxbill">
+                                                                        <label class="form-check-label" for="flexCheckChecked">
+                                                                          Bill
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check mb-1">
+                                                                        <input class="form-check-input checkboxFilter" type="checkbox" value="Purchase Order" id="checkboxorder">
+                                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                                          Purchase Order
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check mb-1">
+                                                                        <input class="form-check-input checkboxFilter" type="checkbox" value="Expense" id="checkboxexpense">
+                                                                        <label class="form-check-label" for="flexCheckChecked">
+                                                                          Expense
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check mb-1">
+                                                                        <input class="form-check-input checkboxFilter" type="checkbox" value="Payment" id="checkboxpayment">
+                                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                                          Payment
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check mb-1">
+                                                                        <input class="form-check-input checkboxFilter" type="checkbox" value="Debit Note" id="checkboxdebit">
+                                                                        <label class="form-check-label" for="flexCheckChecked">
+                                                                          Debit Note
+                                                                        </label>
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                    <div class="d-grid gap-2 d-md-block">
+                                                                        
+                                                                        <input type="reset" id="resetbtn" class="btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+                                                                    </div>
+    
+                                                                </div>
+                                                                
+    
+                                                            </form>
+                                                            
+                                                        </ul>
+                                                        </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            
+                                        </th>
+                                        <th class="filterable-column">
+                                            <div class="btn-group dropup">
+                                                <button type="button" class="btn btn-outline-info text-white">Number</button>
+                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="numberFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="numberFilterDropdown">
+                                                    <div class="input-group mt-2 mb-2">
+                                                        <input type="text" class="form-control" id="numberfilter" placeholder="Enter number">
+                                                    </div>
+                                                    <div class="d-grid gap-2 d-md-block">
+                                                                        
+                                                        <input type="submit" id="submitbtn" class=" filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                        <input type="reset" id="clearbtn" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+    
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </th>
-
-                                    <th class="filterable-column">
-                                        <div class="btn-group dropup">
-                                            <button type="button" class="btn btn-outline-info text-white">Date</button>
-                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="dateFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dateFilterDropdown">
-                                                <div class="input-group mt-2 mb-2">
-                                                    <input type="date" class="form-control" id="datefilter" placeholder="Enter date">
-                                                </div>
-                                                <div class="d-grid gap-2 d-md-block">
-                                                                    
-                                                    <input type="submit" id="submitbtn1" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
-                                                    <input type="reset" id="clearbtn1" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    
-                                    <th class="filterable-column">
-                                        <div class="btn-group dropup">
-                                            <button type="button" class="btn btn-outline-info text-white">Total</button>
-                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="totalFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="totalFilterDropdown">
-                                                <div class="input-group  mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="totalfilter" placeholder="Enter total">
-                                                </div>
-                                                <div class="d-grid gap-2 d-md-block">
-                                                                    
-                                                    <input type="submit" id="submitbtn2" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
-                                                    <input type="reset" id="clearbtn2" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
-
+                                        </th>
+    
+                                        <th class="filterable-column">
+                                            <div class="btn-group dropup">
+                                                <button type="button" class="btn btn-outline-info text-white">Date</button>
+                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="dateFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dateFilterDropdown">
+                                                    <div class="input-group mt-2 mb-2">
+                                                        <input type="date" class="form-control" id="datefilter" placeholder="Enter date">
+                                                    </div>
+                                                    <div class="d-grid gap-2 d-md-block">
+                                                                        
+                                                        <input type="submit" id="submitbtn1" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                        <input type="reset" id="clearbtn1" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+    
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </th>
-
-                                    <th class="filterable-column">
-                                        <div class="btn-group dropup">
-                                            <button type="button" class="btn btn-outline-info text-white">Balance</button>
-                                            <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="balanceFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="balanceFilterDropdown">
-                                                <div class="input-group mt-2 mb-2">
-                                                    <input type="text" class="form-control" id="balancefilter" placeholder="Enter balance">
-                                                </div>
-                                                <div class="d-grid gap-2 d-md-block">
-                                                                    
-                                                    <input type="submit" id="submitbtn3" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
-                                                    <input type="reset" id="clearbtn3" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
-
+                                        </th>
+                                        
+                                        <th class="filterable-column">
+                                            <div class="btn-group dropup">
+                                                <button type="button" class="btn btn-outline-info text-white">Total</button>
+                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="totalFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="totalFilterDropdown">
+                                                    <div class="input-group  mt-2 mb-2">
+                                                        <input type="text" class="form-control" id="totalfilter" placeholder="Enter total">
+                                                    </div>
+                                                    <div class="d-grid gap-2 d-md-block">
+                                                                        
+                                                        <input type="submit" id="submitbtn2" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                        <input type="reset" id="clearbtn2" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+    
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                {% for data in combined_data %}
-                                <tr>
-                                    <th style="font-family: monospace;"><strong>{{data.Type}}</strong></th>
-                                    <td>{{data.Number}}</td>
-                                    <td>{{data.Date|date:'d-m-Y'}}</td>
-                                    <td>{{data.Total}}</td>
-                                    <td>{{data.Balance}}</td>
-
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-
-                        </table>
-                        
-
+                                        </th>
+    
+                                        <th class="filterable-column">
+                                            <div class="btn-group dropup">
+                                                <button type="button" class="btn btn-outline-info text-white">Balance</button>
+                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="balanceFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="balanceFilterDropdown">
+                                                    <div class="input-group mt-2 mb-2">
+                                                        <input type="text" class="form-control" id="balancefilter" placeholder="Enter balance">
+                                                    </div>
+                                                    <div class="d-grid gap-2 d-md-block">
+                                                                        
+                                                        <input type="submit" id="submitbtn3" class="filter-button btn btn-outline-info btn-sm  text-grey w-30 mt-1 mb-1" value="submit" style="margin-left: 5px;">
+                                                        <input type="reset" id="clearbtn3" class="clearbtn btn btn-outline-info btn-sm  text-grey w-30 mt-3 mb-3" value="Clear" >
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+    
+                                </thead>
+                                <tbody>
+                                    {% for data in combined_data %}
+                                    <tr>
+                                        <th style="font-family: monospace;"><strong>{{data.Type}}</strong></th>
+                                        <td>{{data.Number}}</td>
+                                        <td>{{data.Date|date:'d-m-Y'}}</td>
+                                        <td>{{data.Total}}</td>
+                                        <td>{{data.Balance}}</td>
+    
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+    
+                            </table>
+                            
+    
+                        </div>
+    
+                        <div class="col-md-1"></div>
+    
                     </div>
-
-                    <div class="col-md-1"></div>
-
+    
                 </div>
-
+    
             </div>
+
         </div>
     </div>
 
@@ -968,6 +953,28 @@
             a.print(); 
         } 
     </script>
+
+    <style>
+        @media print {
+            /* Adjust margins as needed to prevent extra pages */
+            body {
+                margin: 0;
+            }
+        }
+    </style>
+
+    <script>
+        function printDiv() {
+            var printContents = document.getElementById("whatToPrint").innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
     
     <script>
         
@@ -1021,67 +1028,8 @@
         });
     
     </script>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        const printButton = document.getElementById('print-button');
-        const contentToPrint = document.getElementById('content-to-print');
-
-        printButton.addEventListener('click', function() {
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write('<html><head><title>Print Div</title></head><body>');
-            printWindow.document.write(contentToPrint.innerHTML);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        });
-      });
-
-    </script> -->
-    <script>
-
-        function printdata() {
-          // select the retainer invoice section
-          const dataSection = document.querySelector('#details');
-          
-          // get the HTML content of the retainer invoice section
-          const DataHTML = dataSection.innerHTML;
-          
-          // create a new window and write the retainer invoice HTML to it
-          const newWindow = window.open();
-          newWindow.document.write(DataHTML);
-          
-          // print the new window
-          newWindow.print();
-        }
     
-    </script> 
 
-    <!-- <script>
-        // Get references to the table and dropdown
-        const table1 = document.getElementById('dataTable');
-        const dropdown = document.getElementById('filterDropdown');
-    
-        // Add an event listener to the dropdown items
-        dropdown.addEventListener('click', (event) => {
-            if (event.target.classList.contains('filter-item')) {
-                const filterValue = event.target.getAttribute('data-filter');
-                filterTableByType(filterValue);
-            }
-        });
-    
-        // Function to filter the table by the selected type
-        function filterTableByType(type) {
-            const rows = table1.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            for (const row of rows) {
-                const typeCell = row.getElementsByTagName('th')[0];
-                if (type === 'all' || typeCell.textContent.trim() === type) {
-                    row.style.display = ''; // Show the row
-                } else {
-                    row.style.display = 'none'; // Hide the row
-                }
-            }
-        }
-    </script> -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

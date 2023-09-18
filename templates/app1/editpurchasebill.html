@@ -1144,12 +1144,11 @@
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     {% endif %}
-                                    <div class="row container-fluid  p-2 m-0" style="display:none ;">
+                                    <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
-                                        <div class="col-sm-1 mt-2"></div>
-                                        <div class="col-sm-7 mt-2">
+                                        <div class="col-sm-8 mt-2">
                                             <input type="number" name='bal_due' id="bal_due" placeholder="0" step="any" 
-                                            class="form-control" readonly >
+                                            class="form-control" value="{{pbill.balance_amount}}" readonly >
                                             
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
@@ -1317,7 +1316,7 @@
             
             var amount =taxamount + total - tcs 
             let x =Math.round(amount)
-            let y =Math.round(x-disc0)
+            let y =Math.round(x-disc0 + shipCharge)
             var gt = Math.round(amount-disc0+ shipCharge);
             
             $('#tcs_amount').val(parseFloat(tcs.toFixed(2)));
@@ -1384,8 +1383,8 @@
                 
                
             }
-
-            const balanceDue = grandTotal - paidAmount;
+            const paidAmount1 = parseFloat(paidInput.value);
+            const balanceDue = grandTotal - paidAmount1;
             balanceDueInput.value = balanceDue.toFixed(2);
         }
 
