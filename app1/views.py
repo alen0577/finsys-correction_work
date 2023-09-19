@@ -32576,9 +32576,19 @@ def viewvendor(request, id):
 
         tot6 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('balance_amount'))
         tot2 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('grand_total'))
+        tot3 = purchasebill.objects.filter(cid=cmp1,vendor_name=su).all().aggregate(t2=Sum('paid_amount'))
         tot1 = purchasepayment.objects.filter(vendor=su).all().aggregate(t2=Sum('paymentamount'))
         tot7 = purchasepayment.objects.filter(vendor=su).all().aggregate(t3=Sum('amtcredit')) 
 
+       
+        value1 = tot3.get('t2', 0)
+        value2 = tot1.get('t2', 0) 
+        if value1 is None:
+            value1 = 0
+        if value2 is None:
+            value2 = 0 
+        received=value1+value2
+        
         billed=0
         sum=0
         summ=0
@@ -32687,7 +32697,7 @@ def viewvendor(request, id):
         context = {'vndr': vndr,'cmp1': cmp1,'pbill':pbill,'sum':sum,'sum2':summ,'billed':billed,'tod':tod,'re':re,
                     'pymnt':pymnt,'pbl':pbl,'paymnt':paymnt,'pordr':pordr,'expnc':expnc,'pdeb':pdeb,
                     'statment':statment,'tot6':tot6,'tot7':tot7,'tot1':tot1,'tot2':tot2,'combined_data':combined_data,
-                    'frd1':frd1,'tod1':tod1,
+                    'frd1':frd1,'tod1':tod1,'received':received,
 
                 }
         return render(request,'app1/viewvendor.html',context)
@@ -32881,7 +32891,7 @@ def editvendor(request,id):
             vndr.shipcountry=request.POST['shipcountry']
 
             vndr.save()
-            return redirect('govendor')
+            return redirect('viewvendor',id=vndr.vendorid)
         return render(request,'govendor.html')
     return redirect('/')
 
@@ -34059,7 +34069,8 @@ def converttobill(request,id):
             statment2.details2 = reference
             statment2.date = billed.date
             statment2.balance = billed.balance_amount
-            statment2.payments = billed.grand_total
+            statment2.amount = billed.grand_total
+            statment2.payments = billed.paid_amount
             statment2.save()
 
             pl3=profit_loss()
@@ -34617,7 +34628,8 @@ def createbill(request):
             statment2.details2 = reference
             statment2.date = billed.date
             statment2.balance = billed.balance_amount
-            statment2.payments = billed.grand_total
+            statment2.amount = billed.grand_total
+            statment2.payments = billed.paid_amount
             statment2.save()
 
             pl3=profit_loss()

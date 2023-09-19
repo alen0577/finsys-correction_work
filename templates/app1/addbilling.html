@@ -374,7 +374,7 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
-                                    <div class="row container-fluid p-2 m-0">
+                                    <div class="row container-fluid p-2 m-0" style="display: none;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Total Discount</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
                                         <div class="col-sm-7 mt-2"><input type="number" step="any" name='tot_dis' placeholder=0 
@@ -390,14 +390,7 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
-                                    <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Shipping Charge</label></div>
-                                        <div class="col-sm-1 mt-2">:</div>
-                                        <div class="col-sm-7 mt-2"><input type="number" step="any" name='shipcharge' placeholder=0 
-                                            class="form-control" id="shipcharge" value="0">
-                                        </div>
-                                        <div class="col-sm-4 m-0 p-0"></div>
-                                    </div>
+                                    
                                     <div class="row container-fluid p-2 m-0" id="igst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
@@ -430,6 +423,14 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Shipping Charge</label></div>
+                                        <div class="col-sm-1 mt-2">:</div>
+                                        <div class="col-sm-7 mt-2"><input type="number" step="any" name='shipcharge' placeholder=0 
+                                            class="form-control" id="shipcharge" value="0">
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
                                     <div class="row container-fluid p-2 m-0" style="display: none;">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">TCS</label></div>
                                         <div class="col-sm-1 mt-2">:</div>
@@ -451,9 +452,9 @@
                                         </div> -->
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Adjustments</a></div>
+                                        <div class="col-sm-4 mt-2"><a class="text-center">Adjustments</a></div>
                                         <div class="col-sm-1 mt-2">:</div>
-                                        <div class="col-sm-7 mt-2"><input type="number" name='round_off' step="any" id="round_off" placeholder=0 
+                                        <div class="col-sm-7 mt-2"><input type="number" name='round_off' step="any" id="round_off" value="0" placeholder=0 
                                             class="form-control" />
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
@@ -2743,6 +2744,7 @@
             var a = document.getElementById("tcs1").value
             var discount = document.getElementById("disc1").value
             var shipCharge = parseFloat(document.getElementById("shipcharge").value); // Getting the shipping charge amount
+            var adjustments = parseFloat(document.getElementById("round_off").value);
             
             tcs=0
             tcs =a/100 * total
@@ -2753,12 +2755,12 @@
             var amount =taxamount + total  - tcs 
             let x =Math.round(amount)
             let y =Math.round(x-disc0 + shipCharge)
-            var gt = Math.round(amount-disc0+ shipCharge);
+            var gt = Math.round(amount-disc0+ shipCharge + adjustments);
             
             $('#tcs_amount').val(parseFloat(tcs.toFixed(2)));
             $('#grandtotal').val(parseFloat(gt.toFixed(2)));
             $('#due').val(parseFloat(y.toFixed(2)));
-            $('#round_off').val(parseFloat(y.toFixed(2)));
+            // $('#round_off').val(parseFloat(y.toFixed(2)));
             // $('#due').val((y).toFixed(2));
             // $('#round_off').val((y).toFixed(2));   
 
@@ -2785,9 +2787,14 @@
     </script>
     <script>
         document.getElementById("shipcharge").addEventListener("input", function() {
-        calc_tcs(); // Recalculate the values when shipCharge changes
+        calc(); // Recalculate the values when shipCharge changes
+        });       
+    </script>
+
+    <script>
+        document.getElementById("round_off").addEventListener("input", function() {
+        calc(); // Recalculate the values when adjustments changes
         });
-        
     </script>
 
     

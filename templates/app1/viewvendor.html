@@ -162,13 +162,13 @@
                             {% if vndr.is_active %}
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-times-circle" style="font-size: medium;">&nbsp;Inactive</i>
+                                    <i class="fa fa-check-circle" style="font-size: medium;">&nbsp;Active</i>
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
-                                    <i class="fa fa-check-circle" style="font-size: medium;">&nbsp;Active</i>
+                                    <i class="fa fa-times-circle" style="font-size: medium;">&nbsp;Inactive</i>
                                 </a>
                             </li>
                             {% endif %}
@@ -398,19 +398,30 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label class="col-sm-5" style="font-size: medium;">Opening Balance</label>
-                                    <p ><b>:</b></p>
-                                    <div class="col-sm-6">
-                                      <p style="font-size: medium;"><b>{{ vndr.openingbalance }}/-</b></p>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
                                     <label class="col-sm-5" style="font-size: medium;">Opening Balance Type</label>
                                     <p ><b>:</b></p>
                                     <div class="col-sm-6">
                                       <p style="font-size: medium;"><b>{{ vndr.opening_balance_type }}</b></p>
                                     </div>
                                 </div>
+                                {% if vndr.opening_balance_type == 'Credit' %}
+                                <div class="row mb-3">
+                                    <label class="col-sm-5" style="font-size: medium;">Opening Balance</label>
+                                    <p ><b>:</b></p>
+                                    <div class="col-sm-6">
+                                      <p style="font-size: medium;"><b>- {{ vndr.openingbalance }}/-</b></p>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="row mb-3">
+                                    <label class="col-sm-5" style="font-size: medium;">Opening Balance</label>
+                                    <p ><b>:</b></p>
+                                    <div class="col-sm-6">
+                                      <p style="font-size: medium;"><b>{{ vndr.openingbalance }}/-</b></p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
                                 <div class="row mb-1">
                                     <label class="col-sm-5" style="font-size: medium;">Payment Terms</label>
                                     <p ><b>:</b></p>
@@ -480,8 +491,8 @@
                                 <div class="col-md-7" style="margin: auto;">
                                   <div  class="card">
                                     <div id="panel">
-                                        <div class="card-block">
-                                            <div id="whatToPrint" class="card-body">
+                                        <div class="card-block1">
+                                            <div id="whatToPrint" class="print-container card-body">
                                                 <div class="container bootdey">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-sm-offset-1" style="padding:20px;">
@@ -535,12 +546,18 @@
                                                                                     <tr>
                                                                                         <th class="text-black">Account Summary</th>
                                                                                     </tr>
-                                                                                    {% if vndr.openingbalance != ""  %}
-                                                                                        <tr>
-                                                                                            <th>Opening balance</th>
-                                                                                            <th>:</th>
-                                                                                            <th>{{vndr.openingbalance}}</th>
-                                                                                        </tr>
+                                                                                    {% if vndr.opening_balance_type == "Credit"  %}
+                                                                                    <tr>
+                                                                                        <th>Opening balance</th>
+                                                                                        <th>:</th>
+                                                                                        <th>- {{vndr.openingbalance}}</th>
+                                                                                    </tr>
+                                                                                    {% else %}
+                                                                                    <tr>
+                                                                                        <th>Opening balance</th>
+                                                                                        <th>:</th>
+                                                                                        <th>- {{vndr.openingbalance}}</th>
+                                                                                    </tr>
                                                                                     {% endif %}
                                                                                     <tr>
                                                                                         <th>Billed Amount</th>
@@ -550,7 +567,7 @@
                                                                                     <tr style="border-bottom: 1px solid black; width:100%;">
                                                                                         <th>Amount received</th>
                                                                                         <th>:</th>
-                                                                                        <th>{{tot1.t2}}</th>
+                                                                                        <th>{{received}}</th>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th>Balance Due</th>
@@ -568,7 +585,7 @@
                                                                                 <tr>
                                                                                 <th>Date</th>
                                                                                 <th>Transactions</th>
-                                                                                <th>Details</th>
+                                                                                <th>Number</th>
                                                                                 <th>Amount</th>
                                                                                 <th>Payments</th>
                                                                                 <th>Balance</th>
@@ -580,7 +597,7 @@
                                                                                     <th>**Opening Balance**</th>
                                                                                     <td></td>
                                                                                     <th>{{ tot2.t2 }}</th>
-                                                                                    <td></td>
+                                                                                    <td>{{received}}</td>
                                                                                     <th>{{ tot6.t2 }}{{ tot8.t2 }}</th>
                                                                                 </tr>
                                                                                 {% for i in statment %}
@@ -595,7 +612,7 @@
                                                                                                 {{i.transactions}}
                                                                                             {% endif %}</th>
                                                                                         <th>{% if i.pbill != null  %}
-                                                                                            BILL-{{i.pbill.bill_no}}
+                                                                                            {{i.pbill.bill_no}}
                                                                                             {% endif %} 
                                                                                             {% if i.pymnt != null  %}
                                                                                             ₹{{i.payments}} 
@@ -604,6 +621,8 @@
                                                                                         <th>
                                                                                             {% if i.amount %}
                                                                                             {{i.amount}}
+                                                                                            {% else %}
+                                                                                            0
                                                                                             {% endif %}
                                                                                         </th>
                                                                                         <th>{% if i.payments %}
@@ -612,6 +631,8 @@
                                                                                             </th>
                                                                                         <th>{% if i.balance %}
                                                                                             {{i.balance}}
+                                                                                            {% else %}
+                                                                                            0
                                                                                             {% endif %} 
                                                                                         </th>
                                                                                     </tr>
@@ -941,7 +962,7 @@
         }
     </script>
 
-    <script> 
+    <!-- <script> 
         function printDiv() { 
             var divContents = document.getElementById("panel").innerHTML; 
             var a = window.open('', '', 'height=800, width=800'); 
@@ -952,18 +973,18 @@
             a.document.close(); 
             a.print(); 
         } 
-    </script>
+    </script> -->
 
-    <style>
+    <!-- <style>
         @media print {
             /* Adjust margins as needed to prevent extra pages */
             body {
                 margin: 0;
             }
         }
-    </style>
+    </style> -->
 
-    <script>
+    <!-- <script>
         function printDiv() {
             var printContents = document.getElementById("whatToPrint").innerHTML;
             var originalContents = document.body.innerHTML;
@@ -974,7 +995,74 @@
 
             document.body.innerHTML = originalContents;
         }
+    </script> -->
+    <script>
+        var cardBody = document.querySelector('.card-block1');
+        var printButton = document.getElementById('printButton');
+
+        // Function to hide the card-body when clicking the print button
+        function hideCardBody() {
+            cardBody.style.display = 'none';
+        }
+
+        // Function to show the card-body when the print window is closed
+        function showCardBody() {
+            cardBody.style.display = 'block';
+        }
+
+        // Add event listener to the print button
+        printButton.addEventListener('click', function () {
+            // Hide the card-body when clicking the print button
+            hideCardBody();
+            
+            // Add a listener for the beforeprint event
+            window.onbeforeprint = function () {
+                hideCardBody();
+            };
+
+            // Add a listener for the afterprint event
+            window.onafterprint = function () {
+                // Show the card-body when the print window is closed
+                showCardBody();
+                
+                // Remove the event listeners for beforeprint and afterprint
+                window.onbeforeprint = null;
+                window.onafterprint = null;
+            };
+
+            // Trigger the browser's print dialog
+            printDiv();
+        });
     </script>
+     <script>
+        function printDiv() {
+            var printDiv = document.getElementById("whatToPrint");
+            var originalContents = document.body.innerHTML;
+                      
+            document.body.innerHTML = printDiv.innerHTML;
+            
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .print-container, .print-container * {
+                visibility: visible;
+            }
+
+            .print-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
     
     <script>
         
