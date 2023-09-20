@@ -16,7 +16,7 @@
         .bg-grey {
             background-color: rgba(0, 0, 0, 0.4);
         }
-        @media (min-width: 992px) {
+        /* @media (min-width: 992px) {
             .card-registration-2 .bg-grey {
                 border-top-right-radius: 16px;
                 border-bottom-right-radius: 16px;
@@ -27,7 +27,7 @@
                 border-bottom-left-radius: 16px;
                 border-bottom-right-radius: 16px;
             }
-        }
+        } */
         .vl {
             border-left: 6px solid gray;
         }
@@ -121,6 +121,11 @@
         .new:hover{
             color: rgba(255, 255, 255,0.4);
         }
+        #runreport{
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+        
         
     </style>
 
@@ -152,7 +157,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm  " role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
+                                <a class="nav-link btn btn-outline-info btn-sm  mx-1" role="button" href="{% url 'goeditvendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-edit" style="font-size: medium;">&nbsp;Edit</i>
                                 </a>
                             </li>
@@ -161,24 +166,24 @@
                             
                             {% if vndr.is_active %}
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
+                                <a class="nav-link btn btn-outline-info btn-sm " role="button" href="{% url 'inactivate_vendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-check-circle" style="font-size: medium;">&nbsp;Active</i>
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm mx-1 " role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
+                                <a class="nav-link btn btn-outline-info btn-sm" role="button" href="{% url 'activate_vendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-times-circle" style="font-size: medium;">&nbsp;Inactive</i>
                                 </a>
                             </li>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-info btn-sm  delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}" style="color: white;">
+                                <a class="nav-link btn btn-outline-info btn-sm mx-1 delete" role="button" href="{% url 'deletevendor' vndr.vendorid %}" style="color: white;">
                                     <i class="fa fa-trash-o" style="font-size: medium;">&nbsp;Delete</i>
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm mx-1" href="#" id="navbarDropdown" role="button"
+                                <a class="nav-link dropdown-toggle text-light btn btn-outline-info btn-sm" href="#" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-file" style="font-size: medium;"> File</i>
                                 </a>
@@ -450,7 +455,7 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <label style="text-align:left ">Report period</label><br>
+                                                <label id="reportperiod" style="text-align:left ">Report period</label><br>
                                                 
                                                 <select class="form-control" id="filterstyle" onchange="filterDate(this)"
                                                         list="hosting-plan"
@@ -479,7 +484,7 @@
                                             <div class="col-md-2"></div>
                                             <div class="col-md-2"></div>
                                             <div class="col-md-2">
-                                                <button class="btn btn-outline-info  rounded-pill w-100" type="submit">Run report</button>
+                                                <button class="btn text-white btn-sm " id="runreport" type="submit">Run report</button>
                                             </div>
                                         </div>
                                     </form>
@@ -556,7 +561,7 @@
                                                                                     <tr>
                                                                                         <th>Opening balance</th>
                                                                                         <th>:</th>
-                                                                                        <th>- {{vndr.openingbalance}}</th>
+                                                                                        <th>{{vndr.openingbalance}}</th>
                                                                                     </tr>
                                                                                     {% endif %}
                                                                                     <tr>
@@ -728,8 +733,8 @@
                                                 
                                                 <div class="col-md-12">
                                                     <div class="btn-group  dropup">
-                                                        <button type="button" class="btn btn-outline-info  text-white" >Type</button>
-                                                        <button type="button" class="btn btn-outline-info  text-white  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button type="button" class="btn  text-white" >Type</button>
+                                                        <button type="button" class="btn   text-white  dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                                             <span class="visually-hidden"></span>
                                                         </button>
                                                         <ul id="filterDropdown" class="dropdown-menu">
@@ -792,8 +797,8 @@
                                         </th>
                                         <th class="filterable-column">
                                             <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-outline-info text-white">Number</button>
-                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="numberFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn text-white">Number</button>
+                                                <button class="btn text-white dropdown-toggle" type="button" id="numberFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="numberFilterDropdown">
                                                     <div class="input-group mt-2 mb-2">
@@ -811,8 +816,8 @@
     
                                         <th class="filterable-column">
                                             <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-outline-info text-white">Date</button>
-                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="dateFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn text-white">Date</button>
+                                                <button class="btn text-white dropdown-toggle" type="button" id="dateFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dateFilterDropdown">
                                                     <div class="input-group mt-2 mb-2">
@@ -830,8 +835,8 @@
                                         
                                         <th class="filterable-column">
                                             <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-outline-info text-white">Total</button>
-                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="totalFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn text-white">Total</button>
+                                                <button class="btn  text-white dropdown-toggle" type="button" id="totalFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="totalFilterDropdown">
                                                     <div class="input-group  mt-2 mb-2">
@@ -849,8 +854,8 @@
     
                                         <th class="filterable-column">
                                             <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-outline-info text-white">Balance</button>
-                                                <button class="btn btn-outline-info text-white dropdown-toggle" type="button" id="balanceFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn  text-white">Balance</button>
+                                                <button class="btn text-white dropdown-toggle" type="button" id="balanceFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="balanceFilterDropdown">
                                                     <div class="input-group mt-2 mb-2">
@@ -962,78 +967,6 @@
         }
     </script>
 
-    <!-- <script> 
-        function printDiv() { 
-            var divContents = document.getElementById("panel").innerHTML; 
-            var a = window.open('', '', 'height=800, width=800'); 
-            a.document.write('<html>'); 
-            a.document.write('<body > <h1> <br>'); 
-            a.document.write(divContents); 
-            a.document.write('</body></html>'); 
-            a.document.close(); 
-            a.print(); 
-        } 
-    </script> -->
-
-    <!-- <style>
-        @media print {
-            /* Adjust margins as needed to prevent extra pages */
-            body {
-                margin: 0;
-            }
-        }
-    </style> -->
-
-    <!-- <script>
-        function printDiv() {
-            var printContents = document.getElementById("whatToPrint").innerHTML;
-            var originalContents = document.body.innerHTML;
-
-            document.body.innerHTML = printContents;
-
-            window.print();
-
-            document.body.innerHTML = originalContents;
-        }
-    </script> -->
-    <script>
-        var cardBody = document.querySelector('.card-block1');
-        var printButton = document.getElementById('printButton');
-
-        // Function to hide the card-body when clicking the print button
-        function hideCardBody() {
-            cardBody.style.display = 'none';
-        }
-
-        // Function to show the card-body when the print window is closed
-        function showCardBody() {
-            cardBody.style.display = 'block';
-        }
-
-        // Add event listener to the print button
-        printButton.addEventListener('click', function () {
-            // Hide the card-body when clicking the print button
-            hideCardBody();
-            
-            // Add a listener for the beforeprint event
-            window.onbeforeprint = function () {
-                hideCardBody();
-            };
-
-            // Add a listener for the afterprint event
-            window.onafterprint = function () {
-                // Show the card-body when the print window is closed
-                showCardBody();
-                
-                // Remove the event listeners for beforeprint and afterprint
-                window.onbeforeprint = null;
-                window.onafterprint = null;
-            };
-
-            // Trigger the browser's print dialog
-            printDiv();
-        });
-    </script>
      <script>
         function printDiv() {
             var printDiv = document.getElementById("whatToPrint");
@@ -1046,20 +979,11 @@
             document.body.innerHTML = originalContents;
         }
     </script>
+    
     <style>
         @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            .print-container, .print-container * {
-                visibility: visible;
-            }
-
-            .print-container {
-                position: absolute;
-                left: 0;
-                top: 0;
+            body {
+                color: black !important;
             }
         }
     </style>

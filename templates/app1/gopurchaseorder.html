@@ -90,7 +90,7 @@
                                 {% endif %}
                                 
                                 {% if p.status == 'Draft' %}
-                                <td><a href="{% url 'purchaseorder_convert' p.porderid %}"><button class="btn btn-outline-info btn-sm text-white">Convert to Purchase</button></a></td>
+                                <td><a href="{% url 'purchaseorder_convert' p.porderid %}"><button class="btn btn-outline-info btn-sm text-white">Convert to Bill</button></a></td>
                                 {% else %}
                                 <td></td>
                                 {% endif %}

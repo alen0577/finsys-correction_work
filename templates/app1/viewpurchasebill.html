@@ -311,12 +311,12 @@
                             <div class="col-md-4">
                                 <div class="top-left">
                                     <div class="graphic-path">
-                                        <p>Bill NO : <b>{{pbill.bill_no }}</b></p>
+                                        <p style="color: #000;">Bill NO : <b>{{pbill.bill_no }}</b></p>
                                     </div>
                                     <div class="mt-2">
                                         
-                                        <p>Date : <b>{{ pbill.date | date:'d-m-Y' }}</b></p>
-                                        <p>Excpected Date : <b>{{ pbill.deliver_date | date:'d-m-Y' }}</b></p>
+                                        <p style="color: #000;">Date : <b>{{ pbill.date | date:'d-m-Y' }}</b></p>
+                                        <p style="color: #000;">Excpected Date : <b>{{ pbill.deliver_date | date:'d-m-Y' }}</b></p>
                                     </div>
                                 </div>
                             </div>
@@ -332,9 +332,9 @@
                             <div class="col-12">
                                 <div class="row bb pb-2 mt-3">
                                     <div class="col-4">
-                                        <label class="text-white bg-info w-100 p-1"><b>VENDOR</b></label>
+                                        <label class="text-white bg-info w-100 p-1"><b>BILL TO</b></label>
                                         <h5 class="text-info" style="font-weight: bold;">{{pbill.vendor_name}}</h5>
-                                        <p class="address" style="font-weight: bold;">
+                                        <p class="address" style="font-weight: bold;color: #000;">
                                             {{pbill.vendor_mail}} <br> 
                                             {{ pbill.billing_address|linebreaksbr }}
                                             
@@ -343,9 +343,9 @@
                                     </div>
                                     <div class="col-4"></div>
                                     <div class="col-4">
-                                        <label class="text-white bg-info w-100 p-1"><b>SHIP TO</b></label>
+                                        <label class="text-white bg-info w-100 p-1"><b>DELIVER TO</b></label>
                                         <h5 class="text-info" style="font-weight: bold;">{{pbill.contact_name}}</h5>
-                                        <p class="address" style="font-weight: bold;">{{ pbill.deliverto|linebreaksbr }} </p>
+                                        <p class="address" style="font-weight: bold;color: #000;">{{ pbill.deliverto|linebreaksbr }} </p>
                                     </div>
                                 </div>
                                 
@@ -422,11 +422,7 @@
                                                 <td style="color: #000;">:</td>
                                                 <td class="text-center" style="color: #000;">{{pbill.sub_total}}</td>
                                             </tr>
-                                            <tr >
-                                                <td style="color: #000;">Shipping Charge</td>
-                                                <td style="color: #000;">:</td>
-                                                <td class="text-center" style="color: #000;">{{pbill.ship_charge}}</td>
-                                            </tr>
+                                            
                                             {% if pbill.igst != "0" %}
                                             <tr >
                                                 <td style="color: #000;">IGST</td>
@@ -449,6 +445,11 @@
                                                 <td class="text-center" style="color: #000;">{{pbill.sgst}}</td>
                                             </tr>
                                             {% endif %}
+                                            <tr >
+                                                <td style="color: #000;">Shipping Charge</td>
+                                                <td style="color: #000;">:</td>
+                                                <td class="text-center" style="color: #000;">{{pbill.ship_charge}}</td>
+                                            </tr>
                                             {% if pbill.tcs != "0.00" %}
                                             <tr style="display: none;">
                                                 <td style="color:black">TCS:</td>
@@ -463,11 +464,11 @@
                                     <table class="table table-borderless">
                                         <tbody>
                                             <tr >
-                                                <td style="color: #000;">Grand Total</td>
-                                                <td style="color: #000;">:</td>
+                                                <th style="color: #000;">Grand Total</th>
+                                                <th style="color: #000;">:</th>
                                                 <th class="text-center" style="color: #000;">{{pbill.grand_total}}</th>
                                             </tr>
-                                            <tr >
+                                            <!-- <tr >
                                                 <td style="color: #000;">Paid Amount</td>
                                                 <td style="color: #000;">:</td>
                                                 <th class=" text-center" style="color: #000;">{{pbill.paid_amount}}</th>
@@ -476,7 +477,7 @@
                                                 <td style="color: #000;">Balance Amount</td>
                                                 <td style="color: #000;">:</td>
                                                 <th class="text-center" style="color: #000;">{{pbill.balance_amount}}</th>
-                                            </tr>
+                                            </tr> -->
 
                                         </tbody>
 

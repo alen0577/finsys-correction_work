@@ -35028,7 +35028,8 @@ def editpurchasebill(request,id):
             statment2.details2 = pbill.reference
             statment2.date = pbill.date
             statment2.balance = pbill.balance_amount
-            statment2.payments = pbill.grand_total
+            statment2.amount = pbill.grand_total
+            statment2.payments = pbill.paid_amount
             statment2.save()
 
             pl3=profit_loss.objects.get(cid=cmp1,pbill=pbill)
